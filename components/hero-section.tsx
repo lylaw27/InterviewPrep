@@ -3,7 +3,7 @@ import {Button} from "@nextui-org/react";
 export default function HeroSection(){
     return(
         <div>
-            <div className="flex justify-center items-center flex-col bg-midnight h-auto py-7">
+            <div className="flex justify-center items-center flex-col bg-midnight h-auto py-7 px-3">
                 <div className="p-[10px] text-center">
                     <h1 className="text-lionsmane text-xl p-[3px] font-light">
                         你是否因爲不知道如何
