@@ -19,6 +19,7 @@ const config: Config = {
         'midnight': '#013D5A',
         'lionsmane': '#FCF3E3',
         'lavender': '#C3BFD8',
+        'ruby': '#EE155A',
       },
       fontFamily:{
         'sans':['"Source Han Sans CN Medium"','sans-serif']
