@@ -17,19 +17,19 @@ export default function CareerSection(){
         img:"/Nurse.jpg",
     },
     {
-        title:"Administrative Assistant",
+        title:"Administrative assistant",
         link:"",
-        img:"/Administrative Assistant.jpg",
+        img:"/Administrative assistant.jpg",
     },
     {
-        title:"Compliance Manager",
+        title:"Compliance manager",
         link:"",
-        img:"/Compliance Manager.jpg",
+        img:"/Compliance manager.jpg",
     },
     {
-        title:"Digital Marketing Manager",
+        title:"Digital Marketing manager",
         link:"",
-        img:"/Digital Marketing Manager.jpg",
+        img:"/Digital Marketing manager.jpg",
     },
     {
         title:"Graphic designer",
