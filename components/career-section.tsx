@@ -89,7 +89,7 @@ export default function CareerSection(){
                         </h1>
                     </div>
                  </div>
-                <div className="grid grid-flow-col auto-cols-[250px] overflow-auto scrollbar-hide max-h-[400px] p-[3px] gap-5 snap-x">
+                <div className="grid grid-flow-col auto-cols-[250px] overflow-x-auto scrollbar-hide max-h-[400px] p-[3px] gap-5 snap-x">
                 {list.map((item, index) => (
                     <Card key= {index} shadow="sm" isPressable className="snap-center">
                         <CardBody className="overflow-visible p-0">
