@@ -30,11 +30,11 @@ export default function HeroSection(){
                 </div>
                 <div className="p-[20px]">
                 <Button className="bg-lavender text-3xl p-9 text-midnight font-black">
-                    面試準備工具包
+                    面試工具包
                 </Button>
                 </div>
-                <h1 className="text-xl p-[10px] font-light">
-                    讓您在任何面試中都能脫穎而出。
+                <h1 className="text-3xl p-[10px] font-bold">
+                    讓您在面試中脫穎而出
                 </h1>
             </div>
         </div>
