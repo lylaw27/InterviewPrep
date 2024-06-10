@@ -7,7 +7,7 @@ export default function LinkSection(){
             <div className="flex justify-center items-center flex-col bg-lavender text-midnight h-auto px-10 py-7">
                 <div className="flex h-auto py-3 w-[350px]">
                     <div className="px-3">
-                        <Image src="/number-1.png" alt="" width={30} height={30}/>
+                        <Image src="/number-1.png" alt="" width={40} height={40}/>
                     </div>
                     <div>
                         <Link href="/" underline="always" className="text-4xl p-[3px] font-black text-midnight">
@@ -26,7 +26,7 @@ export default function LinkSection(){
                 </div>
                 <div className="flex h-auto py-11 w-[350px]">
                     <div className="px-3">
-                        <Image src="/number-1.png" alt="" width={30} height={30}/>
+                        <Image src="/number-2.png" alt="" width={40} height={40}/>
                     </div>
                     <div>
                         <Link href="/" underline="always" className="text-4xl p-[3px] font-black text-midnight">
@@ -36,13 +36,13 @@ export default function LinkSection(){
                         提供各行業面試問題
                         </p>
                         <p className="text-2xl font-normal">
-                        及答案
+                        及答案範例
                         </p>
                     </div>
                 </div>
                 <div className="flex h-auto py-3 w-[350px]">
                     <div className="px-3">
-                        <Image src="/number-1.png" alt="" width={30} height={30}/>
+                        <Image src="/number-3.png" alt="" width={40} height={40}/>
                     </div>
                     <div>
                         <Link href="/" underline="always" className="text-4xl p-[3px] font-black text-midnight">

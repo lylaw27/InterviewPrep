@@ -8,7 +8,7 @@ export default function ATSSection(){
                     ATS履歷優化
                 </Button>
                 <div className="flex h-auto p-10">
-                    <video src="/ats-video.mov" width="320" controls/>
+                    <video src="/ats-video.mov" width="320" controls autoPlay muted/>
                 </div>
                 <Button className="bg-ruby text-3xl p-9 text-white font-black">
                 立即體驗
