@@ -1,5 +1,5 @@
 'use client'
-import { Button, Accordion,AccordionItem} from "@nextui-org/react";
+import { Button, Accordion,AccordionItem, Image} from "@nextui-org/react";
 
 export default function PreviewSection(){
     const list = [{
@@ -40,15 +40,22 @@ export default function PreviewSection(){
                         讓您在眾多求職者中脫穎而出。
                         </p>
                 </div>
-                <div className="flex h-auto p-3">
-                <Accordion variant="splitted">
-
+                <div className="h-auto p-5">
                 {list.map((item, index) => (
-                    <AccordionItem classNames={{base: "!bg-transparent border-midnight border-2", indicator: "text-midnight text-lg"}} key={index} aria-label="Accordion 1" title={item.title}>
-                        {item.content}
-                    </AccordionItem>
+                    <div key={index} className="flex items-center py-4">
+                        <Image alt="speech bubble" src="/speech-bubble.png" width={40} height={40}/>
+                        <Accordion variant="splitted">
+                        <AccordionItem classNames={{base: "!bg-transparent border-midnight border-2", indicator: "text-midnight text-lg"}} aria-label="Accordion 1" title={item.title}>
+                            {item.content}
+                        </AccordionItem>
+                        </Accordion>
+                    </div>
                 ))}
-                </Accordion>
+                </div>
+                <div className="flex justify-center py-[20px]">
+                    <Button className="bg-ruby text-3xl p-9 text-white font-black">
+                        立即領取
+                    </Button>
                 </div>
             </div>
             </div>
