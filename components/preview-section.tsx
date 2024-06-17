@@ -3,8 +3,8 @@ import { Button, Accordion,AccordionItem} from "@nextui-org/react";
 
 export default function PreviewSection(){
     const list = [{
-        title:"Accountant",
-        content:"trial ^1"
+        title:"Q1. Can you tell us about yourself and your previous experience?",
+        content:"Hi, my name's (name) and I have been a/an (position) for (number) years. You will see that I have acquired key experience during my working life and I confidently believe I am ready for this new role you are offering today. My last few jobs have all been within the (name) industry/sector and the time spent working there was particularly constructive and rewarding. In terms of myself, I feel I am an outgoing, hardworking person, able to meet deadlines within a team environment or indeed working solo. I enjoy many hobbies outside of work such as (hobby) and (hobby). I believe my continuous striving to better myself in all areas of my life has contributed to me being able to advance my career in the last few years and provide myself with a solid foundation from which to continue. "
     },
     {
         title:"question 2",
@@ -35,7 +35,7 @@ export default function PreviewSection(){
                 <div className="flex h-auto p-3">
                 <Accordion variant="splitted">
                 {list.map((item, index) => (
-                    <AccordionItem classNames={{base: "!bg-transparent"}} key={index} aria-label="Accordion 1" title="hi">
+                    <AccordionItem classNames={{base: "!bg-transparent border-midnight border-2", indicator: "text-midnight text-lg"}} key={index} aria-label="Accordion 1" title={item.title}>
                         {item.content}
                     </AccordionItem>
                 ))}
