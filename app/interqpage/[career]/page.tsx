@@ -1,7 +1,8 @@
 'use client'
-import { Button, Accordion,AccordionItem, Image, Link} from "@nextui-org/react";
+import { Button, Image, Accordion,AccordionItem} from "@nextui-org/react";
+import Navbar from "@/components/navbar";
 
-export default function PreviewSection(){
+export default function InterqPage(){
     const list = [{
         title:"Q1. Can you tell us about yourself and your previous experience?",
         content:"Hi, my name's (name) and I have been a/an (position) for (number) years. You will see that I have acquired key experience during my working life and I confidently believe I am ready for this new role you are offering today. My last few jobs have all been within the (name) industry/sector and the time spent working there was particularly constructive and rewarding. In terms of myself, I feel I am an outgoing, hardworking person, able to meet deadlines within a team environment or indeed working solo. I enjoy many hobbies outside of work such as (hobby) and (hobby). I believe my continuous striving to better myself in all areas of my life has contributed to me being able to advance my career in the last few years and provide myself with a solid foundation from which to continue."
@@ -21,43 +22,40 @@ export default function PreviewSection(){
     ]
     return(
         <div>
-            <div className="flex items-center justify-center flex-col bg-lionsmane text-midnight h-auto py-7">
-            <Button className="bg-midnight text-3xl p-9 text-lionsmane font-black">
-                面試必問題
-            </Button>
-            <div className="h-auto py-3">
-                <div className="h-auto py-3 text-center">
-                        <h1 className="text-3xl p-[3px] font-black">
-                        50題熱門面試題目及答案
-                        </h1>
-                        <p className="text-m p-[3px] font-light">
-                        這些是您在面試中最有可能遇到的問題，
-                        </p>
-                        <p className="text-m p-[3px] font-light">
-                        我們為您提供了精心準備的答案，
-                        </p>
-                        <p className="text-m p-[3px] font-light">
-                        讓您在眾多求職者中脫穎而出。
-                        </p>
-                </div>
-                <div className="h-auto p-5">
-                {list.map((item, index) => (
-                    <div key={index} className="flex items-center py-4">
-                        <Image alt="speech bubble" src="/speech-bubble.png" width={40} height={40}/>
-                        <Accordion variant="splitted">
-                        <AccordionItem classNames={{base: "!bg-transparent border-midnight border-2", indicator: "text-midnight text-lg"}} aria-label="Accordion 1" title={item.title}>
-                            {item.content}
-                        </AccordionItem>
-                        </Accordion>
+            <Navbar/>
+            <div className="flex items-center justify-center flex-col bg-lionsmane text-midnight h-auto">
+                <div className="h-auto py-3">
+                    <div className="py-3 w-full px-10">
+                        <h1 className="text-4xl font-black"><b>行業面試祕技</b></h1>
+                        <h1 className="text-2xl font-black"><b>Accountant Manager</b></h1>
+                        <h1 className="text-lg font-black"><b>Interview Questions and Answers</b></h1>
                     </div>
-                ))}
-                </div>
-                <div className="flex justify-center py-[20px]">
-                    <Button as={Link}  href="/50qpage" className="bg-ruby text-3xl p-9 text-white font-black">
-                        立即領取
+                    <div className="h-auto px-5">
+                    {list.map((item, index) => (
+                        <div key={index} className="flex items-center py-3">
+                            <Image alt="speech bubble" src="/speech-bubble.png" width={40} height={40}/>
+                            <Accordion variant="splitted">
+                            <AccordionItem classNames={{base: "!bg-transparent border-midnight border-2", indicator: "text-midnight text-lg"}} aria-label="Accordion 1" title={item.title}>
+                                {item.content}
+                            </AccordionItem>
+                            </Accordion>
+                        </div>
+                    ))}
+                    </div>
+                    <div className="py-4 px-10">
+                        <p className="py-2 text-xl"><b>行業面試秘技 - 購買流程 </b></p>
+                        <p className="py-2">1. 輸入名字及電郵</p>
+                        <p className="py-2">2. 按 “Pay”</p>
+                        <p className="py-2">3. 輸入信用卡號碼</p>
+                        <p className="py-2">4. 見到 “Payment Processing”, 請耐心等候</p>
+                        <p className="py-2">5. 完成付款後，你電郵會收到確認訊息，請點擊「面試問題及參考答案」的連結於線上瀏覽</p>
+                    </div>
+                <div className="flex justify-center py-[20px] bg-lionsmane">
+                    <Button className="bg-ruby text-3xl p-9 text-white font-black">
+                        立即購買
                     </Button>
                 </div>
-            </div>
+                </div>
             </div>
         </div>
     )

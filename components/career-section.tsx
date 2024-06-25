@@ -1,54 +1,54 @@
-import {Card, CardBody, Image, Button} from "@nextui-org/react";
+import {Card, CardBody, Image, Button, Link} from "@nextui-org/react";
 
 export default function CareerSection(){
     const list = [{
         title:"Accountant",
-        link:"",
+        link:"accountant",
         img:"/Accountant.jpg",
     },
     {
         title:"Civil Engineer",
-        link:"",
+        link:"civil-engineer",
         img:"/Civil Engineer.jpg",
     },
     {
         title:"Nurse",
-        link:"",
+        link:"nurse",
         img:"/Nurse.jpg",
     },
     {
         title:"Administrative assistant",
-        link:"",
+        link:"administrative-assistant",
         img:"/Administrative assistant.jpg",
     },
     {
         title:"Compliance manager",
-        link:"",
+        link:"compliance-manager",
         img:"/Compliance manager.jpg",
     },
     {
         title:"Digital Marketing manager",
-        link:"",
+        link:"digital-marketing-manager",
         img:"/Digital Marketing manager.jpg",
     },
     {
         title:"Graphic designer",
-        link:"",
+        link:"Graphic-designer",
         img:"/Graphic designer.jpg",
     },
     {
         title:"Sales, Leasing & Property Management",
-        link:"",
+        link:"Sale-Leasing-Property-Management",
         img:"/Sales, Leasing & Property Management.jpg",
     },
     {
         title:"Software Engineer",
-        link:"",
+        link:"Software-Engineer",
         img:"/Software Engineer.jpg",
     },
     {
         title:"Construction PM",
-        link:"",
+        link:"Construction-PM",
         img:"/Construction PM.jpg",
     },
     ]
@@ -81,7 +81,7 @@ export default function CareerSection(){
                 <div className="bg-midnight p-5 grid grid-flow-col auto-cols-[250px] overflow-x-auto scrollbar-hide gap-5 snap-x">
                 {list.map((item, index) => (
                     <Card key= {index} shadow="sm" isPressable className="snap-center">
-                        <CardBody className="overflow-visible p-0">
+                        <CardBody as={Link}  href={"/interqpage/" + item.link} className="overflow-visible p-0">
                             <Image
                             shadow="sm"
                             radius="lg"
