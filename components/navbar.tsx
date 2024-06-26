@@ -1,5 +1,5 @@
 'use client'
-import { Button, 
+import {
     Image, 
     Link, 
     Navbar, 
@@ -13,72 +13,60 @@ import { useState } from "react"
 
 export default function Nav(){
     const menuItems = [
-        "Profile",
-        "Dashboard",
-        "Activity",
-        "Analytics",
-        "System",
-        "Deployments",
-        "My Settings",
-        "Team Settings",
-        "Help & Feedback",
-        "Log Out",
+        "Accounting",
+        "Administration & Office Support",
+        "Banking & Financial Services",
+        "Construction",
+        "Design",
+        "Education",
+        "Engineering",
+        "Healthcare & Medical",
+        "Information Technology",
+        "Manufacturing & Logistics",
+        "Marketing & Communications",
+        "Real Estate & Property",
       ];
     const [isMenuOpen,setIsMenuOpen] = useState(false)
     return(
-    <Navbar className="flex justify-center items-center p-5" onMenuOpenChange={setIsMenuOpen}>
+    <Navbar className="flex justify-center items-center py-5" onMenuOpenChange={setIsMenuOpen}>
       <NavbarContent>
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           className="sm:hidden"
         />
+
+      </NavbarContent>
+
+      <NavbarContent className="sm:flex gap-4" justify="center">
         <NavbarBrand className="self-center" as={Link} href="/" >
             <Image className="rounded-full" src="/avatar.png" alt="logo" width={70} height={70}></Image>
         </NavbarBrand>
       </NavbarContent>
-
-      <NavbarContent className="hidden sm:flex gap-4" justify="center">
-        <NavbarItem>
-          <Link color="foreground" href="#">
-            Features
-          </Link>
-        </NavbarItem>
-        <NavbarItem isActive>
-          <Link href="#" aria-current="page">
-            Customers
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Link color="foreground" href="#">
-            Integrations
-          </Link>
-        </NavbarItem>
-      </NavbarContent>
       <NavbarContent justify="end">
-        <NavbarItem className="hidden lg:flex">
-          <Link href="#">Login</Link>
+        <NavbarItem>
+            <img src="/user-interface.svg" alt="logo" width={25} height={25}></img>
         </NavbarItem>
         <NavbarItem>
-          <Button as={Link} color="primary" href="#" variant="flat">
-            Sign Up
-          </Button>
+            <img src="/shopping-bag.svg" alt="logo" width={25} height={25}></img>
         </NavbarItem>
       </NavbarContent>
-      <NavbarMenu>
-        {menuItems.map((item, index) => (
+      <NavbarMenu className="py-[55px]">
+        <NavbarMenuItem>
+          <Link className="w-full text-midnight text-3xl font-black py-2" href="#" size="lg">ATS履歷優化</Link>
+        </NavbarMenuItem>
+        <NavbarMenuItem>
+          <Link className="w-full text-midnight text-3xl font-black py-2" href="#" size="lg">所有行業面試問題及答案</Link>
+        </NavbarMenuItem>
+      {menuItems.map((item, index) => (
           <NavbarMenuItem key={`${item}-${index}`}>
-            <Link
-              color={
-                index === 2 ? "primary" : index === menuItems.length - 1 ? "danger" : "foreground"
-              }
-              className="w-full"
-              href="#"
-              size="lg"
-            >
+            <Link className="w-full text-midnight px-12" href="#" size="lg">
               {item}
             </Link>
           </NavbarMenuItem>
         ))}
+        <NavbarMenuItem>
+          <Link className="w-full text-midnight text-3xl font-black py-2" href="#" size="lg">50個熱門面試問題及答案</Link>
+        </NavbarMenuItem>
       </NavbarMenu>
     </Navbar>
     );
