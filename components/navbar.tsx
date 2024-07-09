@@ -48,7 +48,7 @@ export default function Nav(){
             <img src="/shopping-bag.svg" alt="logo" width={25} height={25}></img>
         </NavbarItem>
       </NavbarContent>
-      <NavbarMenu className="py-[55px]">
+      <NavbarMenu className="py-[55px] pb-[70px]">
         <NavbarMenuItem>
           <Link className="w-full text-midnight text-3xl font-black py-2" href="#" size="lg">ATS履歷優化</Link>
         </NavbarMenuItem>
