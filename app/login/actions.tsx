@@ -25,6 +25,14 @@ export async function login(formData: FormData) {
   redirect('/account')
 }
 
+export async function handleSignInWithGoogle(response: { credential: any }) {
+  const supabase = createClient()
+  const { data, error } = await supabase.auth.signInWithIdToken({
+    provider: 'google',
+    token: response.credential,
+  })
+}
+
 export async function signup(formData: FormData) {
   const supabase = createClient()
   // type-casting here for convenience

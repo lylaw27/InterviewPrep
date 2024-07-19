@@ -42,7 +42,9 @@ export default function Nav(){
       </NavbarContent>
       <NavbarContent justify="end">
         <NavbarItem>
+          <Link href="/login" className="flex">
             <img src="/user-interface.svg" alt="logo" width={25} height={25}></img>
+          </Link>
         </NavbarItem>
         <NavbarItem>
             <img src="/shopping-bag.svg" alt="logo" width={25} height={25}></img>
