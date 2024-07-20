@@ -1,6 +1,5 @@
 'use client'
 import {
-    Image, 
     Link, 
     Navbar, 
     NavbarBrand, 
@@ -9,6 +8,7 @@ import {
     NavbarMenuToggle,
     NavbarMenu,
     NavbarMenuItem} from "@nextui-org/react"
+import Image from "next/image";
 import { useState } from "react"
 
 export default function Nav(){
@@ -44,10 +44,10 @@ export default function Nav(){
       </NavbarContent>
       <NavbarContent justify="end">
         <NavbarItem>
-            <img src="/user-interface.svg" alt="logo" width={25} height={25}></img>
+            <Image src="/user-interface.svg" alt="logo" width={25} height={25}></Image>
         </NavbarItem>
         <NavbarItem>
-            <img src="/shopping-bag.svg" alt="logo" width={25} height={25}></img>
+            <Image src="/shopping-bag.svg" alt="logo" width={25} height={25}></Image>
         </NavbarItem>
       </NavbarContent>
       <NavbarMenu className="py-[55px]">
