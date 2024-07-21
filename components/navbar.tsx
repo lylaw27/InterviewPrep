@@ -34,9 +34,7 @@ export default function Nav(){
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           className="sm:hidden"
         />
-
       </NavbarContent>
-
       <NavbarContent className="sm:flex gap-4" justify="center">
         <NavbarBrand className="self-center" as={Link} href="/" >
             <Image className="rounded-full" src="/avatar.png" alt="logo" width={70} height={70}></Image>
@@ -44,13 +42,15 @@ export default function Nav(){
       </NavbarContent>
       <NavbarContent justify="end">
         <NavbarItem>
-            <Image src="/user-interface.svg" alt="logo" width={25} height={25}></Image>
+          <Link href="/login" className="flex">
+            <img src="/user-interface.svg" alt="logo" width={25} height={25}></img>
+          </Link>
         </NavbarItem>
         <NavbarItem>
             <Image src="/shopping-bag.svg" alt="logo" width={25} height={25}></Image>
         </NavbarItem>
       </NavbarContent>
-      <NavbarMenu className="py-[55px]">
+      <NavbarMenu className="py-[55px] pb-[70px]">
         <NavbarMenuItem>
           <Link className="w-full text-midnight text-3xl font-black py-2" href="#" size="lg">ATS履歷優化</Link>
         </NavbarMenuItem>
