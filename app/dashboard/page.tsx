@@ -1,3 +1,4 @@
+'use client'
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip"
 import Link from "next/link"
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet"
@@ -10,21 +11,20 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table"
+import { createClient } from "@/utils/supabase/client"
+import EmailData from "./action"
+import { useRouter } from "next/navigation"
 
-import { redirect } from 'next/navigation'
 
-import { createClient } from '@/utils/supabase/server'
-import { split } from "postcss/lib/list"
+export default function Dashboard() {
+  const router = useRouter();
 
-export default async function Dashboard() {
-  const supabase = createClient()
-  const { data, error } = await supabase.auth.getUser()
-  console.log(data.user?.email)
-  if (error || !data?.user) {
-    redirect('/login')
+  async function UserLogout(){
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    router.push('/login');
   }
-  const username = data.user?.email?.split('@')[0] ?? 'user'
-
+  
   return (
     <div className="flex min-h-screen w-full">
       <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
@@ -180,7 +180,7 @@ export default async function Dashboard() {
               <DropdownMenuItem>Settings</DropdownMenuItem>
               <DropdownMenuItem>Support</DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Logout</DropdownMenuItem>
+              <DropdownMenuItem onClick={UserLogout}>Logout</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </header>
@@ -188,7 +188,7 @@ export default async function Dashboard() {
           <div className="mx-auto grid max-w-[59rem] flex-1 auto-rows-max gap-4">
             <div className="flex items-center gap-4">
               <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
-                Welcome Back, {username}
+                <EmailData/>
               </h1>
             </div>
             <div className="grid gap-4 md:grid-cols-[1fr_250px] lg:grid-cols-3 lg:gap-8">

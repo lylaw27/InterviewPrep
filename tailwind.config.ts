@@ -1,4 +1,5 @@
-import type { Config } from "tailwindcss"
+import type { Config } from "tailwindcss";
+const {nextui} = require("@nextui-org/react");
 
 const config = {
   darkMode: ["class"],
@@ -7,6 +8,7 @@ const config = {
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
+    "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
 	],
   prefix: "",
   theme: {
@@ -19,6 +21,10 @@ const config = {
     },
     extend: {
       colors: {
+        'midnight': '#013D5A',
+        'lionsmane': '#FCF3E3',
+        'lavender': '#C3BFD8',
+        'ruby': '#EE155A',
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -74,7 +80,7 @@ const config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"),nextui()],
 } satisfies Config
 
 export default config
