@@ -68,6 +68,11 @@ export default async function Dashboard() {
                 <div className="p-5 font-black text-xl">
                   Welcome back, {username}!
                 </div>
+                <div className="flex justify-center py-[20px]">
+                    <Button as={Link} href="/dashboard/upload" className="bg-ruby text-3xl p-9 w-[250px] text-white font-black">
+                        Add Job
+                    </Button>
+                </div>
                 {/* 2nd */}
                 <div className="p-5 flex flex-wrap gap-20 justify-center">
                 {list.map((item, index) => (
@@ -83,12 +88,6 @@ export default async function Dashboard() {
                         </CardBody>
                     </Card>
                 ))}
-                </div>
-            {/* 3rd */}
-                <div className="flex justify-center py-[20px]">
-                    <Button className="bg-ruby text-3xl p-9 text-white font-black">
-                        立即體驗
-                    </Button>
                 </div>
         </div>
     )
