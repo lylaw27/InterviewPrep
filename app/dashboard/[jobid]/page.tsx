@@ -1,7 +1,7 @@
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip"
 import Link from "next/link"
+import { Button } from "@nextui-org/react"
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet"
-import { Button } from "@/components/ui/button"
 import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbSeparator, BreadcrumbPage } from "@/components/ui/breadcrumb"
 import { Input } from "@/components/ui/input"
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuItem } from "@/components/ui/dropdown-menu"
@@ -13,7 +13,9 @@ import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@
 import { createClient } from "@/utils/supabase/server"
 import Nav from "@/components/navbar"
 import { redirect } from "next/navigation"
-import AddQuestion from "./addQuestion"
+import { insertquestion } from "./action"
+import SubmitButton from "./submitButton"
+
 
 
 async function getUserData(supabase: any){
@@ -34,6 +36,7 @@ interface questionlist{
 export default async function QuestionList({ params }: { params: { jobid: string } }) {
   const supabase = createClient();
   const username = await getUserData(supabase);
+  const today = new Date(Date.now())
   const { data, error } = await supabase
   .from('interviewq')
   .select()
@@ -73,6 +76,7 @@ export default async function QuestionList({ params }: { params: { jobid: string
                     <CardDescription>Click on the Question to edit!</CardDescription>
                   </CardHeader>
                   <CardContent>
+                        <form action={insertquestion}>
                     <Table>
                       <TableHeader>
                         <TableRow>
@@ -82,33 +86,32 @@ export default async function QuestionList({ params }: { params: { jobid: string
                           <TableHead>Actions</TableHead>
                         </TableRow>
                       </TableHeader>  
-                      <TableBody>
-                      <AddQuestion/>
+                      <TableBody> 
+                      <TableRow>
+      <TableCell className="font-medium">
+        <Label htmlFor="newQuestion"></Label>
+        <Textarea required id="newQuestion" name="newQuestion" className="min-h-32" />
+      </TableCell>
+      <TableCell>
+        <Label htmlFor="newAnswer"></Label>
+        <Textarea id="newAnswer" name="newAnswer" className="min-h-32" />
+      </TableCell>
+      <TableCell>{today.toISOString().slice(0,10)}</TableCell>
+      <TableCell><SubmitButton></SubmitButton></TableCell>    
+    </TableRow>
                         {questionlist?.map((item,i)=>(
                           <TableRow key={i}>
                           <TableCell className="font-medium">{item.question}</TableCell>
                           <TableCell>{item.answer}</TableCell>
                           <TableCell>{item.created_at.slice(0,10)}</TableCell>
                           <TableCell>
-                            <DropdownMenu>
-                              <DropdownMenuTrigger asChild>
-                                <Button aria-haspopup="true" size="icon" variant="ghost">
-                                  <MoveHorizontalIcon className="h-4 w-4" />
-                                  <span className="sr-only">Toggle menu</span>
-                                </Button>
-                              </DropdownMenuTrigger>
-                              <DropdownMenuContent align="end">
-                                <DropdownMenuItem>Edit</DropdownMenuItem>
-                                <DropdownMenuItem>Delete</DropdownMenuItem>
-                                <DropdownMenuItem>View Questions</DropdownMenuItem>
-                              </DropdownMenuContent>
-                            </DropdownMenu>
                           </TableCell>
                         </TableRow>
                         )
-                        )}
+                      )}
                       </TableBody>
                     </Table>
+                      </form> 
                   </CardContent>
                 </Card>
               </div>
