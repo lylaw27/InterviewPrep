@@ -13,7 +13,7 @@ import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@
 import { createClient } from "@/utils/supabase/server"
 import Nav from "@/components/navbar"
 import { redirect } from "next/navigation"
-import { insertquestion } from "./action"
+import AddQuestion from "./addQuestion"
 
 
 async function getUserData(supabase: any){
@@ -147,39 +147,6 @@ export default async function QuestionList({ params }: { params: { jobid: string
   )
 }
 
-function AddQuestion(){
-  const today = new Date(Date.now())
-  const submit = () =>{
-
-  }
-  return(
-    <TableRow>
-      <TableCell className="font-medium">
-        <Label htmlFor="newQuestion">New Question</Label>
-        <Textarea id="newQuestion" name="newQuestion" className="min-h-32" />
-      </TableCell>
-      <TableCell>
-        <Label htmlFor="newAnswer">New Answer</Label>
-        <Textarea id="newAnswer" name="newAnswer" className="min-h-32" />
-      </TableCell>
-      <TableCell>{today.toISOString().slice(0,10)}</TableCell>
-      <TableCell>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button aria-haspopup="true" size="icon" variant="ghost">
-              <MoveHorizontalIcon className="h-4 w-4" />
-              <span className="sr-only">Toggle menu</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem><button formAction={insertquestion} type="submit">Upload</button></DropdownMenuItem>
-            <DropdownMenuItem>Clear</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </TableCell>
-    </TableRow>
-  )
-}
 
 function LineChartIcon(props: any) {
   return (
