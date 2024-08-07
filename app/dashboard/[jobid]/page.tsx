@@ -13,6 +13,7 @@ import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@
 import { createClient } from "@/utils/supabase/server"
 import Nav from "@/components/navbar"
 import { redirect } from "next/navigation"
+import { insertquestion } from "./action"
 
 
 async function getUserData(supabase: any){
@@ -24,14 +25,20 @@ async function getUserData(supabase: any){
     return username
 }
 
-export default async function Dashboard() {
+interface questionlist{
+  question: string,
+  answer: string,
+  created_at: string
+}
+
+export default async function QuestionList({ params }: { params: { jobid: string } }) {
   const supabase = createClient();
   const username = await getUserData(supabase);
   const { data, error } = await supabase
-  .from('occupation')
+  .from('interviewq')
   .select()
-  const occupationlist = data
-  console.log(occupationlist)
+  .eq('occupation_id', parseInt(params.jobid))
+  const questionlist: questionlist[] | null = data;
   return (
     <div className="min-h-screen w-full">
       <Nav/>
@@ -49,7 +56,7 @@ export default async function Dashboard() {
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbPage>Upload Job</BreadcrumbPage>
+                <BreadcrumbPage>Upload Question</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
@@ -59,11 +66,11 @@ export default async function Dashboard() {
               </h1>
             </div>
             <div className="grid gap-4 md:grid-cols-[1fr_250px] lg:grid-cols-3 lg:gap-8">
-              <div className="grid auto-rows-max items-start gap-4 lg:gap-8 lg:col-span-2">
+              <div className="grid auto-rows-max items-start gap-4 lg:gap-8 lg:col-span-3">
                 <Card x-chunk="dashboard-07-chunk-3">
                   <CardHeader>
-                    <CardTitle>Manage Job</CardTitle>
-                    <CardDescription>Click on the job to view questions!</CardDescription>
+                    <CardTitle>Manage Question</CardTitle>
+                    <CardDescription>Click on the Question to edit!</CardDescription>
                   </CardHeader>
                   <CardContent>
                     <Table>
@@ -74,13 +81,14 @@ export default async function Dashboard() {
                           <TableHead>Last Updated</TableHead>
                           <TableHead>Actions</TableHead>
                         </TableRow>
-                      </TableHeader>
+                      </TableHeader>  
                       <TableBody>
-                        {occupationlist?.map((job,i)=>(
+                      <AddQuestion/>
+                        {questionlist?.map((item,i)=>(
                           <TableRow key={i}>
-                          <TableCell className="font-medium">{occupationlist.eng_name}</TableCell>
-                          <TableCell>{occupationlist.chi_name}</TableCell>
-                          <TableCell>{occupationlist.created_at}</TableCell>
+                          <TableCell className="font-medium">{item.question}</TableCell>
+                          <TableCell>{item.answer}</TableCell>
+                          <TableCell>{item.created_at.slice(0,10)}</TableCell>
                           <TableCell>
                             <DropdownMenu>
                               <DropdownMenuTrigger asChild>
@@ -92,7 +100,7 @@ export default async function Dashboard() {
                               <DropdownMenuContent align="end">
                                 <DropdownMenuItem>Edit</DropdownMenuItem>
                                 <DropdownMenuItem>Delete</DropdownMenuItem>
-                                <DropdownMenuItem>View Details</DropdownMenuItem>
+                                <DropdownMenuItem>View Questions</DropdownMenuItem>
                               </DropdownMenuContent>
                             </DropdownMenu>
                           </TableCell>
@@ -104,7 +112,7 @@ export default async function Dashboard() {
                   </CardContent>
                 </Card>
               </div>
-              <div className="grid auto-rows-max items-start gap-4 lg:col-span-1 lg:gap-8">
+              {/* <div className="grid auto-rows-max items-start gap-4 lg:col-span-1 lg:gap-8">
                 <Card x-chunk="dashboard-07-chunk-0">
                   <CardHeader>
                     <CardTitle>Add New Job</CardTitle>
@@ -130,12 +138,46 @@ export default async function Dashboard() {
                     <Button size="sm">Upload Job</Button>
                   </CardFooter>
                 </Card>
-              </div>
+              </div> */}
             </div>
           </div>
         </main>
       </div>
     </div>
+  )
+}
+
+function AddQuestion(){
+  const today = new Date(Date.now())
+  const submit = () =>{
+
+  }
+  return(
+    <TableRow>
+      <TableCell className="font-medium">
+        <Label htmlFor="newQuestion">New Question</Label>
+        <Textarea id="newQuestion" name="newQuestion" className="min-h-32" />
+      </TableCell>
+      <TableCell>
+        <Label htmlFor="newAnswer">New Answer</Label>
+        <Textarea id="newAnswer" name="newAnswer" className="min-h-32" />
+      </TableCell>
+      <TableCell>{today.toISOString().slice(0,10)}</TableCell>
+      <TableCell>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button aria-haspopup="true" size="icon" variant="ghost">
+              <MoveHorizontalIcon className="h-4 w-4" />
+              <span className="sr-only">Toggle menu</span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem><button formAction={insertquestion} type="submit">Upload</button></DropdownMenuItem>
+            <DropdownMenuItem>Clear</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </TableCell>
+    </TableRow>
   )
 }
 
