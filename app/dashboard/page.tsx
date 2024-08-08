@@ -27,7 +27,8 @@ async function getUserData(supabase: any){
 interface occupationType{
   eng_name: string,
   chi_name: string,
-  created_at: string
+  created_at: string,
+  occupation_id: number
 }
 
 export default async function Dashboard() {
@@ -85,7 +86,7 @@ export default async function Dashboard() {
                       <TableBody>
                         {occupationlist?.map((item,i)=>(
                           <TableRow key={i}>
-                          <TableCell className="font-medium">{item.eng_name}</TableCell>
+                          <TableCell className="font-medium"><Link href={`/dashboard/${item.occupation_id}`}>{item.eng_name}</Link></TableCell>
                           <TableCell>{item.chi_name}</TableCell>
                           <TableCell>{item.created_at.slice(0,10)}</TableCell>
                           <TableCell>
@@ -97,9 +98,9 @@ export default async function Dashboard() {
                                 </Button>
                               </DropdownMenuTrigger>
                               <DropdownMenuContent align="end">
-                                <DropdownMenuItem>Edit</DropdownMenuItem>
+                                <DropdownMenuItem><Link href={`/dashboard/${item.occupation_id}`}>Edit Question</Link></DropdownMenuItem>
                                 <DropdownMenuItem>Delete</DropdownMenuItem>
-                                <DropdownMenuItem>View Questions</DropdownMenuItem>
+                                <DropdownMenuItem>Edit Job Name</DropdownMenuItem>
                               </DropdownMenuContent>
                             </DropdownMenu>
                           </TableCell>

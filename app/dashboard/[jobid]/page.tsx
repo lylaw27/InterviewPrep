@@ -13,7 +13,7 @@ import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@
 import { createClient } from "@/utils/supabase/server"
 import Nav from "@/components/navbar"
 import { redirect } from "next/navigation"
-import { insertquestion } from "./action"
+import { insertQuestion } from "./action"
 import SubmitButton from "./submitButton"
 
 
@@ -36,12 +36,14 @@ interface questionlist{
 export default async function QuestionList({ params }: { params: { jobid: string } }) {
   const supabase = createClient();
   const username = await getUserData(supabase);
-  const today = new Date(Date.now())
+  const today = new Date(Date.now());
+  const occupationId: number = parseInt(params.jobid);
   const { data, error } = await supabase
   .from('interviewq')
   .select()
-  .eq('occupation_id', parseInt(params.jobid))
+  .eq('occupation_id', occupationId)
   const questionlist: questionlist[] | null = data;
+
   return (
     <div className="min-h-screen w-full">
       <Nav/>
@@ -76,10 +78,11 @@ export default async function QuestionList({ params }: { params: { jobid: string
                     <CardDescription>Click on the Question to edit!</CardDescription>
                   </CardHeader>
                   <CardContent>
-                        <form action={insertquestion}>
+                        <form action='#'>
                     <Table>
                       <TableHeader>
                         <TableRow>
+                          <TableHead>No.</TableHead>
                           <TableHead>English Name</TableHead>
                           <TableHead>Chinese Name</TableHead>
                           <TableHead>Last Updated</TableHead>
@@ -88,6 +91,7 @@ export default async function QuestionList({ params }: { params: { jobid: string
                       </TableHeader>  
                       <TableBody> 
                       <TableRow>
+      <TableCell>New Question</TableCell>
       <TableCell className="font-medium">
         <Label htmlFor="newQuestion"></Label>
         <Textarea required id="newQuestion" name="newQuestion" className="min-h-32" />
@@ -97,15 +101,15 @@ export default async function QuestionList({ params }: { params: { jobid: string
         <Textarea id="newAnswer" name="newAnswer" className="min-h-32" />
       </TableCell>
       <TableCell>{today.toISOString().slice(0,10)}</TableCell>
-      <TableCell><SubmitButton></SubmitButton></TableCell>    
+      <TableCell><SubmitButton propid={occupationId}></SubmitButton></TableCell>    
     </TableRow>
                         {questionlist?.map((item,i)=>(
                           <TableRow key={i}>
+                          <TableCell>{`Q${i+1}`}</TableCell>
                           <TableCell className="font-medium">{item.question}</TableCell>
                           <TableCell>{item.answer}</TableCell>
                           <TableCell>{item.created_at.slice(0,10)}</TableCell>
-                          <TableCell>
-                          </TableCell>
+                          <TableCell><SubmitButton propid={occupationId}></SubmitButton></TableCell>
                         </TableRow>
                         )
                       )}
