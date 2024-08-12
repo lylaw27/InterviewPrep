@@ -13,9 +13,7 @@ import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@
 import { createClient } from "@/utils/supabase/server"
 import Nav from "@/components/navbar"
 import { redirect } from "next/navigation"
-import { insertQuestion } from "./action"
-import SubmitButton from "./submitButton"
-
+import QuestionTable from "./questiontable"
 
 
 async function getUserData(supabase: any){
@@ -27,29 +25,30 @@ async function getUserData(supabase: any){
     return username
 }
 
-interface questionlist{
+export interface questionlist{
   question: string,
   answer: string,
-  created_at: string
+  created_at: string,
+  question_id: number,
+  occupation_id: number
 }
 
 export default async function QuestionList({ params }: { params: { jobid: string } }) {
   const supabase = createClient();
   const username = await getUserData(supabase);
-  const today = new Date(Date.now());
   const occupationId: number = parseInt(params.jobid);
-  const { data, error } = await supabase
-  .from('interviewq')
-  .select()
-  .eq('occupation_id', occupationId)
-  const questionlist: questionlist[] | null = data;
+  // const { data, error } = await supabase
+  // .from('interviewq')
+  // .select()
+  // .eq('occupation_id', occupationId)
+  // const questionlist: questionlist[] | null = data;
 
   return (
     <div className="min-h-screen w-full">
       <Nav/>
       <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14 w-full">
         <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
-          <div className="mx-auto grid max-w-[59rem] flex-1 auto-rows-max gap-4">
+          <div className="mx-auto grid max-w-[70rem] flex-1 auto-rows-max gap-4">
       <Breadcrumb className="hidden md:flex">
             <BreadcrumbList>
               <BreadcrumbItem>
@@ -83,69 +82,20 @@ export default async function QuestionList({ params }: { params: { jobid: string
                       <TableHeader>
                         <TableRow>
                           <TableHead>No.</TableHead>
-                          <TableHead>English Name</TableHead>
-                          <TableHead>Chinese Name</TableHead>
+                          <TableHead>Quesiton</TableHead>
+                          <TableHead>Answer</TableHead>
                           <TableHead>Last Updated</TableHead>
                           <TableHead>Actions</TableHead>
                         </TableRow>
                       </TableHeader>  
                       <TableBody> 
-                      <TableRow>
-      <TableCell>New Question</TableCell>
-      <TableCell className="font-medium">
-        <Label htmlFor="newQuestion"></Label>
-        <Textarea required id="newQuestion" name="newQuestion" className="min-h-32" />
-      </TableCell>
-      <TableCell>
-        <Label htmlFor="newAnswer"></Label>
-        <Textarea id="newAnswer" name="newAnswer" className="min-h-32" />
-      </TableCell>
-      <TableCell>{today.toISOString().slice(0,10)}</TableCell>
-      <TableCell><SubmitButton propid={occupationId}></SubmitButton></TableCell>    
-    </TableRow>
-                        {questionlist?.map((item,i)=>(
-                          <TableRow key={i}>
-                          <TableCell>{`Q${i+1}`}</TableCell>
-                          <TableCell className="font-medium">{item.question}</TableCell>
-                          <TableCell>{item.answer}</TableCell>
-                          <TableCell>{item.created_at.slice(0,10)}</TableCell>
-                          <TableCell><SubmitButton propid={occupationId}></SubmitButton></TableCell>
-                        </TableRow>
-                        )
-                      )}
+                        <QuestionTable occupationId={occupationId}/>
                       </TableBody>
                     </Table>
                       </form> 
                   </CardContent>
                 </Card>
               </div>
-              {/* <div className="grid auto-rows-max items-start gap-4 lg:col-span-1 lg:gap-8">
-                <Card x-chunk="dashboard-07-chunk-0">
-                  <CardHeader>
-                    <CardTitle>Add New Job</CardTitle>
-                    <CardDescription>Fill in the details for the job</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="grid gap-6">
-                      <div className="grid gap-3">
-                        <Label htmlFor="name">English Name:</Label>
-                        <Input id="title" placeholder="Accountant" type="text" className="w-full" />
-                      </div>
-                      <div className="grid gap-3">
-                        <Label htmlFor="name">Chinese Name:</Label>
-                        <Input id="title" placeholder="會計" type="text" className="w-full" />
-                      </div>
-                      <div className="grid gap-3">
-                        <Label htmlFor="file">File</Label>
-                        <Input id="file" type="file" />
-                      </div>
-                    </div>
-                  </CardContent>
-                  <CardFooter className="justify-end">
-                    <Button size="sm">Upload Job</Button>
-                  </CardFooter>
-                </Card>
-              </div> */}
             </div>
           </div>
         </main>
