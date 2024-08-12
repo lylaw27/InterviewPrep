@@ -24,7 +24,7 @@ async function getUserData(supabase: any){
     return username
 }
 
-interface occupationType{
+export interface occupationType{
   eng_name: string,
   chi_name: string,
   created_at: string,
