@@ -1,5 +1,5 @@
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip"
-import Link from "next/link"
+import { Link } from "@nextui-org/react"
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
 import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbSeparator, BreadcrumbPage } from "@/components/ui/breadcrumb"
@@ -13,6 +13,7 @@ import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@
 import { createClient } from "@/utils/supabase/server"
 import Nav from "@/components/navbar"
 import { redirect } from "next/navigation"
+import { deleteCareer, insertCareer } from "./action"
 
 
 async function getUserData(supabase: any){
@@ -50,7 +51,7 @@ export default async function Dashboard() {
             <BreadcrumbList>
               <BreadcrumbItem>
                 <BreadcrumbLink asChild>
-                  <Link href="#" prefetch={false}>
+                  <Link href="#">
                     Dashboard
                   </Link>
                 </BreadcrumbLink>
@@ -86,23 +87,11 @@ export default async function Dashboard() {
                       <TableBody>
                         {occupationlist?.map((item,i)=>(
                           <TableRow key={i}>
-                          <TableCell className="font-medium"><Link href={`/dashboard/${item.occupation_id}`}>{item.eng_name}</Link></TableCell>
+                          <TableCell className="font-medium"><Link underline="hover" href={`/dashboard/${item.occupation_id}`}>{item.eng_name}</Link></TableCell>
                           <TableCell>{item.chi_name}</TableCell>
                           <TableCell>{item.created_at.slice(0,10)}</TableCell>
                           <TableCell>
-                            <DropdownMenu>
-                              <DropdownMenuTrigger asChild>
-                                <Button aria-haspopup="true" size="icon" variant="ghost">
-                                  <MoveHorizontalIcon className="h-4 w-4" />
-                                  <span className="sr-only">Toggle menu</span>
-                                </Button>
-                              </DropdownMenuTrigger>
-                              <DropdownMenuContent align="end">
-                                <DropdownMenuItem><Link href={`/dashboard/${item.occupation_id}`}>Edit Question</Link></DropdownMenuItem>
-                                <DropdownMenuItem>Delete</DropdownMenuItem>
-                                <DropdownMenuItem>Edit Job Name</DropdownMenuItem>
-                              </DropdownMenuContent>
-                            </DropdownMenu>
+                          <Button color="danger" onClick={()=>{deleteCareer(item.occupation_id)}}>Delete</Button>
                           </TableCell>
                         </TableRow>
                         )
@@ -113,6 +102,7 @@ export default async function Dashboard() {
                 </Card>
               </div>
               <div className="grid auto-rows-max items-start gap-4 lg:col-span-1 lg:gap-8">
+                <form action={insertCareer}>
                 <Card x-chunk="dashboard-07-chunk-0">
                   <CardHeader>
                     <CardTitle>Add New Job</CardTitle>
@@ -122,11 +112,11 @@ export default async function Dashboard() {
                     <div className="grid gap-6">
                       <div className="grid gap-3">
                         <Label htmlFor="name">English Name:</Label>
-                        <Input id="title" placeholder="Accountant" type="text" className="w-full" />
+                        <Input id="eng_name" name="eng_name" placeholder="Accountant" type="text" className="w-full" />
                       </div>
                       <div className="grid gap-3">
                         <Label htmlFor="name">Chinese Name:</Label>
-                        <Input id="title" placeholder="會計" type="text" className="w-full" />
+                        <Input id="chi_name" name="chi_name" placeholder="會計" type="text" className="w-full" />
                       </div>
                       <div className="grid gap-3">
                         <Label htmlFor="file">File</Label>
@@ -135,9 +125,10 @@ export default async function Dashboard() {
                     </div>
                   </CardContent>
                   <CardFooter className="justify-end">
-                    <Button size="sm">Upload Job</Button>
+                    <Button type="submit" size="sm">Upload Job</Button>
                   </CardFooter>
                 </Card>
+                </form>
               </div>
             </div>
           </div>
