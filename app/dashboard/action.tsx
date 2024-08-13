@@ -22,7 +22,7 @@ export async function deleteCareer(occupationId: number) {
     const { error } = await supabase
     .from('occupation')
     .delete()
-    .eq('question_id',occupationId)
+    .eq('occupation_id',occupationId)
     if (error) {
       redirect('/error')
     }
@@ -30,10 +30,13 @@ export async function deleteCareer(occupationId: number) {
 
 export async function fetchCareer(occupationId: number){
   const supabase = createClient()
-  const { data, error } = await supabase
+  let query = supabase
   .from('occupation')
   .select()
-  .eq('occupation_id', occupationId)
+  if(occupationId != -1){
+    query = query.eq('occupation_id', occupationId)
+  }
+  let {data,error} = await query
   if (error) {
     redirect('/error')
   }
