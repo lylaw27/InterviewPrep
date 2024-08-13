@@ -41,15 +41,3 @@ export async function fetchQuestion(occupationId: number){
   }
   return(data)
 }
-
-export async function fetchCareer(occupationId: number){
-  const supabase = createClient()
-  const { data, error } = await supabase
-  .from('occupation')
-  .select()
-  .eq('occupation_id', occupationId)
-  if (error) {
-    redirect('/error')
-  }
-  return(data)
-}
