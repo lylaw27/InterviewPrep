@@ -68,10 +68,11 @@ export default async function Dashboard() {
               Welcome back, {username}!
               </h1>
             </div>
+            <form action={insertCareer}>
             <div className="grid gap-4 md:grid-cols-[1fr_250px] lg:grid-cols-3 lg:gap-8">
               <JobTable/>
-              
             </div>
+              </form>
           </div>
         </main>
       </div>

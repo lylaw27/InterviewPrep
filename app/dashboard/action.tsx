@@ -2,16 +2,33 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
 
+// async function getFileUrl(jobImage: any){
+//   const supabase = createClient()
+//   console.log(jobImage)
+//   const { data, error } = await supabase
+//   .storage
+//   .from('Occupation')
+//   .upload('avatar1.png', jobImage, {
+//     cacheControl: '100000000',
+//     upsert: false
+//   })
+//   if (error) {
+//     redirect('/error')
+//   }
+//   return(data.fullPath)
+// }
+
 export async function insertCareer(formData: FormData) {
   const supabase = createClient()
   const data = {
-    eng_name: formData.get('newEngName') as string,
-    chi_name: formData.get('newChiName') as string,
+    eng_name: formData.get('eng_name') as string,
+    chi_name: formData.get('chi_name') as string,
+    img_url: formData.get('img_url') as string
   }
-  console.log(data);
+
   const { error } = await supabase
   .from('occupation')
-  .insert({ eng_name: data.eng_name, chi_name: data.chi_name})
+  .insert(data)
   if (error) {
     redirect('/error')
   }

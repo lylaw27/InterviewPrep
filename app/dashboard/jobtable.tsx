@@ -8,18 +8,46 @@ import { useEffect, useState } from "react"
 import { occupationType } from "./page"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { useFormStatus } from "react-dom"
+import { createClient } from "@/utils/supabase/client"
+
+interface File{
+    name: string
+}
 
 export default function JobTable(){
+    const { pending } = useFormStatus();
+    const [imagefile,setImagefile] = useState<any>(null)
+    const [imageurl, setImageurl] = useState('')
     const [occupationlist,setOccupationlist] = useState<occupationType[] | null>([])
     const getOccupation = () =>{
         fetchCareer(-1).then((res)=>{
             setOccupationlist(res)
         })}
-
+    const ImageChange = (event:any)=>{
+        setImagefile(event.target.files[0])
+    }
     useEffect(()=>{
+        
         getOccupation()
-    },[])
+    },[pending])
+    async function getFileUrl(){
+        const supabase = createClient()
+        setImageurl(Date.now() + '-' + imagefile?.name)
+        console.log(imageurl)
+        const { data, error } = await supabase
+        .storage
+        .from('Occupation')
+        .upload("public/avatar.jpg", imagefile, {
+          cacheControl: '3600',
+          upsert: false
+        })
+        if (error) {
+          console.log(error)
+        }
+      }
     return(
+        <>
         <div className="grid auto-rows-max items-start gap-4 lg:gap-8 lg:col-span-2">
                 <Card x-chunk="dashboard-07-chunk-3">
                   <CardHeader>
@@ -43,7 +71,7 @@ export default function JobTable(){
                           <TableCell>{item.chi_name}</TableCell>
                           <TableCell>{item.created_at.slice(0,10)}</TableCell>
                           <TableCell>
-                          <Button color="danger" onClick={()=>{deleteCareer(item.occupation_id);getOccupation();}}>Delete</Button>
+                          <Button color="danger" isLoading={pending} onClick={()=>{deleteCareer(item.occupation_id);getOccupation();}}>Delete</Button>
                           </TableCell>
                         </TableRow>
                         )
@@ -52,8 +80,8 @@ export default function JobTable(){
                     </Table>
                   </CardContent>
                 </Card>
+              </div>
                 <div className="grid auto-rows-max items-start gap-4 lg:col-span-1 lg:gap-8">
-                <form action={insertCareer}>
                 <Card x-chunk="dashboard-07-chunk-0">
                   <CardHeader>
                     <CardTitle>Add New Job</CardTitle>
@@ -71,16 +99,17 @@ export default function JobTable(){
                       </div>
                       <div className="grid gap-3">
                         <Label htmlFor="file">File</Label>
-                        <Input id="file" type="file" />
+                        <Input name="imagefile" onChange={ImageChange} id="file" type="file" />
+                        <Input name="img_url" value={imageurl} type="text" className="hidden"/>
                       </div>
                     </div>
                   </CardContent>
                   <CardFooter className="justify-end">
-                    <Button type="submit" size="sm">Upload Job</Button>
+                    <Button onClick={getFileUrl} variant="bordered" type="submit" isLoading={pending}>Upload</Button>
                   </CardFooter>
                 </Card>
-                </form>
               </div>
-              </div>
+        </>
     )
 }
+
