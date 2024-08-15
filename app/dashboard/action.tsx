@@ -23,7 +23,7 @@ export async function insertCareer(formData: FormData) {
   const data = {
     eng_name: formData.get('eng_name') as string,
     chi_name: formData.get('chi_name') as string,
-    img_url: formData.get('img_url') as string
+    img_url: process.env.NEXT_PUBLIC_SUPABASE_URL + '/storage/v1/object/public/Occupation/' + formData.get('img_url') as string
   }
 
   const { error } = await supabase

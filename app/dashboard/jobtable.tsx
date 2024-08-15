@@ -11,10 +11,6 @@ import { Label } from "@/components/ui/label"
 import { useFormStatus } from "react-dom"
 import { createClient } from "@/utils/supabase/client"
 
-interface File{
-    name: string
-}
-
 export default function JobTable(){
     const { pending } = useFormStatus();
     const [imagefile,setImagefile] = useState<any>(null)
@@ -25,7 +21,9 @@ export default function JobTable(){
             setOccupationlist(res)
         })}
     const ImageChange = (event:any)=>{
-        setImagefile(event.target.files[0])
+        let fileimage = event.target.files[0]
+        setImagefile(fileimage)
+        setImageurl(Date.now() + '-' + fileimage?.name)
     }
     useEffect(()=>{
         
@@ -33,7 +31,6 @@ export default function JobTable(){
     },[pending])
     async function getFileUrl(){
         const supabase = createClient()
-        setImageurl(Date.now() + '-' + imagefile?.name)
         console.log(imageurl)
         const { data, error } = await supabase
         .storage
