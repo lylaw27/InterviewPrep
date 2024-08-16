@@ -25,23 +25,49 @@ export default function JobTable(){
         setImagefile(fileimage)
         setImageurl(Date.now() + '-' + fileimage?.name)
     }
+
+    const deleteImage = async(deleteUrl: string) =>{
+      const supabase = createClient()
+      const imgurl = deleteUrl.split('Occupation/')[1]
+      const { data, error } = await supabase
+      .storage
+      .from('avatars')
+      .remove([imgurl])
+      if (error) {
+        console.log(error)
+      }
+    }
+
     useEffect(()=>{
-        
         getOccupation()
     },[pending])
-    async function getFileUrl(){
+    const getFileUrl = async(imagePath: string)=>{
+      const supabase = createClient()
+      const { data } = supabase
+      .storage
+      .from('public-bucket')
+      .getPublicUrl(imagePath)
+      return data.publicUrl
+    }
+    const submitNew = async(e:any)=>{
+        e.preventDefault();
         const supabase = createClient()
-        console.log(imageurl)
+        const imagePath = '/public/' + imageurl
         const { data, error } = await supabase
         .storage
         .from('Occupation')
-        .upload("public/avatar.jpg", imagefile, {
+        .upload(imagePath, imagefile, {
           cacheControl: '3600',
           upsert: false
         })
+        const getImageUrl = await getFileUrl(imagePath)
         if (error) {
           console.log(error)
         }
+        const formData = new FormData(e.currentTarget)
+        formData.append("img_url", getImageUrl);
+        formData.append("img_path", imagePath);
+        insertCareer(formData)
       }
     return(
         <>
@@ -57,6 +83,7 @@ export default function JobTable(){
                         <TableRow>
                           <TableHead>English Name</TableHead>
                           <TableHead>Chinese Name</TableHead>
+                          <TableHead>Image</TableHead>
                           <TableHead>Last Updated</TableHead>
                           <TableHead>Actions</TableHead>
                         </TableRow>
@@ -66,9 +93,10 @@ export default function JobTable(){
                           <TableRow key={i}>
                           <TableCell className="font-medium"><Link underline="hover" href={`/dashboard/${item.occupation_id}`}>{item.eng_name}</Link></TableCell>
                           <TableCell>{item.chi_name}</TableCell>
+                          <TableCell><Link underline="hover"  href={item.img_url}>Preview</Link></TableCell>
                           <TableCell>{item.created_at.slice(0,10)}</TableCell>
                           <TableCell>
-                          <Button color="danger" isLoading={pending} onClick={()=>{deleteCareer(item.occupation_id);getOccupation();}}>Delete</Button>
+                          <Button color="danger" isLoading={pending} onClick={()=>{deleteCareer(item.occupation_id);getOccupation();deleteImage(item.img_url)}}>Delete</Button>
                           </TableCell>
                         </TableRow>
                         )
@@ -102,7 +130,7 @@ export default function JobTable(){
                     </div>
                   </CardContent>
                   <CardFooter className="justify-end">
-                    <Button onClick={getFileUrl} variant="bordered" type="submit" isLoading={pending}>Upload</Button>
+                    <Button onSubmit={submitNew} variant="bordered" type="submit" isLoading={pending}>Upload</Button>
                   </CardFooter>
                 </Card>
               </div>
