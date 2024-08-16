@@ -125,7 +125,6 @@ export default function JobTable(){
                       <div className="grid gap-3">
                         <Label htmlFor="file">File</Label>
                         <Input name="imagefile" onChange={ImageChange} id="file" type="file" />
-                        <Input name="img_url" value={imageurl} type="text" className="hidden"/>
                       </div>
                     </div>
                   </CardContent>

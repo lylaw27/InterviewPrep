@@ -28,11 +28,11 @@ export default function QuestionTable({occupationId}:{occupationId:number}){
         <TableCell>New Question</TableCell>
         <TableCell className="font-medium">
             <Label htmlFor="newQuestion"></Label>
-            <Textarea id="newQuestion" name="newQuestion" className="min-h-32" />
+            <Textarea id="newQuestion" name="newQuestion" className="min-h-32 whitespace-pre-wrap" />
         </TableCell>
         <TableCell>
             <Label htmlFor="newAnswer"></Label>
-            <Textarea id="newAnswer" name="newAnswer" className="min-h-32" />
+            <Textarea id="newAnswer" name="newAnswer" className="min-h-32 whitespace-pre-wrap" />
         </TableCell>
         <TableCell>{today.toISOString().slice(0,10)}</TableCell>
         <TableCell>
@@ -43,7 +43,7 @@ export default function QuestionTable({occupationId}:{occupationId:number}){
             <TableRow key={i}>
             <TableCell>{`Q${i+1}`}</TableCell>
             <TableCell className="font-medium">{item.question}</TableCell>
-            <TableCell>{item.answer}</TableCell>
+            <TableCell className="whitespace-pre-wrap">{item.answer}</TableCell>
             <TableCell>{item.created_at.slice(0,10)}</TableCell>
             <TableCell><Button color="danger" onClick={()=>{deleteQuestion(item.question_id);getQuestions()}} type="submit" isLoading={pending}>Delete</Button></TableCell>
           </TableRow>
