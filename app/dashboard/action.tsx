@@ -26,7 +26,7 @@ export async function insertCareer(formData: FormData) {
     img_url: formData.get('img_url') as string,
     img_path: formData.get('img_path') as string,
   }
-
+  console.log(formData)
   const { error } = await supabase
   .from('occupation')
   .insert(data)

@@ -31,7 +31,8 @@ export interface occupationType{
   chi_name: string,
   created_at: string,
   occupation_id: number,
-  img_url: string
+  img_url: string,
+  img_path: string
 }
 
 export default async function Dashboard() {
@@ -40,9 +41,6 @@ export default async function Dashboard() {
   const { data, error } = await supabase
   .from('occupation')
   .select()
-  const occupationlist: occupationType[] | null = data;
-
-  console.log(occupationlist)
   return (
     <div className="min-h-screen w-full">
       <Nav/>
@@ -53,8 +51,8 @@ export default async function Dashboard() {
             <BreadcrumbList>
               <BreadcrumbItem>
                 <BreadcrumbLink asChild>
-                  <Link href="#">
-                    Dashboard
+                  <Link href="/login">
+                    Login Page
                   </Link>
                 </BreadcrumbLink>
               </BreadcrumbItem>
@@ -69,11 +67,9 @@ export default async function Dashboard() {
               Welcome back, {username}!
               </h1>
             </div>
-            <form action={insertCareer}>
             <div className="grid gap-4 md:grid-cols-[1fr_250px] lg:grid-cols-3 lg:gap-8">
               <JobTable/>
             </div>
-              </form>
           </div>
         </main>
       </div>

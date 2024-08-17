@@ -20,39 +20,41 @@ export default function JobTable(){
         fetchCareer(-1).then((res)=>{
             setOccupationlist(res)
         })}
-    const ImageChange = (event:any)=>{
-        let fileimage = event.target.files[0]
-        setImagefile(fileimage)
-        setImageurl(Date.now() + '-' + fileimage?.name)
-    }
+        
+        const deleteImage = async(deleteUrl: string) =>{
+          const supabase = createClient()
+          const { data, error } = await supabase
+          .storage
+          .from('Occupation')
+          .remove([deleteUrl])
+          if (error) {
+            console.log(error)
+          }
+        }
 
-    const deleteImage = async(deleteUrl: string) =>{
-      const supabase = createClient()
-      const imgurl = deleteUrl.split('Occupation/')[1]
-      const { data, error } = await supabase
-      .storage
-      .from('avatars')
-      .remove([imgurl])
-      if (error) {
-        console.log(error)
-      }
-    }
+        useEffect(()=>{
+          getOccupation()
+        },[pending])
+        const ImageChange = (event:any)=>{
+            let fileimage = event.target.files[0]
+            setImagefile(fileimage)
+            setImageurl(Date.now() + '-' + fileimage?.name)
+        }
 
-    useEffect(()=>{
-        getOccupation()
-    },[pending])
     const getFileUrl = async(imagePath: string)=>{
       const supabase = createClient()
       const { data } = supabase
       .storage
-      .from('public-bucket')
+      .from('Occupation')
       .getPublicUrl(imagePath)
       return data.publicUrl
     }
+
     const submitNew = async(e:any)=>{
+      const formData = new FormData(e.currentTarget)
         e.preventDefault();
         const supabase = createClient()
-        const imagePath = '/public/' + imageurl
+        const imagePath = 'public/' + imageurl
         const { data, error } = await supabase
         .storage
         .from('Occupation')
@@ -64,11 +66,12 @@ export default function JobTable(){
         if (error) {
           console.log(error)
         }
-        const formData = new FormData(e.currentTarget)
         formData.append("img_url", getImageUrl);
         formData.append("img_path", imagePath);
-        insertCareer(formData)
+        await insertCareer(formData)
+        getOccupation()
       }
+
     return(
         <>
         <div className="grid auto-rows-max items-start gap-4 lg:gap-8 lg:col-span-2">
@@ -83,9 +86,9 @@ export default function JobTable(){
                         <TableRow>
                           <TableHead>English Name</TableHead>
                           <TableHead>Chinese Name</TableHead>
-                          <TableHead>Image</TableHead>
-                          <TableHead>Last Updated</TableHead>
-                          <TableHead>Actions</TableHead>
+                          <TableHead>Upload Date</TableHead>
+                          <TableHead>Delete</TableHead>
+                          <TableHead>Preview</TableHead>
                         </TableRow>
                       </TableHeader>
                       <TableBody>
@@ -93,11 +96,11 @@ export default function JobTable(){
                           <TableRow key={i}>
                           <TableCell className="font-medium"><Link underline="hover" href={`/dashboard/${item.occupation_id}`}>{item.eng_name}</Link></TableCell>
                           <TableCell>{item.chi_name}</TableCell>
-                          <TableCell><Link underline="hover"  href={item.img_url}>Preview</Link></TableCell>
                           <TableCell>{item.created_at.slice(0,10)}</TableCell>
                           <TableCell>
-                          <Button color="danger" isLoading={pending} onClick={()=>{deleteCareer(item.occupation_id);getOccupation();deleteImage(item.img_url)}}>Delete</Button>
+                          <Button color="danger" isLoading={pending} onClick={()=>{deleteCareer(item.occupation_id);getOccupation();deleteImage(item.img_path)}}>Delete</Button>
                           </TableCell>
+                          <TableCell><Button color="primary" href={`/interqpage/${item.occupation_id}`}>Preview</Button></TableCell>
                         </TableRow>
                         )
                         )}
@@ -107,6 +110,7 @@ export default function JobTable(){
                 </Card>
               </div>
                 <div className="grid auto-rows-max items-start gap-4 lg:col-span-1 lg:gap-8">
+                <form onSubmit={submitNew} >
                 <Card x-chunk="dashboard-07-chunk-0">
                   <CardHeader>
                     <CardTitle>Add New Job</CardTitle>
@@ -124,14 +128,15 @@ export default function JobTable(){
                       </div>
                       <div className="grid gap-3">
                         <Label htmlFor="file">File</Label>
-                        <Input name="imagefile" onChange={ImageChange} id="file" type="file" />
+                        <Input onChange={ImageChange} id="file" type="file" />
                       </div>
                     </div>
                   </CardContent>
                   <CardFooter className="justify-end">
-                    <Button onSubmit={submitNew} variant="bordered" type="submit" isLoading={pending}>Upload</Button>
+                    <Button variant="bordered" type="submit" isLoading={pending}>Upload</Button>
                   </CardFooter>
                 </Card>
+              </form>
               </div>
         </>
     )

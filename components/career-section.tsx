@@ -1,57 +1,10 @@
+import { fetchCareer } from "@/app/dashboard/action";
 import {Card, CardBody, Image, Button, Link} from "@nextui-org/react";
+import { occupationType } from "@/app/dashboard/page";
 
-export default function CareerSection(){
-    const list = [{
-        title:"Accountant",
-        link:"accountant",
-        img:"/Accountant.jpg",
-    },
-    {
-        title:"Civil Engineer",
-        link:"civil-engineer",
-        img:"/Civil Engineer.jpg",
-    },
-    {
-        title:"Nurse",
-        link:"nurse",
-        img:"/Nurse.jpg",
-    },
-    {
-        title:"Administrative assistant",
-        link:"administrative-assistant",
-        img:"/Administrative assistant.jpg",
-    },
-    {
-        title:"Compliance manager",
-        link:"compliance-manager",
-        img:"/Compliance manager.jpg",
-    },
-    {
-        title:"Digital Marketing manager",
-        link:"digital-marketing-manager",
-        img:"/Digital Marketing manager.jpg",
-    },
-    {
-        title:"Graphic designer",
-        link:"Graphic-designer",
-        img:"/Graphic designer.jpg",
-    },
-    {
-        title:"Sales, Leasing & Property Management",
-        link:"Sale-Leasing-Property-Management",
-        img:"/Sales, Leasing & Property Management.jpg",
-    },
-    {
-        title:"Software Engineer",
-        link:"Software-Engineer",
-        img:"/Software Engineer.jpg",
-    },
-    {
-        title:"Construction PM",
-        link:"Construction-PM",
-        img:"/Construction PM.jpg",
-    },
-    ]
+
+export default async function CareerSection(){
+    const jobList:occupationType[] | null = await fetchCareer(-1);
     return(
         <div>
             <div className="flex justify-center flex-col items-center bg-midnight text-lionsmane h-auto px-3 py-7">
@@ -79,15 +32,15 @@ export default function CareerSection(){
             </div>
                 {/* 2nd */}
                 <div className="bg-midnight p-5 grid grid-flow-col auto-cols-[250px] overflow-x-auto scrollbar-hide gap-5 snap-x">
-                {list.map((item, index) => (
+                {jobList?.map((item, index) => (
                     <Card key= {index} shadow="sm" isPressable className="snap-center">
-                        <CardBody as={Link}  href={`/interqpage/${index+1}`} className="overflow-visible p-0">
+                        <CardBody as={Link}  href={`/interqpage/${item.occupation_id}`} className="overflow-visible p-0">
                             <Image
                             shadow="sm"
                             radius="lg"
-                            alt={item.title}
+                            alt={item.eng_name}
                             className="w-[250px] max-w-none"
-                            src={item.img}
+                            src={item.img_url}
                             />
                         </CardBody>
                     </Card>
