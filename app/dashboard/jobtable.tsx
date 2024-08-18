@@ -12,7 +12,7 @@ import { useFormStatus } from "react-dom"
 import { createClient } from "@/utils/supabase/client"
 
 export default function JobTable(){
-    const { pending } = useFormStatus();
+    const [pending,setPending] = useState(false)
     const [imagefile,setImagefile] = useState<any>(null)
     const [imageurl, setImageurl] = useState('')
     const [occupationlist,setOccupationlist] = useState<occupationType[] | null>([])
@@ -22,6 +22,7 @@ export default function JobTable(){
         })}
         
         const deleteImage = async(deleteUrl: string) =>{
+          setPending(true);
           const supabase = createClient()
           const { data, error } = await supabase
           .storage
@@ -30,6 +31,7 @@ export default function JobTable(){
           if (error) {
             console.log(error)
           }
+          setPending(false);
         }
 
         useEffect(()=>{
@@ -37,8 +39,15 @@ export default function JobTable(){
         },[pending])
         const ImageChange = (event:any)=>{
             let fileimage = event.target.files[0]
-            setImagefile(fileimage)
-            setImageurl(Date.now() + '-' + fileimage?.name)
+            if(fileimage.size > 2097152) {
+              alert("File larger than 2MB!");
+              event.target.value = ""
+              setImagefile(null)
+           }
+           else{
+             setImagefile(fileimage)
+             setImageurl(Date.now() + '-' + fileimage?.name)
+           }
         }
 
     const getFileUrl = async(imagePath: string)=>{
@@ -53,6 +62,7 @@ export default function JobTable(){
     const submitNew = async(e:any)=>{
       const formData = new FormData(e.currentTarget)
         e.preventDefault();
+        setPending(true);
         const supabase = createClient()
         const imagePath = 'public/' + imageurl
         const { data, error } = await supabase
@@ -70,6 +80,7 @@ export default function JobTable(){
         formData.append("img_path", imagePath);
         await insertCareer(formData)
         getOccupation()
+        setPending(false);
       }
 
     return(
@@ -100,7 +111,7 @@ export default function JobTable(){
                           <TableCell>
                           <Button color="danger" isLoading={pending} onClick={()=>{deleteCareer(item.occupation_id);getOccupation();deleteImage(item.img_path)}}>Delete</Button>
                           </TableCell>
-                          <TableCell><Button color="primary" href={`/interqpage/${item.occupation_id}`}>Preview</Button></TableCell>
+                          <TableCell><Button color="primary" as={Link} href={`/interqpage/${item.occupation_id}`}>Preview</Button></TableCell>
                         </TableRow>
                         )
                         )}
@@ -120,15 +131,15 @@ export default function JobTable(){
                     <div className="grid gap-6">
                       <div className="grid gap-3">
                         <Label htmlFor="name">English Name:</Label>
-                        <Input id="eng_name" name="eng_name" placeholder="Accountant" type="text" className="w-full" />
+                        <Input required id="eng_name" name="eng_name" placeholder="Accountant" type="text" className="w-full" />
                       </div>
                       <div className="grid gap-3">
                         <Label htmlFor="name">Chinese Name:</Label>
-                        <Input id="chi_name" name="chi_name" placeholder="會計" type="text" className="w-full" />
+                        <Input required id="chi_name" name="chi_name" placeholder="會計" type="text" className="w-full" />
                       </div>
                       <div className="grid gap-3">
-                        <Label htmlFor="file">File</Label>
-                        <Input onChange={ImageChange} id="file" type="file" />
+                        <Label htmlFor="file">Cover Image:</Label>
+                        <Input required onChange={ImageChange} id="file" type="file" accept="image/*"/>
                       </div>
                     </div>
                   </CardContent>

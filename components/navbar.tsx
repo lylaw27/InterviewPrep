@@ -7,11 +7,38 @@ import {
     NavbarItem, 
     NavbarMenuToggle,
     NavbarMenu,
-    NavbarMenuItem} from "@nextui-org/react"
-import Image from "next/image";
-import { useState } from "react"
+    NavbarMenuItem,
+    Dropdown,
+  DropdownItem,
+  DropdownMenu,
+DropdownTrigger} from "@nextui-org/react"
+import { Image } from "@nextui-org/react";
+import NextImage from "next/image";
+import { useEffect, useState } from "react"
+import { createClient } from "@/utils/supabase/client";
+import { useRouter } from "next/router";
+
+async function UserLogout(){
+  const supabase = createClient();
+  await supabase.auth.signOut();
+  // router.push('/login');
+}
 
 export default function Nav(){
+  const [user,setUser] = useState<boolean>(false)
+  useEffect(()=>{
+    let userExist = supabase.auth.getUser().then((res)=>{
+      if(res.data){
+        return true
+      }
+      else{
+        return false
+      }
+    })
+    setUser(userExist)
+  },[])
+  const supabase = createClient();
+
     const menuItems = [
         "Accounting",
         "Administration & Office Support",
@@ -42,12 +69,23 @@ export default function Nav(){
       </NavbarContent>
       <NavbarContent justify="end">
         <NavbarItem>
-          <Link href="/login" className="flex">
-            <img src="/user-interface.svg" alt="logo" width={25} height={25}></img>
-          </Link>
+        <Dropdown>
+          <DropdownTrigger>
+              <Image as={NextImage} src="/user-interface.svg" alt="logo" width={25} height={25}></Image>
+          </DropdownTrigger>
+          <DropdownMenu aria-label="Profile Actions" variant="flat">
+            
+            <DropdownItem>
+          <Link href="/dashboard" onClick={UserLogout} className="flex">登入{user ? "Logout " : "Sign In"}</Link>
+            </DropdownItem>
+            <DropdownItem>
+          <Link href="/dashboard" className="flex">登出</Link>
+            </DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
         </NavbarItem>
         <NavbarItem>
-            <Image src="/shopping-bag.svg" alt="logo" width={25} height={25}></Image>
+            <Image as={NextImage} src="/shopping-bag.svg" alt="logo" width={25} height={25}></Image>
         </NavbarItem>
       </NavbarContent>
       <NavbarMenu className="py-[55px] pb-[70px]">

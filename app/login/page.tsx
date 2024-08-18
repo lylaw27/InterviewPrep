@@ -10,23 +10,22 @@ declare global {
 }
 
 export default function LoginPage() {
-  const router = useRouter()
+  const router = useRouter();
+  const supabase = createClient(); 
   globalThis.handleSignInWithGoogle = async function (response: { credential: any; }) {
-    console.log("ok");
-    const supabase = createClient();
-    const { data, error } = await supabase.auth.signInWithIdToken({
-      provider: 'google',
-      token: response.credential,
-    });
-    router.push("/dashboard")
-    }
+  console.log("ok");
+  const { data, error } = await supabase.auth.signInWithIdToken({
+    provider: 'google',
+    token: response.credential,
+  });
+  router.push("/dashboard")
+  }
 
   return (
-    <div className="flex p-10 bg-midnight justify-center">
+    <div className="flex h-screen bg-midnight justify-center items-center">
       <Script src="https://accounts.google.com/gsi/client" async></Script>
-      <div
-        className="flex flex-col overflow-hidden bg-white rounded-md shadow-lg max md:flex-row md:flex-1 lg:max-w-screen-md"
-        >
+      <div>
+      <div className="flex overflow-hidden bg-white rounded-md shadow-lg">
         <div className="p-10 bg-white flex-1">
           <div className="flex justify-center">
             <Image className="rounded-full" src="/avatar.png" alt="logo" width={70} height={70}></Image>
@@ -96,6 +95,7 @@ export default function LoginPage() {
             </div>
           </form>
         </div>
+      </div>
       </div>
     </div>
   )
