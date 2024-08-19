@@ -21,7 +21,6 @@ import { useRouter } from "next/router";
 async function UserLogout(){
   const supabase = createClient();
   await supabase.auth.signOut();
-  // router.push('/login');
 }
 
 export default function Nav(){
@@ -73,22 +72,22 @@ export default function Nav(){
           <DropdownTrigger>
               <Image as={NextImage} src="/user-interface.svg" alt="logo" width={25} height={25}></Image>
           </DropdownTrigger>
-          <DropdownMenu aria-label="Profile Actions" variant="flat">
-          {user ? <>
+          {user ? 
+          <DropdownMenu>
             <DropdownItem>
-          <Link href="/dashboard" className="flex">登入</Link>
-            </DropdownItem>
-          </>:
-          <>
-            <DropdownItem>
-          <Link href="/dashboard" onClick={UserLogout} className="flex">我的面試問題</Link>
+          <Link href="/dashboard" className="flex">我的面試問題</Link>
             </DropdownItem>
             <DropdownItem>
-          <Link href="/dashboard" className="flex">登出</Link>
+          <Link href="/"  onClick={UserLogout} c className="flex">登出</Link>
             </DropdownItem>
-          </>
-            }
           </DropdownMenu>
+          :
+          <DropdownMenu>
+          <DropdownItem>
+        <Link href="/login" className="flex">登入</Link>
+          </DropdownItem>
+        </DropdownMenu>
+            }
         </Dropdown>
         </NavbarItem>
         <NavbarItem>
