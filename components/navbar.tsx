@@ -27,15 +27,15 @@ async function UserLogout(){
 export default function Nav(){
   const [user,setUser] = useState<boolean>(false)
   useEffect(()=>{
-    let userExist = supabase.auth.getUser().then((res)=>{
-      if(res.data){
-        return true
+    supabase.auth.getUser().then((res)=>{
+      if(res.data.user){
+        setUser(true)
       }
       else{
-        return false
+        setUser(false)
       }
     })
-    setUser(userExist)
+    
   },[])
   const supabase = createClient();
 
@@ -74,13 +74,20 @@ export default function Nav(){
               <Image as={NextImage} src="/user-interface.svg" alt="logo" width={25} height={25}></Image>
           </DropdownTrigger>
           <DropdownMenu aria-label="Profile Actions" variant="flat">
-            
+          {user ? <>
             <DropdownItem>
-          <Link href="/dashboard" onClick={UserLogout} className="flex">登入{user ? "Logout " : "Sign In"}</Link>
+          <Link href="/dashboard" className="flex">登入</Link>
+            </DropdownItem>
+          </>:
+          <>
+            <DropdownItem>
+          <Link href="/dashboard" onClick={UserLogout} className="flex">我的面試問題</Link>
             </DropdownItem>
             <DropdownItem>
           <Link href="/dashboard" className="flex">登出</Link>
             </DropdownItem>
+          </>
+            }
           </DropdownMenu>
         </Dropdown>
         </NavbarItem>
