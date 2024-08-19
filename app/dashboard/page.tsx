@@ -5,8 +5,8 @@ import Nav from "@/components/navbar"
 import { redirect } from "next/navigation"
 import JobTable from "./jobtable"
 
-
-async function getUserData(supabase: any){
+export async function getUserData(){
+    const supabase = createClient();
     let { data, error } = await supabase.auth.getUser();
     if(error || !data){
       redirect('/login')
@@ -26,7 +26,7 @@ export interface occupationType{
 
 export default async function Dashboard() {
   const supabase = createClient();
-  const username = await getUserData(supabase);
+  const username = await getUserData();
   const { data, error } = await supabase
   .from('occupation')
   .select()

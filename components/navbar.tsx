@@ -16,7 +16,6 @@ import { Image } from "@nextui-org/react";
 import NextImage from "next/image";
 import { useEffect, useState } from "react"
 import { createClient } from "@/utils/supabase/client";
-import { useRouter } from "next/router";
 
 async function UserLogout(){
   const supabase = createClient();
@@ -35,7 +34,7 @@ export default function Nav(){
       }
     })
     
-  },[])
+  })
   const supabase = createClient();
 
     const menuItems = [
@@ -75,10 +74,10 @@ export default function Nav(){
           {user ? 
           <DropdownMenu>
             <DropdownItem>
-          <Link href="/dashboard" className="flex">我的面試問題</Link>
+          <Link href="/myquestion" className="flex">我的面試問題</Link>
             </DropdownItem>
             <DropdownItem>
-          <Link href="/"  onClick={UserLogout} c className="flex">登出</Link>
+          <Link href="/"  onClick={UserLogout} className="flex">登出</Link>
             </DropdownItem>
           </DropdownMenu>
           :

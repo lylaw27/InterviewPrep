@@ -8,8 +8,8 @@ import { useEffect, useState } from "react"
 import { occupationType } from "./page"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { useFormStatus } from "react-dom"
 import { createClient } from "@/utils/supabase/client"
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue, } from "@/components/ui/select"
 
 export default function JobTable(){
     const [pending,setPending] = useState(false)
@@ -17,10 +17,7 @@ export default function JobTable(){
     const [imageurl, setImageurl] = useState('')
     const [occupationlist,setOccupationlist] = useState<occupationType[] | null>([])
     const getOccupation = () =>{
-        fetchCareer(-1).then((res)=>{
-            setOccupationlist(res)
-        })}
-        
+        fetchCareer('all').then((res)=>{ setOccupationlist(res) })}
         const deleteImage = async(deleteUrl: string) =>{
           setPending(true);
           const supabase = createClient()
@@ -121,7 +118,7 @@ export default function JobTable(){
                 </Card>
               </div>
                 <div className="grid auto-rows-max items-start gap-4 lg:col-span-1 lg:gap-8">
-                <form onSubmit={submitNew} >
+                <form onSubmit={submitNew} id="jobform">
                 <Card x-chunk="dashboard-07-chunk-0">
                   <CardHeader>
                     <CardTitle>Add New Job</CardTitle>
@@ -136,6 +133,20 @@ export default function JobTable(){
                       <div className="grid gap-3">
                         <Label htmlFor="name">Chinese Name:</Label>
                         <Input required id="chi_name" name="chi_name" placeholder="會計" type="text" className="w-full" />
+                      </div>
+                      <div className="grid gap-3">
+                        <Label htmlFor="name">Category:</Label>
+                        <Select name="category" defaultValue="Career">
+                          <SelectTrigger>
+                            <SelectValue/>
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectGroup>
+                              <SelectItem value="Career">Career</SelectItem>
+                              <SelectItem value="Featured">Featured</SelectItem>
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
                       </div>
                       <div className="grid gap-3">
                         <Label htmlFor="file">Cover Image:</Label>

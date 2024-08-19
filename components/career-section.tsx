@@ -4,7 +4,7 @@ import { occupationType } from "@/app/dashboard/page";
 
 
 export default async function CareerSection(){
-    const jobList:occupationType[] | null = await fetchCareer(-1);
+    const jobList:occupationType[] | null = await fetchCareer('Career');
     return(
         <div>
             <div className="flex justify-center flex-col items-center bg-midnight text-lionsmane h-auto px-3 py-7">
