@@ -62,14 +62,16 @@ export default function Nav(){
       </NavbarContent>
       <NavbarContent className="sm:flex gap-4" justify="center">
         <NavbarBrand className="self-center" as={Link} href="/" >
+        
             <Image className="rounded-full" src="/avatar.png" alt="logo" width={70} height={70}></Image>
+          
         </NavbarBrand>
       </NavbarContent>
       <NavbarContent justify="end">
         <NavbarItem>
         <Dropdown>
           <DropdownTrigger>
-              <Image as={NextImage} src="/user-interface.svg" alt="logo" width={25} height={25}></Image>
+              <Image radius="none" src="/user-interface.svg" alt="logo" width={25} height={25}></Image>
           </DropdownTrigger>
           {user ? 
           <DropdownMenu>
@@ -90,7 +92,38 @@ export default function Nav(){
         </Dropdown>
         </NavbarItem>
         <NavbarItem>
-            <Image as={NextImage} src="/shopping-bag.svg" alt="logo" width={25} height={25}></Image>
+        <Dropdown>
+          <DropdownTrigger>
+            <Image radius="none" src="/shopping-bag.svg" alt="logo" width={30} height={30}></Image>
+          </DropdownTrigger>
+          <DropdownMenu variant="light" className="max-w-[500px]">
+            <DropdownItem showDivider className="p-5">
+              <div className="flex">
+                <div className="w-[30%]">
+                  <Image radius="none" alt="" src="/Nurse.jpg"/>
+                </div>
+                <div className="pl-10 pr-2 py-1 w-[65%]">
+                  <div className="text-xl text-wrap">50題熱門面試題目及答案</div>
+                  <div className="py-5 text-xl text-gray-500">$88</div>
+                </div>
+                <div>
+                <Image radius="none" src="/cross.svg" alt="logo" width={30} height={30}></Image>
+                </div>
+              </div>
+            </DropdownItem>
+            <DropdownItem showDivider className="p-5">
+              <div className="flex">
+                <div className="w-[30%]">
+                  <Image radius="none" alt="" src="/50answers.jpg"/>
+                </div>
+                <div className="pl-10 w-[60%]">
+                  <div className="text-xl text-wrap">50題熱門面試題目及答案</div>
+                  <div className="py-5 text-base text-gray-500">$88</div>
+                </div>
+              </div>
+            </DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
         </NavbarItem>
       </NavbarContent>
       <NavbarMenu className="py-[55px] pb-[70px]">
