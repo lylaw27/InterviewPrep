@@ -1,8 +1,8 @@
 'use client'
 import { Button, Image, Accordion,AccordionItem} from "@nextui-org/react";
-import { questionlist } from "@/app/dashboard/[jobid]/page";
+import { questionType } from "@/components/types/careerTypes";
 
-export default function AccordionPage({questionlist} : {questionlist: questionlist[]}){
+export default function AccordionPage({questionlist} : {questionlist: questionType[]}){
     const questions = questionlist;
     console.log(questionlist)
     return(

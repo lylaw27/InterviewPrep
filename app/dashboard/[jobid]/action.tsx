@@ -2,6 +2,7 @@
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
+import { questionType } from '@/components/types/careerTypes'
 
 export async function insertQuestion(occupationId: number,formData: FormData) {
   const supabase = createClient()
@@ -13,7 +14,7 @@ export async function insertQuestion(occupationId: number,formData: FormData) {
   const { error } = await supabase
   .from('interviewq')
   .insert({ question: data.question, answer: data.answer, occupation_id: occupationId })
-
+  revalidatePath('/dashboard/[jobid]','page')
   if (error) {
     redirect('/error')
   }
@@ -25,6 +26,7 @@ export async function deleteQuestion(questionId: number) {
     .from('interviewq')
     .delete()
     .eq('question_id',questionId)
+    revalidatePath('/dashboard/[jobid]','page')
     if (error) {
       redirect('/error')
     }
@@ -40,4 +42,20 @@ export async function fetchQuestion(occupationId: number){
     redirect('/error')
   }
   return(data)
+}
+
+export async function updateQuestion(newQuestion: questionType) {
+  const supabase = createClient()
+  console.log(newQuestion);
+  const { error } = await supabase
+  .from('interviewq')
+  .update({
+    question: newQuestion.question,
+    answer: newQuestion.answer
+  })
+  .eq('question_id',newQuestion.question_id)
+  revalidatePath('/dashboard/[jobid]','page')
+  if (error) {
+    redirect('/error')
+  }
 }

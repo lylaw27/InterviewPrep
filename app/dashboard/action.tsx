@@ -1,6 +1,7 @@
 'use server'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
+import { revalidatePath } from 'next/cache'
 
 export async function insertCareer(formData: FormData) {
   const supabase = createClient()
@@ -18,6 +19,7 @@ export async function insertCareer(formData: FormData) {
   if (error) {
     redirect('/error')
   }
+  revalidatePath('/dashboard')
 }
 
 export async function deleteCareer(occupationId: number) {
@@ -29,6 +31,7 @@ export async function deleteCareer(occupationId: number) {
     if (error) {
       redirect('/error')
     }
+    revalidatePath('/dashboard')
   }
 
 export async function fetchCareer(occupationId: number | string){

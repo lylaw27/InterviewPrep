@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
 export async function GET(req: NextRequest) {
   try {
     const session =
-      await stripe.checkout.sessions.retrieve(req.nextUrl.searchParams);
+      await stripe.checkout.sessions.retrieve(req.nextUrl.searchParams.get('session_id'));
       NextResponse.json({
       status: session.status,
       customer_email: session.customer_details.email

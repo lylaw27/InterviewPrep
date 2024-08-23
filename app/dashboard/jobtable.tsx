@@ -5,7 +5,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table"
 import { deleteCareer, fetchCareer, insertCareer } from "./action"
 import { useEffect, useState } from "react"
-import { occupationType } from "./page"
+import { occupationType } from "@/components/types/careerTypes"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { createClient } from "@/utils/supabase/client"

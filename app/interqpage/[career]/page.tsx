@@ -1,8 +1,8 @@
-import { Button, Image, Accordion,AccordionItem} from "@nextui-org/react";
+import { Button} from "@nextui-org/react";
 import Navbar from "@/components/navbar";
 import { fetchQuestion } from "@/app/dashboard/[jobid]/action";
 import { fetchCareer } from "@/app/dashboard/action";
-import { occupationType } from "@/app/dashboard/page";
+import { occupationType } from "@/components/types/careerTypes"
 import AccordionPage from "./accordianPage";
 
 export default async function InterqPage({params} : {params : {career:string}}){

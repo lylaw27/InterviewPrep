@@ -1,6 +1,6 @@
 import { fetchCareer } from "@/app/dashboard/action";
 import {Card, CardBody, Image, Button, Link} from "@nextui-org/react";
-import { occupationType } from "@/app/dashboard/page";
+import { occupationType } from "@/components/types/careerTypes"
 
 
 export default async function CareerSection(){
