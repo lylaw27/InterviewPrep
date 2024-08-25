@@ -11,7 +11,7 @@ export default function AccordionPage({questionlist} : {questionlist: questionTy
             <div key={index} className="flex items-center py-3">
                 <Image alt="speech bubble" src="/speech-bubble.png" width={40} height={40}/>
                 <Accordion variant="splitted">
-                <AccordionItem classNames={{base: "!bg-transparent border-midnight border-2", content: "text-midnight text-lg whitespace-pre-wrap"}} aria-label="Accordion 1" title={item.question}>
+                <AccordionItem classNames={{base: "!bg-transparent border-midnight border-2", content: "text-midnight text-lg whitespace-pre-wrap"}} aria-label="Accordion 1" title={"Q"+ (index+1) + ". " + item.question}>
                     {item.answer}
                 </AccordionItem>
                 </Accordion>

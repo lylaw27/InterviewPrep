@@ -95,8 +95,8 @@ export default function JobTable(){
                           <TableHead>English Name</TableHead>
                           <TableHead>Chinese Name</TableHead>
                           <TableHead>Upload Date</TableHead>
+                          <TableHead>Action</TableHead>
                           <TableHead>Delete</TableHead>
-                          <TableHead>Preview</TableHead>
                         </TableRow>
                       </TableHeader>
                       <TableBody>
@@ -106,9 +106,11 @@ export default function JobTable(){
                           <TableCell>{item.chi_name}</TableCell>
                           <TableCell>{item.created_at.slice(0,10)}</TableCell>
                           <TableCell>
-                          <Button color="danger" isLoading={pending} onClick={()=>{deleteCareer(item.occupation_id);getOccupation();deleteImage(item.img_path)}}>Delete</Button>
+                            <Button color="success" as={Link} href={`/dashboard/${item.occupation_id}`}>Edit</Button>
+                            <div className="py-2"/>
+                            <Button color="primary" as={Link} href={`/interqpage/${item.occupation_id}`}>Preview</Button>
                           </TableCell>
-                          <TableCell><Button color="primary" as={Link} href={`/interqpage/${item.occupation_id}`}>Preview</Button></TableCell>
+                          <TableCell><Button color="danger" isLoading={pending} onClick={()=>{deleteCareer(item.occupation_id);getOccupation();deleteImage(item.img_path)}}>Delete</Button></TableCell>
                         </TableRow>
                         )
                         )}
