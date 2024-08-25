@@ -2,20 +2,31 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
 import { revalidatePath } from 'next/cache'
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 export async function insertCareer(formData: FormData) {
   const supabase = createClient()
-  const data = {
+  let data = {
     eng_name: formData.get('eng_name') as string,
     chi_name: formData.get('chi_name') as string,
     category: formData.get('category') as string,
     img_url: formData.get('img_url') as string,
     img_path: formData.get('img_path') as string,
+    price: formData.get('price') as string,
   }
-  console.log(formData)
+  
+  const stripeUpload = await stripe.products.create({
+    name: data.chi_name,
+    default_price_data: {
+      unit_amount: parseInt(data.price)*100,
+      currency: 'hkd',
+    },
+    images:[data.img_url]
+  });
+  let newQuestion = {...data, price_id: stripeUpload.default_price}
   const { error } = await supabase
   .from('occupation')
-  .insert(data)
+  .insert(newQuestion)
   if (error) {
     redirect('/error')
   }

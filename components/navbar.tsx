@@ -71,7 +71,7 @@ export default function Nav(){
         <NavbarItem>
         <Dropdown>
           <DropdownTrigger>
-              <Image radius="none" src="/user-interface.svg" alt="logo" width={25} height={25}></Image>
+              <Image radius="none" src="/user-interface.svg" alt="logo" width={30} height={30}></Image>
           </DropdownTrigger>
           {user ? 
           <DropdownMenu>

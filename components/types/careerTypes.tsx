@@ -3,9 +3,9 @@ export interface occupationType{
     chi_name: string,
     created_at: string,
     occupation_id: number,
+    price: number,
     img_url: string,
     img_path: string,
-    price: number
 }
 
 export interface questionType{
