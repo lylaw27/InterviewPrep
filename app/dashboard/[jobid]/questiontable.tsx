@@ -12,11 +12,25 @@ interface questionStatus extends questionType{
     editing: boolean
 }
 
-export default function QuestionTable({occupationId}:{occupationId:number}){
+export default function QuestionTable({occupationId, fetchedList}:{occupationId:number, fetchedList:questionStatus[]}){
     const today = new Date(Date.now());
     const { pending } = useFormStatus();
     const newSubmit = insertQuestion.bind(null, occupationId);
-    const [questionlist,setQuestionlist] = useState<questionStatus[]>([])
+    const [questionlist,setQuestionlist] = useState<questionStatus[]>(fetchedList)
+    const questionChange = (value: string, key: number, field: string) =>{
+        let newList = [...questionlist];
+        newList![key][field] = value;
+        console.log(fetchedList)
+        setQuestionlist(newList)
+    }
+    const cancelEdit = (key: number) =>{
+        let newList = [...questionlist];
+        newList![key].question = fetchedList[key].question;
+        newList![key].answer = fetchedList[key].answer;
+        newList![key].editing = !questionlist![key].editing;
+       
+        setQuestionlist(newList)
+    }
 
     const editQuestion = (key: number) =>{
         let newList = [...questionlist]
@@ -27,11 +41,9 @@ export default function QuestionTable({occupationId}:{occupationId:number}){
     const getQuestions = () =>{
         fetchQuestion(occupationId)
         .then((res)=>{
-            const list = res.map((item)=>(
-                {editing: false, ...item}
-            ))
-            setQuestionlist(list)
-    })}
+            setQuestionlist(res)
+        })}
+            
     useEffect(()=>{
         getQuestions();
     },[pending])
@@ -55,11 +67,18 @@ export default function QuestionTable({occupationId}:{occupationId:number}){
         {questionlist?.map((item,i)=>(
             <TableRow key={i}>
             <TableCell>{`Q${i+1}`}</TableCell>
-            <TableCell className="font-medium"><Textarea minRows={15} maxRows={40} fullWidth defaultValue={item.question} variant="bordered" readOnly={!item.editing} classNames={{inputWrapper: item.editing ? "bg-gray-50":"border-none outline-none resize-none bg-transparent shadow-none focus:border-none focus:outline-none"}}/></TableCell>
-            <TableCell className="whitespace-pre-wrap"><Textarea minRows={15} maxRows={40} fullWidth defaultValue={item.answer} variant="bordered" readOnly={!item.editing} classNames={{inputWrapper: item.editing ? "bg-gray-50":"border-none outline-none resize-none bg-transparent shadow-none focus:border-none focus:outline-none"}}/></TableCell>
+            <TableCell className="font-medium"><Textarea onValueChange={(value)=>questionChange(value,i,'question')} minRows={15} maxRows={40} fullWidth value={item.question} variant="bordered" readOnly={!item.editing} classNames={{inputWrapper: item.editing ? "bg-gray-50":"border-none outline-none resize-none bg-transparent shadow-none focus:border-none focus:outline-none"}}/></TableCell>
+            <TableCell className="whitespace-pre-wrap"><Textarea onValueChange={(value)=>questionChange(value,i,'answer')} minRows={15} maxRows={40} fullWidth value={item.answer} variant="bordered" readOnly={!item.editing} classNames={{inputWrapper: item.editing ? "bg-gray-50":"border-none outline-none resize-none bg-transparent shadow-none focus:border-none focus:outline-none"}}/></TableCell>
             <TableCell>{item.created_at.slice(0,10)}</TableCell>
             <TableCell>
-                {item.editing ?  <Button color="success" onClick={()=>{editQuestion(i);updateQuestion(item)}} isLoading={pending}>Save</Button> : <Button onClick={()=>editQuestion(i)} isLoading={pending}>Edit</Button>}
+                {item.editing ?  
+                <>
+                <Button color="success" onClick={()=>{editQuestion(i);updateQuestion(questionlist[i])}} isLoading={pending}>Save</Button>
+                <div className="py-4"/>
+                <Button onClick={()=>{cancelEdit(i)}} isLoading={pending}>Cancel</Button>
+                </>
+                : 
+                <Button color="primary" onClick={()=>editQuestion(i)} isLoading={pending}>Edit</Button>}
                 <div className="py-4"/>
                 <Button color="danger" onClick={()=>{deleteQuestion(item.question_id);getQuestions()}} type="submit" isLoading={pending}>Delete</Button>
             </TableCell>

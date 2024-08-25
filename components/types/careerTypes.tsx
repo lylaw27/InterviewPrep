@@ -13,6 +13,7 @@ export interface questionType{
     answer: string,
     created_at: string,
     question_id: number,
-    occupation_id: number
+    occupation_id: number,
+    [key: string]: any
 }
   

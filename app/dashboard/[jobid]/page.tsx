@@ -6,6 +6,7 @@ import { createClient } from "@/utils/supabase/server"
 import Nav from "@/components/navbar"
 import { redirect } from "next/navigation"
 import QuestionTable from "./questiontable"
+import { fetchQuestion } from "./action"
 
 async function getUserData(supabase: any){
     let { data, error } = await supabase.auth.getUser();
@@ -20,12 +21,10 @@ export default async function QuestionList({ params }: { params: { jobid: string
   const supabase = createClient();
   const username = await getUserData(supabase);
   const occupationId: number = parseInt(params.jobid);
-  // const { data, error } = await supabase
-  // .from('interviewq')
-  // .select()
-  // .eq('occupation_id', occupationId)
-  // const questionlist: questionlist[] | null = data;
-
+  const questionlist = await fetchQuestion(occupationId)
+  const newlist = questionlist.map((item)=>(
+                {editing: false, ...item}
+            ))
   return (
     <div className="min-h-screen w-full">
       <Nav/>
@@ -80,7 +79,7 @@ export default async function QuestionList({ params }: { params: { jobid: string
                         </TableRow>
                       </TableHeader>  
                       <TableBody> 
-                        <QuestionTable occupationId={occupationId}/>
+                        <QuestionTable occupationId={occupationId} fetchedList={newlist}/>
                       </TableBody>
                     </Table>
                       </form> 

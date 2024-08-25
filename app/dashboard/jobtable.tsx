@@ -128,11 +128,18 @@ export default function JobTable(){
                     <div className="grid gap-6">
                       <div className="grid gap-3">
                         <Label htmlFor="name">English Name:</Label>
-                        <Input required id="eng_name" name="eng_name" placeholder="Accountant" type="text" className="w-full" />
+                        <Input required name="eng_name" placeholder="Accountant" type="text" className="w-full" />
                       </div>
                       <div className="grid gap-3">
                         <Label htmlFor="name">Chinese Name:</Label>
-                        <Input required id="chi_name" name="chi_name" placeholder="會計" type="text" className="w-full" />
+                        <Input required name="chi_name" placeholder="會計" type="text" className="w-full" />
+                      </div>
+                      <div className="grid gap-3">
+                        <Label htmlFor="name">Price:</Label>
+                        <div className="flex">
+                        <div className="p-2">$</div>
+                        <Input required name="price" placeholder="33.90" type="number" className="w-full" />
+                        </div>
                       </div>
                       <div className="grid gap-3">
                         <Label htmlFor="name">Category:</Label>
