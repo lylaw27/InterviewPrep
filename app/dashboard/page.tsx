@@ -1,27 +1,17 @@
 import { Link } from "@nextui-org/react"
 import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbSeparator, BreadcrumbPage } from "@/components/ui/breadcrumb"
-import { createClient } from "@/utils/supabase/server"
 import Nav from "@/components/navbar"
 import { redirect } from "next/navigation"
 import JobTable from "./jobtable"
-
-export async function getUserData(){
-    const supabase = createClient();
-    let { data, error } = await supabase.auth.getUser();
-    if(error || !data){
-      redirect('/login')
-    }
-    const username = data.user?.email?.split('@')[0] ?? 'user';
-    return username
-}
+import { checkUser } from "../login/actions"
 
 
 export default async function Dashboard() {
-  const supabase = createClient();
-  const username = await getUserData();
-  const { data, error } = await supabase
-  .from('occupation')
-  .select()
+  const userData = await checkUser()
+  if(!userData.data || userData.error){
+    redirect('/login')
+  }
+  const username = userData.data.user?.email?.split('@')[0] ?? 'user';
   return (
     <div className="min-h-screen w-full">
       <Nav/>

@@ -14,6 +14,12 @@ export async function POST(req: NextRequest) {
               price: 'price_1PptmvIIK3z82Fe4AuJ2qXS2',
               quantity: 1,
             },
+            {
+              // Provide the exact Price ID (for example, pr_1234) of
+              // the product you want to sell
+              price: 'price_1Ps360IIK3z82Fe4aPLppEbu',
+              quantity: 1,
+            },
           ],
           mode: 'payment',
           return_url:

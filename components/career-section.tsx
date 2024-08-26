@@ -34,7 +34,7 @@ export default async function CareerSection(){
                 <div className="bg-midnight p-5 grid grid-flow-col auto-cols-[250px] overflow-x-auto scrollbar-hide gap-5 snap-x">
                 {jobList?.map((item, index) => (
                     <Card key= {index} shadow="sm" isPressable className="snap-center">
-                        <CardBody as={Link}  href={`/interqpage/${item.occupation_id}`} className="overflow-visible p-0">
+                        <CardBody as={Link}  href={`/myquestion/${item.occupation_id}`} className="overflow-visible p-0">
                             <Image
                             shadow="sm"
                             radius="lg"

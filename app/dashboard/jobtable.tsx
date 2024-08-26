@@ -108,7 +108,7 @@ export default function JobTable(){
                           <TableCell>
                             <Button color="success" as={Link} href={`/dashboard/${item.occupation_id}`}>Edit</Button>
                             <div className="py-2"/>
-                            <Button color="primary" as={Link} href={`/interqpage/${item.occupation_id}`}>Preview</Button>
+                            <Button color="primary" as={Link} href={`/myquestion/${item.occupation_id}`}>Preview</Button>
                           </TableCell>
                           <TableCell><Button color="danger" isLoading={pending} onClick={()=>{deleteCareer(item.occupation_id);getOccupation();deleteImage(item.img_path)}}>Delete</Button></TableCell>
                         </TableRow>

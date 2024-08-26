@@ -1,19 +1,20 @@
 import { fetchCareer } from "@/app/dashboard/action";
 import {Card, CardBody, Image, Button, Link} from "@nextui-org/react";
-import { getUserData, occupationType } from "@/app/dashboard/page";
 import Nav from "@/components/navbar";
+import { checkUser } from "../login/actions";
 
 export default async function CareerSection(){
     
     const [jobList,featuredList] = await Promise.all([fetchCareer('Career'),fetchCareer('Featured')]);
-    const user = await getUserData();
+    const userData = await checkUser();
+    const username = userData.data.user?.email?.split('@')[0] ?? 'user';
     return(
         <>
             <Nav/>
                 <div className="bg-midnight p-12">
                 {/* 1st */}
                 <div className="text-2xl text-lionsmane font-bold">
-                    歡迎, {user}!
+                    歡迎, {username}!
                 </div>
                 {/* 2nd */}
                 <div className="py-5">
@@ -21,7 +22,7 @@ export default async function CareerSection(){
                 <div className="grid grid-flow-col auto-cols-[250px] overflow-x-auto scrollbar-hide gap-5 snap-x">
                 {featuredList?.map((item, index) => (
                     <Card key= {index} shadow="sm" isPressable className="snap-center">
-                        <CardBody as={Link}  href={`/interqpage/${item.occupation_id}`} className="overflow-visible p-0">
+                        <CardBody as={Link}  href={`/myquestion/${item.occupation_id}`} className="overflow-visible p-0">
                             <Image
                             shadow="sm"
                             radius="lg"
@@ -39,7 +40,7 @@ export default async function CareerSection(){
                 <div className="grid grid-flow-col auto-cols-[250px] overflow-x-auto scrollbar-hide gap-5 snap-x">
                 {jobList?.map((item, index) => (
                     <Card key= {index} shadow="sm" isPressable className="snap-center">
-                        <CardBody as={Link}  href={`/interqpage/${item.occupation_id}`} className="overflow-visible p-0">
+                        <CardBody as={Link}  href={`/myquestion/${item.occupation_id}`} className="overflow-visible p-0">
                             <Image
                             shadow="sm"
                             radius="lg"

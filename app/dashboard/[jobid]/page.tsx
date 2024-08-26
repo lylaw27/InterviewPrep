@@ -7,19 +7,15 @@ import Nav from "@/components/navbar"
 import { redirect } from "next/navigation"
 import QuestionTable from "./questiontable"
 import { fetchQuestion } from "./action"
+import { checkUser } from "@/app/login/actions"
 
-async function getUserData(supabase: any){
-    let { data, error } = await supabase.auth.getUser();
-    if(error || !data){
-      redirect('/login')
-    }
-    const username = data.user?.email?.split('@')[0] ?? 'user';
-    return username
-}
 
 export default async function QuestionList({ params }: { params: { jobid: string } }) {
-  const supabase = createClient();
-  const username = await getUserData(supabase);
+  const userData = await checkUser()
+  if(!userData.data || userData.error){
+    redirect('/login')
+  }
+  const username = userData.data.user?.email?.split('@')[0] ?? 'user';
   const occupationId: number = parseInt(params.jobid);
   const questionlist = await fetchQuestion(occupationId)
   const newlist = questionlist.map((item)=>(

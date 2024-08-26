@@ -22,6 +22,8 @@ export default async function myquestion({params} : {params : {career:string}}){
                     <div className="h-auto px-5">
                     <AccordionPage questionlist={questionlist}/>
                     </div>
+                    {questionlist?.length === 5 ? 
+                    <>
                     <div className="py-4 px-10">
                         <p className="py-2 text-xl"><b>行業面試秘技 - 購買流程 </b></p>
                         <p className="py-2">1. 輸入名字及電郵</p>
@@ -30,11 +32,14 @@ export default async function myquestion({params} : {params : {career:string}}){
                         <p className="py-2">4. 見到 “Payment Processing”, 請耐心等候</p>
                         <p className="py-2">5. 完成付款後，你電郵會收到確認訊息，請點擊「面試問題及參考答案」的連結於線上瀏覽</p>
                     </div>
-                <div className="flex justify-center py-[20px] bg-lionsmane">
-                    <Button className="bg-ruby text-3xl p-9 text-white font-black">
-                        立即購買
-                    </Button>
-                </div>
+                    <div className="flex justify-center py-[20px] bg-lionsmane">
+                        <Button className="bg-ruby text-3xl p-9 text-white font-black">
+                            立即購買
+                        </Button>
+                    </div>
+                </>
+                :<></>
+                }
                 </div>
             </div>
         </div>
