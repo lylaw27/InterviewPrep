@@ -1,8 +1,12 @@
 'use client'
 import { Button, Image, Accordion,AccordionItem} from "@nextui-org/react";
 import { questionType } from "@/components/types/careerTypes";
+import { startSession } from "@/app/login/actions";
 
 export default function AccordionPage({questionlist} : {questionlist: questionType[]}){
+    const addtoCart = () =>{
+        startSession()
+    }
     const questions = questionlist;
     return(
         <div className="h-auto px-5">
@@ -43,7 +47,7 @@ export default function AccordionPage({questionlist} : {questionlist: questionTy
                     <p className="py-2">5. 完成付款後，你電郵會收到確認訊息，請點擊「面試問題及參考答案」的連結於線上瀏覽</p>
                 </div>
                 <div className="flex justify-center py-[20px] bg-lionsmane">
-                    <Button className="bg-ruby text-3xl p-9 text-white font-black">
+                    <Button onClick={addtoCart} className="bg-ruby text-3xl p-9 text-white font-black">
                         立即購買
                     </Button>
                 </div>
