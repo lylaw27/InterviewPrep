@@ -2,10 +2,23 @@
 import { Button, Image, Accordion,AccordionItem} from "@nextui-org/react";
 import { questionType } from "@/components/types/careerTypes";
 import { startSession } from "@/app/login/actions";
+import { createClient } from "@/utils/supabase/client";
 
 export default function AccordionPage({questionlist} : {questionlist: questionType[]}){
     const addtoCart = () =>{
-        startSession()
+        const supabase = createClient();
+        supabase.auth.getSession().then((currentUser)=>{
+            if(!currentUser.data){
+                const getuser = startSession().then((newUser)=>{
+                    return newUser?.data?.user?.id
+                })
+                console.log(getuser)
+            }
+            else{
+                return currentUser?.data?.session?.user?.id
+            }
+        }
+    )
     }
     const questions = questionlist;
     return(
