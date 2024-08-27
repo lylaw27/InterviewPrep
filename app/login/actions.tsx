@@ -48,3 +48,9 @@ export async function checkUser(){
   let { data, error } = await supabase.auth.getUser();
   return { data, error }
 }
+
+export async function startSession(){
+  const supabase = createClient()
+  const { data, error } = await supabase.auth.signInAnonymously();
+  return { data, error }
+}
