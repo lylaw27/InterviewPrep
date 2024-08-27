@@ -16,20 +16,23 @@ export default function JobTable(){
     const [imagefile,setImagefile] = useState<any>(null)
     const [imageurl, setImageurl] = useState('')
     const [occupationlist,setOccupationlist] = useState<occupationType[] | null>([])
+    
     const getOccupation = () =>{
-        fetchCareer('all').then((res)=>{ setOccupationlist(res) })}
-        const deleteImage = async(deleteUrl: string) =>{
-          setPending(true);
-          const supabase = createClient()
-          const { data, error } = await supabase
-          .storage
-          .from('Occupation')
-          .remove([deleteUrl])
-          if (error) {
-            console.log(error)
-          }
-          setPending(false);
-        }
+        fetchCareer('all').then((res)=>{ setOccupationlist(res) })
+      }
+
+    const deleteImage = async(deleteUrl: string) =>{
+      setPending(true);
+      const supabase = createClient()
+      const { data, error } = await supabase
+      .storage
+      .from('Occupation')
+      .remove([deleteUrl])
+      if (error) {
+        console.log(error)
+      }
+      setPending(false);
+    }
 
         useEffect(()=>{
           getOccupation()

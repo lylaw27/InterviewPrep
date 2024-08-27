@@ -5,11 +5,12 @@ export async function getCart(userId: string){
     const supabase = createClient();
     let {data,error} = await supabase
     .from('cart')
-    .select()
+    .select(`cart_id,user_id,occupation_id, occupation(chi_name,price,img_url)`)
     .eq('user_id',userId)
     if (error) {
         console.log(error)
       }
+    console.log(data)
     return data
 }
 

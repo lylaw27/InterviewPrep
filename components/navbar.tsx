@@ -16,6 +16,7 @@ import { Image } from "@nextui-org/react";
 import { useEffect, useState } from "react"
 import { createClient } from "@/utils/supabase/client";
 import { getCart } from "@/app/myquestion/[career]/action";
+import { cartType } from "./types/careerTypes";
 
 async function UserLogout(){
   const supabase = createClient();
@@ -24,20 +25,28 @@ async function UserLogout(){
 
 export default function Nav(){
   const [user,setUser] = useState<boolean>(false)
-  useEffect(()=>{
+  const [cartList,setCartList] = useState<cartType[] | null>([])
+  const [isMenuOpen,setIsMenuOpen] = useState(false)
+
+  const getCartItems = async()=>{
     const supabase = createClient();
-        supabase.auth.getSession().then((currentUser)=>{
-            if(!currentUser.data.session){
-                throw Error('error');
-            }
-            else{
-                return currentUser?.data?.session?.user?.id
-            }
-        }
-    ).then((userId)=>{
-         getCart(userId)
-    })
-  })
+      let currentUser = await supabase.auth.getSession()
+      let userId = null;
+      if(currentUser.data.session){
+        userId = currentUser?.data?.session?.user?.id
+        setUser(true);
+        const list = await getCart(userId);
+        console.log(list)
+        setCartList(list)
+      }
+      else{
+        return []
+      }
+    }
+        
+  useEffect(()=>{
+    getCartItems()
+  },[])
     const menuItems = [
         "Accounting",
         "Administration & Office Support",
@@ -52,7 +61,7 @@ export default function Nav(){
         "Marketing & Communications",
         "Real Estate & Property",
       ];
-    const [isMenuOpen,setIsMenuOpen] = useState(false)
+   
     return(
     <Navbar className="flex justify-center items-center py-5" onMenuOpenChange={setIsMenuOpen}>
       <NavbarContent>
@@ -98,22 +107,24 @@ export default function Nav(){
             <Image radius="none" src="/shopping-bag.svg" alt="logo" width={30} height={30}></Image>
           </DropdownTrigger>
           <DropdownMenu variant="light" className="max-w-[500px]">
-
-            <DropdownItem showDivider className="p-5">
+            {cartList ? cartList?.map((item,i)=>(
+            <DropdownItem key={i} showDivider className="p-5">
               <div className="flex">
                 <div className="w-[30%]">
-                  <Image radius="none" alt="" src="/Nurse.jpg"/>
+                  <Image radius="none" alt="" src={item.occupation.img_url}/>
                 </div>
                 <div className="pl-10 pr-2 py-1 w-[65%]">
-                  <div className="text-xl text-wrap">50題熱門面試題目及答案</div>
-                  <div className="py-5 text-xl text-gray-500">$88</div>
+                  <div className="text-xl text-wrap">{item.occupation.chi_name}</div>
+                  <div className="py-5 text-xl text-gray-500">${item.occupation.price}</div>
                 </div>
                 <div>
                 <Image radius="none" src="/cross.svg" alt="logo" width={30} height={30}></Image>
                 </div>
               </div>
             </DropdownItem>
-
+            )):
+            <></>
+            }
           </DropdownMenu>
         </Dropdown>
         </NavbarItem>

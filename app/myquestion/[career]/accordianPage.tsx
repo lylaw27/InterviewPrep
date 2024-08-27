@@ -21,10 +21,9 @@ export default function AccordionPage({questionlist, occupationId} : {questionli
     ).then((userId)=>{
          insertCart(userId, occupationId)
     })}
-    const questions = questionlist;
     return(
         <div className="h-auto px-5">
-        {questions.map((item, index) => (
+        {questionlist.map((item, index) => (
             <div key={index} className="flex items-center py-3">
                 <Image alt="speech bubble" src="/speech-bubble.png" width={40} height={40}/>
                 <Accordion variant="splitted">
@@ -34,7 +33,7 @@ export default function AccordionPage({questionlist, occupationId} : {questionli
                 </Accordion>
             </div>
         ))}
-         {questionlist?.length === 32 ? 
+         {questionlist?.length === 5 ? 
             <>
                 <div>
                     <div className="flex items-center py-3 blur-sm">

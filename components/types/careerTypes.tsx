@@ -16,4 +16,11 @@ export interface questionType{
     occupation_id: number,
     [key: string]: any
 }
+
+export interface cartType{
+    cart_id: number,
+    occupation_id: number,
+    user_id: string,
+    occupation: any
+}
   

@@ -47,7 +47,7 @@ export async function fetchQuestion(occupationId: number){
   if (error) {
     redirect('/error')
   }
-  return(data)
+  return data
 }
 
 export async function updateQuestion(newQuestion: questionType) {
