@@ -1,4 +1,3 @@
-import { Button} from "@nextui-org/react";
 import Navbar from "@/components/navbar";
 import { fetchQuestion } from "@/app/dashboard/[jobid]/action";
 import { fetchCareer } from "@/app/dashboard/action";
@@ -19,7 +18,7 @@ export default async function myquestion({params} : {params : {career:string}}){
                         <h1 className="text-2xl font-black"><b>{career![0].eng_name}</b></h1>
                         <h1 className="text-lg font-black"><b>Interview Questions and Answers</b></h1>
                     </div>
-                    <AccordionPage questionlist={questionlist}/>
+                    <AccordionPage questionlist={questionlist} occupationId={occupationId}/>
                 </div>
             </div>
         </div>

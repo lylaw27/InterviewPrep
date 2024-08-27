@@ -14,7 +14,8 @@ export async function insertCareer(formData: FormData) {
     img_path: formData.get('img_path') as string,
     price: formData.get('price') as string,
   }
-  
+
+  //stripe api action
   const stripeUpload = await stripe.products.create({
     name: data.chi_name,
     default_price_data: {
@@ -24,6 +25,8 @@ export async function insertCareer(formData: FormData) {
     images:[data.img_url]
   });
   let newQuestion = {...data, price_id: stripeUpload.default_price}
+  
+  //supabase DB action
   const { error } = await supabase
   .from('occupation')
   .insert(newQuestion)

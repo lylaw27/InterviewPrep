@@ -13,9 +13,9 @@ import {
   DropdownMenu,
 DropdownTrigger} from "@nextui-org/react"
 import { Image } from "@nextui-org/react";
-import NextImage from "next/image";
 import { useEffect, useState } from "react"
 import { createClient } from "@/utils/supabase/client";
+import { getCart } from "@/app/myquestion/[career]/action";
 
 async function UserLogout(){
   const supabase = createClient();
@@ -25,18 +25,19 @@ async function UserLogout(){
 export default function Nav(){
   const [user,setUser] = useState<boolean>(false)
   useEffect(()=>{
-    supabase.auth.getUser().then((res)=>{
-      if(res.data.user){
-        setUser(true)
-      }
-      else{
-        setUser(false)
-      }
+    const supabase = createClient();
+        supabase.auth.getSession().then((currentUser)=>{
+            if(!currentUser.data.session){
+                throw Error('error');
+            }
+            else{
+                return currentUser?.data?.session?.user?.id
+            }
+        }
+    ).then((userId)=>{
+         getCart(userId)
     })
-    
   })
-  const supabase = createClient();
-
     const menuItems = [
         "Accounting",
         "Administration & Office Support",
@@ -97,6 +98,7 @@ export default function Nav(){
             <Image radius="none" src="/shopping-bag.svg" alt="logo" width={30} height={30}></Image>
           </DropdownTrigger>
           <DropdownMenu variant="light" className="max-w-[500px]">
+
             <DropdownItem showDivider className="p-5">
               <div className="flex">
                 <div className="w-[30%]">
@@ -111,17 +113,7 @@ export default function Nav(){
                 </div>
               </div>
             </DropdownItem>
-            <DropdownItem showDivider className="p-5">
-              <div className="flex">
-                <div className="w-[30%]">
-                  <Image radius="none" alt="" src="/50answers.jpg"/>
-                </div>
-                <div className="pl-10 w-[60%]">
-                  <div className="text-xl text-wrap">50題熱門面試題目及答案</div>
-                  <div className="py-5 text-base text-gray-500">$88</div>
-                </div>
-              </div>
-            </DropdownItem>
+
           </DropdownMenu>
         </Dropdown>
         </NavbarItem>
