@@ -23,7 +23,7 @@ async function UserLogout(){
   await supabase.auth.signOut();
 }
 
-export default function Nav({}){
+export default function Nav({cart,openCartMenu}:{cart:boolean,openCartMenu:(state: boolean)=>void}){
   const [user,setUser] = useState<boolean>(false)
   const [cartList,setCartList] = useState<cartType[] | null>([])
   const [isMenuOpen,setIsMenuOpen] = useState(false)
@@ -46,7 +46,7 @@ export default function Nav({}){
         
   useEffect(()=>{
     getCartItems()
-  },[])
+  },[cart])
     const menuItems = [
         "Accounting",
         "Administration & Office Support",
@@ -99,7 +99,7 @@ export default function Nav({}){
         </Dropdown>
         </NavbarItem>
         <NavbarItem>
-        <Dropdown>
+        <Dropdown isOpen={cart} onOpenChange={(open) => openCartMenu(open)}>
           <DropdownTrigger>
             <Image radius="none" src="/shopping-bag.svg" alt="logo" width={30} height={30}></Image>
           </DropdownTrigger>

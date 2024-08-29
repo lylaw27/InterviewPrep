@@ -1,11 +1,17 @@
 'use client'
 import { Button, Image, Accordion,AccordionItem} from "@nextui-org/react";
-import { questionType } from "@/components/types/careerTypes";
+import { occupationType, questionType } from "@/components/types/careerTypes";
 import { startSession } from "@/app/login/actions";
 import { createClient } from "@/utils/supabase/client";
 import { insertCart } from "./action";
+import Nav from "@/components/navbar-dyn";
+import { useState } from "react";
 
-export default function AccordionPage({questionlist, occupationId} : {questionlist: questionType[], occupationId: number}){
+export default function AccordionPage({questionlist, occupationId, career} : {questionlist: questionType[], occupationId: number, career:occupationType[]|null}){
+    const [cart,setCart] = useState(false)
+    const openCartMenu = (state:boolean) =>{
+        setCart(state)
+    }
     const addtoCart = async(occupationId: number) =>{
         const supabase = createClient();
         supabase.auth.getSession().then((currentUser)=>{
@@ -20,8 +26,19 @@ export default function AccordionPage({questionlist, occupationId} : {questionli
         }
     ).then((userId)=>{
          insertCart(userId, occupationId)
+    }).then(()=>{
+        setCart(true)
     })}
     return(
+        <div>
+        <Nav cart={cart} openCartMenu={openCartMenu}/>
+            <div className="flex items-center justify-center flex-col bg-lionsmane text-midnight h-auto">
+                <div className="h-auto py-3">
+                    <div className="py-3 w-full px-10">
+                        <h1 className="text-4xl font-black"><b>{career![0].chi_name}面試祕技</b></h1>
+                        <h1 className="text-2xl font-black"><b>{career![0].eng_name}</b></h1>
+                        <h1 className="text-lg font-black"><b>Interview Questions and Answers</b></h1>
+                    </div>
         <div className="h-auto px-5">
         {questionlist.map((item, index) => (
             <div key={index} className="flex items-center py-3">
@@ -33,7 +50,7 @@ export default function AccordionPage({questionlist, occupationId} : {questionli
                 </Accordion>
             </div>
         ))}
-         {questionlist?.length === 5 ? 
+         {questionlist?.length === 32 ? 
             <>
                 <div>
                     <div className="flex items-center py-3 blur-sm">
@@ -67,6 +84,9 @@ export default function AccordionPage({questionlist, occupationId} : {questionli
             </>
                 :<></>
             }
+            </div>
+        </div>
+        </div>
         </div>
     )
 }
