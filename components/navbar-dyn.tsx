@@ -11,7 +11,8 @@ import {
     Dropdown,
   DropdownItem,
   DropdownMenu,
-DropdownTrigger} from "@nextui-org/react"
+DropdownTrigger,
+Button} from "@nextui-org/react"
 import { Image } from "@nextui-org/react";
 import { useEffect, useState } from "react"
 import { createClient } from "@/utils/supabase/client";
@@ -108,9 +109,9 @@ export default function Nav({cart,openCartMenu}:{cart:boolean,openCartMenu:(stat
             <Image radius="none" src="/shopping-bag.svg" alt="logo" width={30} height={30}></Image>
           </DropdownTrigger>
           <DropdownMenu closeOnSelect={false} variant="light" className="max-w-[500px]">
-            {!cartLoading? cartList ? cartList?.map((item,i)=>(
-            <DropdownItem key={i} showDivider className="p-5">
-              <div className="flex">
+            <DropdownItem  showDivider className="p-5">
+            {!cartLoading? cartList?.map((item,i)=>(
+              <div key={i} className="flex">
                 <div className="w-[30%]">
                   <Image radius="none" alt="" src={item.occupation.img_url}/>
                 </div>
@@ -122,13 +123,18 @@ export default function Nav({cart,openCartMenu}:{cart:boolean,openCartMenu:(stat
                 <Image radius="none" src="/cross.svg" alt="logo" width={30} height={30}></Image>
                 </div>
               </div>
-            </DropdownItem>
             )):
-            <></>
-            :
-            <DropdownItem>
-              <div className="flex justify-center items-center h-64 max-w-[500px]">
+            <div className="flex justify-center items-center h-64 max-w-[500px]">
                 <Spinner color="default"/>
+              </div>
+            }
+            </DropdownItem>
+            {cartList?.length === 0 ?
+            <DropdownItem>
+            </DropdownItem>:
+            <DropdownItem showDivider className="p-5">
+              <div className="flex justify-center items-center">
+                <Button variant="shadow" color="primary">前往付款</Button>
               </div>
             </DropdownItem>
             }
