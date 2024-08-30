@@ -15,8 +15,9 @@ DropdownTrigger} from "@nextui-org/react"
 import { Image } from "@nextui-org/react";
 import { useEffect, useState } from "react"
 import { createClient } from "@/utils/supabase/client";
-import { getCart } from "@/app/myquestion/[career]/action";
+import { deleteCart, getCart } from "@/app/myquestion/[career]/action";
 import { cartType } from "./types/careerTypes";
+import { Spinner } from "@nextui-org/react";
 
 async function UserLogout(){
   const supabase = createClient();
@@ -26,9 +27,11 @@ async function UserLogout(){
 export default function Nav({cart,openCartMenu}:{cart:boolean,openCartMenu:(state: boolean)=>void}){
   const [user,setUser] = useState<boolean>(false)
   const [cartList,setCartList] = useState<cartType[] | null>([])
+  const [cartLoading,setCartLoading] = useState(false)
   const [isMenuOpen,setIsMenuOpen] = useState(false)
 
   const getCartItems = async()=>{
+    setCartLoading(true)
     const supabase = createClient();
       let currentUser = await supabase.auth.getSession()
       let userId = null;
@@ -42,6 +45,7 @@ export default function Nav({cart,openCartMenu}:{cart:boolean,openCartMenu:(stat
       else{
         return []
       }
+      setCartLoading(false)
     }
         
   useEffect(()=>{
@@ -103,8 +107,8 @@ export default function Nav({cart,openCartMenu}:{cart:boolean,openCartMenu:(stat
           <DropdownTrigger>
             <Image radius="none" src="/shopping-bag.svg" alt="logo" width={30} height={30}></Image>
           </DropdownTrigger>
-          <DropdownMenu variant="light" className="max-w-[500px]">
-            {cartList ? cartList?.map((item,i)=>(
+          <DropdownMenu closeOnSelect={false} variant="light" className="max-w-[500px]">
+            {!cartLoading? cartList ? cartList?.map((item,i)=>(
             <DropdownItem key={i} showDivider className="p-5">
               <div className="flex">
                 <div className="w-[30%]">
@@ -114,13 +118,19 @@ export default function Nav({cart,openCartMenu}:{cart:boolean,openCartMenu:(stat
                   <div className="text-xl text-wrap">{item.occupation.chi_name}</div>
                   <div className="py-5 text-xl text-gray-500">${item.occupation.price}</div>
                 </div>
-                <div>
+                <div onClick={()=>{deleteCart(item.cart_id);getCartItems()}}>
                 <Image radius="none" src="/cross.svg" alt="logo" width={30} height={30}></Image>
                 </div>
               </div>
             </DropdownItem>
             )):
             <></>
+            :
+            <DropdownItem>
+              <div className="flex justify-center items-center h-64 max-w-[500px]">
+                <Spinner color="default"/>
+              </div>
+            </DropdownItem>
             }
           </DropdownMenu>
         </Dropdown>

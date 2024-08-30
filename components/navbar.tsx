@@ -15,7 +15,7 @@ DropdownTrigger} from "@nextui-org/react"
 import { Image } from "@nextui-org/react";
 import { useEffect, useState } from "react"
 import { createClient } from "@/utils/supabase/client";
-import { getCart } from "@/app/myquestion/[career]/action";
+import { deleteCart, getCart } from "@/app/myquestion/[career]/action";
 import { cartType } from "./types/careerTypes";
 
 async function UserLogout(){
@@ -114,7 +114,7 @@ export default function Nav({}){
                   <div className="text-xl text-wrap">{item.occupation.chi_name}</div>
                   <div className="py-5 text-xl text-gray-500">${item.occupation.price}</div>
                 </div>
-                <div>
+                <div onClick={()=>deleteCart(item.cart_id)}>
                 <Image radius="none" src="/cross.svg" alt="logo" width={30} height={30}></Image>
                 </div>
               </div>
