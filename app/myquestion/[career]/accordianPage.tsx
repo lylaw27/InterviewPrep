@@ -5,13 +5,41 @@ import { startSession } from "@/app/login/actions";
 import { createClient } from "@/utils/supabase/client";
 import { insertCart } from "./action";
 import Nav from "@/components/navbar-dyn";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { cartType } from "@/components/types/careerTypes";
+import { deleteCart, getCart } from "@/app/myquestion/[career]/action";
 
 export default function AccordionPage({questionlist, occupationId, career} : {questionlist: questionType[], occupationId: number, career:occupationType[]|null}){
     const [cart,setCart] = useState(false)
+    const [cartList,setCartList] = useState<cartType[] | null>([])
+    const [cartLoading,setCartLoading] = useState(false)
+    const [user,setUser] = useState<boolean>(false)
+
     const openCartMenu = (state:boolean) =>{
         setCart(state)
     }
+    
+    const getCartItems = async()=>{
+        setCartLoading(true)
+        const supabase = createClient();
+          let currentUser = await supabase.auth.getSession()
+          let userId = null;
+          if(currentUser.data.session){
+            userId = currentUser?.data?.session?.user?.id
+            setUser(true);
+            const list = await getCart(userId);
+            setCartList(list)
+          }
+          else{
+            return []
+          }
+          setCartLoading(false)
+        }
+            
+      useEffect(()=>{
+        getCartItems()
+      },[cart])
+
     const addtoCart = async(occupationId: number) =>{
         const supabase = createClient();
         supabase.auth.getSession().then((currentUser)=>{
@@ -25,13 +53,17 @@ export default function AccordionPage({questionlist, occupationId, career} : {qu
             }
         }
     ).then((userId)=>{
-         insertCart(userId, occupationId)
+        if(!cartList?.find((item)=>item.occupation_id === occupationId)){
+            insertCart(userId, occupationId)
+        }
     }).then(()=>{
         setCart(true)
-    })}
+    })
+}
+
     return(
         <div>
-        <Nav cart={cart} openCartMenu={openCartMenu}/>
+        <Nav user={user} cart={cart} openCartMenu={(openCartMenu)} cartList={cartList} cartLoading={cartLoading} getCartItems={getCartItems}/>
             <div className="flex items-center justify-center flex-col bg-lionsmane text-midnight h-auto">
                 <div className="h-auto py-3">
                     <div className="py-3 w-full px-10">

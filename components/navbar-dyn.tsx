@@ -17,41 +17,16 @@ import { Image } from "@nextui-org/react";
 import { useEffect, useState } from "react"
 import { createClient } from "@/utils/supabase/client";
 import { deleteCart, getCart } from "@/app/myquestion/[career]/action";
-import { cartType } from "./types/careerTypes";
 import { Spinner } from "@nextui-org/react";
+import { cartType } from "./types/careerTypes";
 
 async function UserLogout(){
   const supabase = createClient();
   await supabase.auth.signOut();
 }
 
-export default function Nav({cart,openCartMenu}:{cart:boolean,openCartMenu:(state: boolean)=>void}){
-  const [user,setUser] = useState<boolean>(false)
-  const [cartList,setCartList] = useState<cartType[] | null>([])
-  const [cartLoading,setCartLoading] = useState(false)
+export default function Nav({user,cart,openCartMenu,cartList,cartLoading,getCartItems}:{user: boolean,cart:boolean,openCartMenu:(state: boolean)=>void,cartList: cartType[] | null,cartLoading: boolean,getCartItems:()=>void}){
   const [isMenuOpen,setIsMenuOpen] = useState(false)
-
-  const getCartItems = async()=>{
-    setCartLoading(true)
-    const supabase = createClient();
-      let currentUser = await supabase.auth.getSession()
-      let userId = null;
-      if(currentUser.data.session){
-        userId = currentUser?.data?.session?.user?.id
-        setUser(true);
-        const list = await getCart(userId);
-        console.log(list)
-        setCartList(list)
-      }
-      else{
-        return []
-      }
-      setCartLoading(false)
-    }
-        
-  useEffect(()=>{
-    getCartItems()
-  },[cart])
     const menuItems = [
         "Accounting",
         "Administration & Office Support",
@@ -109,9 +84,11 @@ export default function Nav({cart,openCartMenu}:{cart:boolean,openCartMenu:(stat
             <Image radius="none" src="/shopping-bag.svg" alt="logo" width={30} height={30}></Image>
           </DropdownTrigger>
           <DropdownMenu closeOnSelect={false} variant="light" className="max-w-[500px]">
-            <DropdownItem  showDivider className="p-5">
-            {!cartLoading? cartList?.map((item,i)=>(
-              <div key={i} className="flex">
+            <DropdownItem className="p-5">
+            {!cartLoading? cartList?.length != 0 ? 
+            <>
+            {cartList?.map((item,i)=>(
+              <div key={i} className="flex pb-5">
                 <div className="w-[30%]">
                   <Image radius="none" alt="" src={item.occupation.img_url}/>
                 </div>
@@ -123,21 +100,21 @@ export default function Nav({cart,openCartMenu}:{cart:boolean,openCartMenu:(stat
                 <Image radius="none" src="/cross.svg" alt="logo" width={30} height={30}></Image>
                 </div>
               </div>
-            )):
+            ))}
+            <div>
+              <Button className="w-full h-12" color="danger">前往付款</Button>
+            </div>
+            </>
+            :
+            <div className="flex justify-center items-center h-64 max-w-[500px]">
+              您的購物車是空的
+            </div>
+            :
             <div className="flex justify-center items-center h-64 max-w-[500px]">
                 <Spinner color="default"/>
-              </div>
+            </div>
             }
             </DropdownItem>
-            {cartList?.length === 0 ?
-            <DropdownItem>
-            </DropdownItem>:
-            <DropdownItem showDivider className="p-5">
-              <div className="flex justify-center items-center">
-                <Button variant="shadow" color="primary">前往付款</Button>
-              </div>
-            </DropdownItem>
-            }
           </DropdownMenu>
         </Dropdown>
         </NavbarItem>
