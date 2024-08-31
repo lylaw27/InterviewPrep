@@ -82,7 +82,7 @@ export default function AccordionPage({questionlist, occupationId, career} : {qu
                 </Accordion>
             </div>
         ))}
-         {questionlist?.length === 32 ? 
+         {questionlist?.length === 5 ? 
             <>
                 <div>
                     <div className="flex items-center py-3 blur-sm">
