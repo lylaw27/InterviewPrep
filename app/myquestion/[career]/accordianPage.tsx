@@ -38,7 +38,7 @@ export default function AccordionPage({questionlist, occupationId, career} : {qu
             
       useEffect(()=>{
         getCartItems()
-      },[cart])
+      },[])
 
     const addtoCart = async(occupationId: number) =>{
         const supabase = createClient();
@@ -55,6 +55,7 @@ export default function AccordionPage({questionlist, occupationId, career} : {qu
     ).then((userId)=>{
         if(!cartList?.find((item)=>item.occupation_id === occupationId)){
             insertCart(userId, occupationId)
+            getCartItems()
         }
     }).then(()=>{
         setCart(true)
@@ -82,7 +83,7 @@ export default function AccordionPage({questionlist, occupationId, career} : {qu
                 </Accordion>
             </div>
         ))}
-         {questionlist?.length === 5 ? 
+         {questionlist?.length === 32 ? 
             <>
                 <div>
                     <div className="flex items-center py-3 blur-sm">
