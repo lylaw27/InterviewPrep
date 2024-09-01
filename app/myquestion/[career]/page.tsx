@@ -1,4 +1,3 @@
-import Navbar from "@/components/navbar";
 import { fetchQuestion } from "@/app/dashboard/[jobid]/action";
 import { fetchCareer } from "@/app/dashboard/action";
 import { occupationType } from "@/components/types/careerTypes"

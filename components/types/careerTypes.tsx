@@ -4,6 +4,7 @@ export interface occupationType{
     created_at: string,
     occupation_id: number,
     price: number,
+    price_id: string,
     img_url: string,
     img_path: string,
 }

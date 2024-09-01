@@ -40,7 +40,7 @@ export async function fetchQuestion(occupationId: number){
   .from('interviewq')
   .select()
   .eq('occupation_id', occupationId)
-  if(!userData.data || userData.error){
+  if(!userData){
     query = query.limit(5)
   }
   const {data,error} = await query
@@ -52,7 +52,6 @@ export async function fetchQuestion(occupationId: number){
 
 export async function updateQuestion(newQuestion: questionType) {
   const supabase = createClient()
-  console.log(newQuestion);
   const { error } = await supabase
   .from('interviewq')
   .update({

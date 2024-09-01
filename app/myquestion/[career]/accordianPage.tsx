@@ -14,10 +14,6 @@ export default function AccordionPage({questionlist, occupationId, career} : {qu
     const [cartList,setCartList] = useState<cartType[] | null>([])
     const [cartLoading,setCartLoading] = useState(false)
     const [user,setUser] = useState<boolean>(false)
-
-    const openCartMenu = (state:boolean) =>{
-        setCart(state)
-    }
     
     const getCartItems = async()=>{
         setCartLoading(true)
@@ -64,11 +60,11 @@ export default function AccordionPage({questionlist, occupationId, career} : {qu
 
     return(
         <div>
-        <Nav user={user} cart={cart} openCartMenu={(openCartMenu)} cartList={cartList} cartLoading={cartLoading} getCartItems={getCartItems}/>
+        <Nav user={user} cart={cart} openCartMenu={(open)=>setCart(open)} cartList={cartList} cartLoading={cartLoading} getCartItems={getCartItems}/>
             <div className="flex items-center justify-center flex-col bg-lionsmane text-midnight h-auto">
                 <div className="h-auto py-3">
                     <div className="py-3 w-full px-10">
-                        <h1 className="text-4xl font-black"><b>{career![0].chi_name}面試祕技</b></h1>
+                        <h1 className="text-4xl font-black"><b>{career![0].chi_name}</b></h1>
                         <h1 className="text-2xl font-black"><b>{career![0].eng_name}</b></h1>
                         <h1 className="text-lg font-black"><b>Interview Questions and Answers</b></h1>
                     </div>

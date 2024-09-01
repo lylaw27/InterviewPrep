@@ -25,7 +25,7 @@ async function UserLogout(){
   await supabase.auth.signOut();
 }
 
-export default function Nav({user,cart,openCartMenu,cartList,cartLoading,getCartItems}:{user: boolean,cart:boolean,openCartMenu:(state: boolean)=>void,cartList: cartType[] | null,cartLoading: boolean,getCartItems:()=>void}){
+export default function Nav({user,cart,openCartMenu,cartList,cartLoading,getCartItems}:{user: boolean,cart:boolean,openCartMenu:(open: boolean)=>void,cartList: cartType[] | null,cartLoading: boolean,getCartItems:()=>void}){
   const [isMenuOpen,setIsMenuOpen] = useState(false)
     const menuItems = [
         "Accounting",
@@ -79,7 +79,7 @@ export default function Nav({user,cart,openCartMenu,cartList,cartLoading,getCart
         </Dropdown>
         </NavbarItem>
         <NavbarItem>
-        <Dropdown isOpen={cart} onOpenChange={(open) => openCartMenu(open)}>
+        <Dropdown isOpen={cart} onOpenChange={openCartMenu}>
           <DropdownTrigger>
             <Image radius="none" src="/shopping-bag.svg" alt="logo" width={30} height={30}></Image>
           </DropdownTrigger>
@@ -102,7 +102,7 @@ export default function Nav({user,cart,openCartMenu,cartList,cartLoading,getCart
               </div>
             ))}
             <div>
-              <Button className="w-full h-12" color="danger">前往付款</Button>
+              <Button as={Link} href="/checkout" className="w-full h-12" color="danger">前往付款</Button>
             </div>
             </>
             :

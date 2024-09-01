@@ -8,10 +8,10 @@ import { checkUser } from "../login/actions"
 
 export default async function Dashboard() {
   const userData = await checkUser()
-  if(!userData.data || userData.error){
+  if(!userData){
     redirect('/login')
   }
-  const username = userData.data.user?.email?.split('@')[0] ?? 'user';
+  const username = userData?.user?.email?.split('@')[0] ?? 'user';
   return (
     <div className="min-h-screen w-full">
       <Nav/>

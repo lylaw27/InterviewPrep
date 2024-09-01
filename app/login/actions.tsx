@@ -6,7 +6,6 @@ import { createClient } from '@/utils/supabase/server'
 
 export async function login(formData: FormData) {
   const supabase = createClient()
-
   // type-casting here for convenience
   // in practice, you should validate your inputs
   const data = {
@@ -46,7 +45,12 @@ export async function signup(formData: FormData) {
 export async function checkUser(){
   const supabase = createClient()
   let { data, error } = await supabase.auth.getUser();
-  return { data, error }
+  if(data.user?.is_anonymous || error){
+    return null
+  }
+  else{
+    return data
+  }
 }
 
 export async function startSession(){

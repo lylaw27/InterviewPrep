@@ -1,26 +1,22 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 import { NextResponse, NextRequest } from "next/server";
+import { createClient } from "@/utils/supabase/server";
+import { getCart } from "@/app/myquestion/[career]/action";
+import { cartType } from "@/components/types/careerTypes";
 
 export async function POST(req: NextRequest) {
-  console.log(req.headers.get('origin'))
       try {
+        const supabase = createClient();
+        const { data: { user } } = await supabase.auth.getUser()
+        const cartList:cartType[]|null = await getCart(user!.id)
+        let priceList = cartList?.map((item)=>({
+          price: item.occupation.price_id,
+          quantity: 1
+        }))
         // Create Checkout Sessions from body params.
         const session = await stripe.checkout.sessions.create({
           ui_mode: 'embedded',
-          line_items: [
-            {
-              // Provide the exact Price ID (for example, pr_1234) of
-              // the product you want to sell
-              price: 'price_1PptmvIIK3z82Fe4AuJ2qXS2',
-              quantity: 1,
-            },
-            {
-              // Provide the exact Price ID (for example, pr_1234) of
-              // the product you want to sell
-              price: 'price_1Ps360IIK3z82Fe4aPLppEbu',
-              quantity: 1,
-            },
-          ],
+          line_items: priceList,
           mode: 'payment',
           return_url:
             `${req.headers.get('origin')}/return?session_id={CHECKOUT_SESSION_ID}`,
@@ -35,7 +31,7 @@ export async function GET(req: NextRequest) {
   try {
     const session =
       await stripe.checkout.sessions.retrieve(req.nextUrl.searchParams.get('session_id'));
-      NextResponse.json({
+      return NextResponse.json({
       status: session.status,
       customer_email: session.customer_details.email
     });

@@ -20,7 +20,6 @@ export default function QuestionTable({occupationId, fetchedList}:{occupationId:
     const questionChange = (value: string, key: number, field: string) =>{
         let newList = [...questionlist];
         newList![key][field] = value;
-        console.log(fetchedList)
         setQuestionlist(newList)
     }
     const cancelEdit = (key: number) =>{

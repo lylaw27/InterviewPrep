@@ -36,7 +36,6 @@ export default function Nav({}){
         userId = currentUser?.data?.session?.user?.id
         setUser(true);
         const list = await getCart(userId);
-        console.log(list)
         setCartList(list)
       }
       else{

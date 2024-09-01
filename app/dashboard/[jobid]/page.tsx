@@ -12,10 +12,10 @@ import { checkUser } from "@/app/login/actions"
 
 export default async function QuestionList({ params }: { params: { jobid: string } }) {
   const userData = await checkUser()
-  if(!userData.data || userData.error){
+  if(!userData){
     redirect('/login')
   }
-  const username = userData.data.user?.email?.split('@')[0] ?? 'user';
+  const username = userData?.user?.email?.split('@')[0] ?? 'user';
   const occupationId: number = parseInt(params.jobid);
   const questionlist = await fetchQuestion(occupationId)
   const newlist = questionlist.map((item)=>(
