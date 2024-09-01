@@ -7,7 +7,7 @@ import { insertCart } from "./action";
 import Nav from "@/components/navbar-dyn";
 import { useEffect, useState } from "react";
 import { cartType } from "@/components/types/careerTypes";
-import { deleteCart, getCart } from "@/app/myquestion/[career]/action";
+import { getCart } from "@/app/myquestion/[career]/action";
 
 export default function AccordionPage({questionlist, occupationId, career} : {questionlist: questionType[], occupationId: number, career:occupationType[]|null}){
     const [cart,setCart] = useState(false)
@@ -31,9 +31,9 @@ export default function AccordionPage({questionlist, occupationId, career} : {qu
             setCartList(list)
           }
           else{
-            return []
+            setCartList([])
           }
-          setCartLoading(false)
+        setCartLoading(false)
         }
             
       useEffect(()=>{
@@ -83,7 +83,7 @@ export default function AccordionPage({questionlist, occupationId, career} : {qu
                 </Accordion>
             </div>
         ))}
-         {questionlist?.length === 32 ? 
+         {questionlist?.length === 5 ? 
             <>
                 <div>
                     <div className="flex items-center py-3 blur-sm">
