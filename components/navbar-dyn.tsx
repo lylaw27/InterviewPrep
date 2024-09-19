@@ -26,7 +26,7 @@ async function UserLogout(){
 }
 
 export default function Nav({user,cart,openCartMenu,cartList,cartLoading,getCartItems}:{user: boolean,cart:boolean,openCartMenu:(open: boolean)=>void,cartList: cartType[] | null,cartLoading: boolean,getCartItems:()=>void}){
-  const [isMenuOpen,setIsMenuOpen] = useState(false)
+  const [isMenuOpen,setIsMenuOpen] = useState(false);
     const menuItems = [
         "Accounting",
         "Administration & Office Support",
@@ -102,7 +102,7 @@ export default function Nav({user,cart,openCartMenu,cartList,cartLoading,getCart
               </div>
             ))}
             <div>
-              <Button as={Link} href="/checkout" className="w-full h-12" color="danger">前往付款</Button>
+              <Button as={Link} href={!user ? `/login` : `/checkout`} className="w-full h-12" color="danger">前往付款</Button>
             </div>
             </>
             :

@@ -10,30 +10,28 @@ import { cartType } from "@/components/types/careerTypes";
 import { getCart } from "@/app/myquestion/[career]/action";
 
 export default function AccordionPage({questionlist, occupationId, career} : {questionlist: questionType[], occupationId: number, career:occupationType[]|null}){
-    const [cart,setCart] = useState(false)
-    const [cartList,setCartList] = useState<cartType[] | null>([])
-    const [cartLoading,setCartLoading] = useState(false)
-    const [user,setUser] = useState<boolean>(false)
-    
+    const [cart,setCart] = useState(false);
+    const [cartList,setCartList] = useState<cartType[] | null>([]);
+    const [cartLoading,setCartLoading] = useState(false);
+    const [user,setUser] = useState<boolean>(false);
     const getCartItems = async()=>{
-        setCartLoading(true)
+        setCartLoading(true);
         const supabase = createClient();
-          let currentUser = await supabase.auth.getSession()
+          let currentUser = await supabase.auth.getSession();
           let userId = null;
           if(currentUser.data.session){
-            userId = currentUser?.data?.session?.user?.id
-            setUser(true);
+            userId = currentUser?.data?.session?.user?.id;
+            setUser(!currentUser?.data?.session?.user?.is_anonymous!);
             const list = await getCart(userId);
-            setCartList(list)
+            setCartList(list);
           }
           else{
-            setCartList([])
+            setCartList([]);
           }
-        setCartLoading(false)
+        setCartLoading(false);
         }
-            
       useEffect(()=>{
-        getCartItems()
+        getCartItems();
       },[])
 
     const addtoCart = async(occupationId: number) =>{
@@ -41,17 +39,17 @@ export default function AccordionPage({questionlist, occupationId, career} : {qu
         supabase.auth.getSession().then((currentUser)=>{
             if(!currentUser.data.session){
                 return startSession().then((newUser)=>{
-                    return newUser?.data?.user?.id
+                    return newUser?.data?.user?.id;
                 })
             }
             else{
-                return currentUser?.data?.session?.user?.id
+                return currentUser?.data?.session?.user?.id;
             }
         }
     ).then((userId)=>{
         if(!cartList?.find((item)=>item.occupation_id === occupationId)){
-            insertCart(userId, occupationId)
-            getCartItems()
+            insertCart(userId, occupationId);
+            getCartItems();
         }
     }).then(()=>{
         setCart(true)

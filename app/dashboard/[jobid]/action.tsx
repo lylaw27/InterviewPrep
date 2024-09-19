@@ -27,15 +27,15 @@ export async function deleteQuestion(questionId: number) {
     .from('interviewq')
     .delete()
     .eq('question_id',questionId)
-    revalidatePath('/dashboard/[jobid]','page')
+    revalidatePath('/dashboard/[jobid]','page');
     if (error) {
-      redirect('/error')
+      redirect('/error');
     }
   }
 
 export async function fetchQuestion(occupationId: number){
-  const supabase = createClient()
-  const userData = await checkUser()
+  const supabase = createClient();
+  const userData = await checkUser();
   let query = supabase
   .from('interviewq')
   .select()
@@ -45,7 +45,7 @@ export async function fetchQuestion(occupationId: number){
   }
   const {data,error} = await query
   if (error) {
-    redirect('/error')
+    redirect('/error');
   }
   return data
 }
@@ -59,8 +59,8 @@ export async function updateQuestion(newQuestion: questionType) {
     answer: newQuestion.answer
   })
   .eq('question_id',newQuestion.question_id)
-  revalidatePath('/dashboard/[jobid]','page')
+  revalidatePath('/dashboard/[jobid]','page');
   if (error) {
-    redirect('/error')
+    redirect('/error');
   }
 }

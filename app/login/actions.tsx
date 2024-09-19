@@ -37,24 +37,23 @@ export async function signup(formData: FormData) {
   if (error) {
     redirect('/error');
   }
-
-  revalidatePath('/', 'layout')
-  redirect('/account')
+  revalidatePath('/', 'layout');
+  redirect('/account');
 }
 
 export async function checkUser(){
-  const supabase = createClient()
+  const supabase = createClient();
   let { data, error } = await supabase.auth.getUser();
   if(data.user?.is_anonymous || error){
-    return null
+    return null;
   }
   else{
-    return data
+    return data;
   }
 }
 
 export async function startSession(){
-  const supabase = createClient()
+  const supabase = createClient();
   const { data, error } = await supabase.auth.signInAnonymously();
-  return { data, error }
+  return { data, error };
 }
