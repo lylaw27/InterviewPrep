@@ -19,7 +19,6 @@ import { createClient } from "@/utils/supabase/client";
 import { deleteCart } from "@/app/myquestion/[career]/action";
 import { Spinner } from "@nextui-org/react";
 import { cartType } from "./types/careerTypes";
-
 async function UserLogout(){
   const supabase = createClient();
   await supabase.auth.signOut();

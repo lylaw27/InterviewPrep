@@ -33,3 +33,14 @@ export async function deleteCart(cartId: number){
         console.log(error)
       }
 }
+
+export async function copyCart(userId: string | undefined, newUserId: string | undefined){
+  const supabase = createClient();
+  let {error} = await supabase
+  .from('cart')
+  .update({user_id: newUserId})
+  .eq('user_id',userId)
+  if (error) {
+      console.log(error)
+    }
+}

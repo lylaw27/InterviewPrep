@@ -47,7 +47,8 @@ export default function AccordionPage({questionlist, occupationId, career} : {qu
             }
         }
     ).then((userId)=>{
-        if(!cartList?.find((item)=>item.occupation_id === occupationId)){
+        // if(!cartList?.find((item)=>item.occupation_id === occupationId)){
+        if(true){
             insertCart(userId, occupationId);
             getCartItems();
         }
@@ -77,7 +78,7 @@ export default function AccordionPage({questionlist, occupationId, career} : {qu
                 </Accordion>
             </div>
         ))}
-         {questionlist?.length === 5 ? 
+         {questionlist?.length >0 ? 
             <>
                 <div>
                     <div className="flex items-center py-3 blur-sm">

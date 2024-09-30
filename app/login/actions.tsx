@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
+import { copyCart } from '../myquestion/[career]/action'
 
 export async function login(formData: FormData) {
   const supabase = createClient()
@@ -24,27 +25,27 @@ export async function login(formData: FormData) {
 }
 
 export async function signup(formData: FormData) {
-  const supabase = createClient()
+  const supabase = createClient();
   // type-casting here for convenience
   // in practice, you should validate your inputs
-  const data = {
+  const userData = {
     email: formData.get('email') as string,
     password: formData.get('password') as string,
   }
-
-  const { error } = await supabase.auth.signUp(data)
-
-  if (error) {
-    redirect('/error');
-  }
-  revalidatePath('/', 'layout');
-  redirect('/account');
+  const isUser = await checkUser();
+  const { data, error } = await supabase.auth.signUp(userData);
+    if (error) {
+      console.log(error);
+      redirect('/error');
+    }
+    await copyCart(data?.user?.id,isUser?.user?.id);
+  redirect('/dashboard');
 }
 
 export async function checkUser(){
   const supabase = createClient();
   let { data, error } = await supabase.auth.getUser();
-  if(data.user?.is_anonymous || error){
+  if(error){
     return null;
   }
   else{
