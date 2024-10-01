@@ -9,9 +9,9 @@ import {
     NavbarMenu,
     NavbarMenuItem,
     Dropdown,
-  DropdownItem,
-  DropdownMenu,
-DropdownTrigger,
+    DropdownItem,
+    DropdownMenu,
+    DropdownTrigger,
 Button} from "@nextui-org/react"
 import { Image } from "@nextui-org/react";
 import { useState } from "react"

@@ -1,7 +1,7 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 import { NextResponse, NextRequest } from "next/server";
 import { createClient } from "@/utils/supabase/server";
-import { getCart } from "@/app/myquestion/[career]/action";
+import { boughtQuestion, getCart } from "@/app/myquestion/[career]/action";
 import { cartType } from "@/components/types/careerTypes";
 
 export async function POST(req: NextRequest) {
@@ -29,8 +29,13 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
   try {
+    const sessionId = req.nextUrl.searchParams.get('session_id');
     const session =
-      await stripe.checkout.sessions.retrieve(req.nextUrl.searchParams.get('session_id'));
+      await stripe.checkout.sessions.retrieve(sessionId);
+      if(session.status === 'complete'){
+        const lineItems = await stripe.checkout.sessions.listLineItems(sessionId);
+        await boughtQuestion(lineItems);
+      }
       return NextResponse.json({
       status: session.status,
       customer_email: session.customer_details.email

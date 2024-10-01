@@ -3,9 +3,8 @@
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
-import { copyCart } from '../myquestion/[career]/action'
 
-export async function login(formData: FormData) {
+export async function login(paying: string | string[] | undefined, formData: FormData) {
   const supabase = createClient()
   // type-casting here for convenience
   // in practice, you should validate your inputs
@@ -21,10 +20,13 @@ export async function login(formData: FormData) {
   }
 
   revalidatePath('/', 'layout')
-  redirect('/dashboard')
+  if(paying == "true"){
+    redirect('/checkout');
+  }
+  redirect('/dashboard');
 }
 
-export async function signup(formData: FormData) {
+export async function signup(paying: string | string[] | undefined, formData: FormData, ) {
   const supabase = createClient();
   // type-casting here for convenience
   // in practice, you should validate your inputs
@@ -33,12 +35,23 @@ export async function signup(formData: FormData) {
     password: formData.get('password') as string,
   }
   const isUser = await checkUser();
-  const { data, error } = await supabase.auth.signUp(userData);
+  if(!isUser){
+    const { data, error } = await supabase.auth.signUp(userData);
     if (error) {
       console.log(error);
       redirect('/error');
     }
-    await copyCart(data?.user?.id,isUser?.user?.id);
+  }
+  else{
+    const { data, error } = await supabase.auth.updateUser(userData);
+    if (error) {
+      console.log(error);
+      redirect('/error');
+    }
+  }
+  if(paying == "true"){
+    redirect('/checkout');
+  }
   redirect('/dashboard');
 }
 
@@ -57,7 +70,7 @@ export async function checkAnon(){
   const supabase = createClient();
   let { data, error } = await supabase.auth.getUser();
   if(data.user?.is_anonymous || error){
-    redirect('/login');
+    redirect('/login?paying=true');
   }
 }
 

@@ -34,13 +34,22 @@ export async function deleteCart(cartId: number){
       }
 }
 
-export async function copyCart(userId: string | undefined, newUserId: string | undefined){
+export async function boughtQuestion(lineItems: any){
   const supabase = createClient();
-  let {error} = await supabase
-  .from('cart')
-  .update({user_id: newUserId})
-  .eq('user_id',userId)
+  const userId =  await supabase.auth.getUser();
+  // let {data,error} = await supabase
+  // .from('occupation')
+  // .select('occupation_id')
+  // .in('price_id',priceArray);
+  // console.log(data);
+  let priceArray:any = [];
+  console.log(lineItems);
+  lineItems.data.map((item: any)=>priceArray.push({user_id: userId.data.user?.id, price_id: item.price.id}));
+  let {data,error} = await supabase
+  .from('customers')
+  .insert(priceArray);
   if (error) {
-      console.log(error)
-    }
+     console.log(error);
+  }
+  console.log(priceArray);
 }

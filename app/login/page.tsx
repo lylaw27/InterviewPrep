@@ -9,17 +9,20 @@ declare global {
   function handleSignInWithGoogle(response: { credential: any; }): void;
 }
 
-export default function LoginPage() {
+export default function LoginPage({searchParams}:{searchParams: { [key: string]: string | string[] | undefined }}) {
   const router = useRouter();
   const supabase = createClient(); 
   globalThis.handleSignInWithGoogle = async function (response: { credential: any; }) {
-  console.log("ok");
+  
   const { data, error } = await supabase.auth.signInWithIdToken({
     provider: 'google',
     token: response.credential,
   });
+  console.log(searchParams.paying);
   router.push("/dashboard")
   }
+  const signupAction = signup.bind(null, searchParams.paying);
+  const loginAction = login.bind(null, searchParams.paying);
 
   return (
     <div className="flex h-screen bg-midnight justify-center items-center">
@@ -66,7 +69,7 @@ export default function LoginPage() {
             </div>
             <div>
               <button
-                formAction={signup}
+                formAction={signupAction}
                 type="submit"
                 className="w-full px-4 py-2 text-sm font-semibold text-white transition-colors duration-300 bg-midnight rounded-md shadow hover:bg-blue-600 focus:outline-none focus:ring-blue-200 focus:ring-4"
                 >
@@ -75,7 +78,7 @@ export default function LoginPage() {
             </div>
             <div>
               <button
-                formAction={login}
+                formAction={loginAction}
                 type="submit"
                 className="w-full px-4 py-2 text-sm font-semibold text-white transition-colors duration-300 bg-midnight rounded-md shadow hover:bg-blue-600 focus:outline-none focus:ring-blue-200 focus:ring-4"
                 >
