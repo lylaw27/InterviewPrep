@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
 import { questionType } from '@/components/types/careerTypes'
 import { checkUser } from '@/app/login/actions'
+import { checkCustomer } from '@/app/checkout/action'
 
 export async function insertQuestion(occupationId: number,formData: FormData) {
   const supabase = createClient()
@@ -35,13 +36,13 @@ export async function deleteQuestion(questionId: number) {
 
 export async function fetchQuestion(occupationId: number){
   const supabase = createClient();
-  const userData = await checkUser();
+  const userData = await checkCustomer(occupationId);
   let query = supabase
   .from('interviewq')
   .select()
   .eq('occupation_id', occupationId)
   if(!userData){
-    query = query.limit(5)
+    query = query.limit(5);
   }
   const {data,error} = await query
   if (error) {
