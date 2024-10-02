@@ -13,13 +13,11 @@ export default function LoginPage({searchParams}:{searchParams: { [key: string]:
   const router = useRouter();
   const supabase = createClient(); 
   globalThis.handleSignInWithGoogle = async function (response: { credential: any; }) {
-  
   const { data, error } = await supabase.auth.signInWithIdToken({
     provider: 'google',
     token: response.credential,
   });
-  console.log(searchParams.paying);
-  router.push("/dashboard")
+  router.push("/myquestion")
   }
   const signupAction = signup.bind(null, searchParams.paying);
   const loginAction = login.bind(null, searchParams.paying);
@@ -69,20 +67,20 @@ export default function LoginPage({searchParams}:{searchParams: { [key: string]:
             </div>
             <div>
               <button
-                formAction={signupAction}
-                type="submit"
-                className="w-full px-4 py-2 text-sm font-semibold text-white transition-colors duration-300 bg-midnight rounded-md shadow hover:bg-blue-600 focus:outline-none focus:ring-blue-200 focus:ring-4"
-                >
-                Sign Up
-              </button>
-            </div>
-            <div>
-              <button
                 formAction={loginAction}
                 type="submit"
                 className="w-full px-4 py-2 text-sm font-semibold text-white transition-colors duration-300 bg-midnight rounded-md shadow hover:bg-blue-600 focus:outline-none focus:ring-blue-200 focus:ring-4"
                 >
                 Log in
+              </button>
+            </div>
+            <div>
+              <button
+                formAction={signupAction}
+                type="submit"
+                className="w-full px-4 py-2 text-sm font-semibold text-white transition-colors duration-300 bg-midnight rounded-md shadow hover:bg-blue-600 focus:outline-none focus:ring-blue-200 focus:ring-4"
+                >
+                Sign Up
               </button>
             </div>
             <div className="flex flex-col space-y-5">

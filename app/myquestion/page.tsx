@@ -4,10 +4,9 @@ import Nav from "@/components/navbar";
 import { checkUser } from "../login/actions";
 
 export default async function CareerSection(){
-    
     const [jobList,featuredList] = await Promise.all([fetchCareer('Career'),fetchCareer('Featured')]);
     const userData = await checkUser();
-    const username = userData.data.user?.email?.split('@')[0] ?? 'user';
+    const username = userData?.user?.email?.split('@')[0] ?? 'user';
     return(
         <>
             <Nav/>

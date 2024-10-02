@@ -34,16 +34,23 @@ export async function deleteCart(cartId: number){
       }
 }
 
+export async function clearCart(userId: string | undefined){
+  const supabase = createClient();
+  let {error} = await supabase
+  .from('cart')
+  .delete()
+  .eq('user_id',userId)
+  if (error) {
+      console.log(error)
+    }
+}
+
+
 export async function boughtQuestion(lineItems: any){
   const supabase = createClient();
   const userId =  await supabase.auth.getUser();
-  // let {data,error} = await supabase
-  // .from('occupation')
-  // .select('occupation_id')
-  // .in('price_id',priceArray);
-  // console.log(data);
   let priceArray:any = [];
-  console.log(lineItems);
+  await clearCart(userId.data.user?.id);
   lineItems.data.map((item: any)=>priceArray.push({user_id: userId.data.user?.id, price_id: item.price.id}));
   let {data,error} = await supabase
   .from('customers')
@@ -51,5 +58,4 @@ export async function boughtQuestion(lineItems: any){
   if (error) {
      console.log(error);
   }
-  console.log(priceArray);
 }

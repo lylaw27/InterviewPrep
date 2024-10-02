@@ -1,17 +1,12 @@
 import { Link } from "@nextui-org/react"
 import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbSeparator, BreadcrumbPage } from "@/components/ui/breadcrumb"
 import Nav from "@/components/navbar"
-import { redirect } from "next/navigation"
 import JobTable from "./jobtable"
-import { checkUser } from "../login/actions"
+import { checkAdmin } from "../login/actions"
 
 
 export default async function Dashboard() {
-  const userData = await checkUser()
-  if(!userData){
-    redirect('/login')
-  }
-  const username = userData?.user?.email?.split('@')[0] ?? 'user';
+  await checkAdmin();
   return (
     <div className="min-h-screen w-full">
       <Nav/>
@@ -35,7 +30,7 @@ export default async function Dashboard() {
               </Breadcrumb>
             <div className="flex items-center gap-4">
               <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
-              Welcome back, {username}!
+              Welcome back!
               </h1>
             </div>
             <div className="grid gap-4 md:grid-cols-[1fr_250px] lg:grid-cols-3 lg:gap-8">

@@ -2,20 +2,14 @@ import Link from "next/link"
 import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbSeparator, BreadcrumbPage } from "@/components/ui/breadcrumb"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card"
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table"
-import { createClient } from "@/utils/supabase/server"
 import Nav from "@/components/navbar"
-import { redirect } from "next/navigation"
 import QuestionTable from "./questiontable"
 import { fetchQuestion } from "./action"
-import { checkUser } from "@/app/login/actions"
+import { checkAdmin } from "@/app/login/actions"
 
 
 export default async function QuestionList({ params }: { params: { jobid: string } }) {
-  const userData = await checkUser()
-  if(!userData){
-    redirect('/login')
-  }
-  const username = userData?.user?.email?.split('@')[0] ?? 'user';
+  await checkAdmin();
   const occupationId: number = parseInt(params.jobid);
   const questionlist = await fetchQuestion(occupationId)
   const newlist = questionlist.map((item)=>(
@@ -52,7 +46,7 @@ export default async function QuestionList({ params }: { params: { jobid: string
           </Breadcrumb>
             <div className="flex items-center gap-4">
               <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
-              Welcome back, {username}!
+              Welcome back!
               </h1>
             </div>
             <div className="grid gap-4 md:grid-cols-[1fr_250px] lg:grid-cols-3 lg:gap-8">

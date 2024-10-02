@@ -8,22 +8,25 @@ export async function login(paying: string | string[] | undefined, formData: For
   const supabase = createClient()
   // type-casting here for convenience
   // in practice, you should validate your inputs
-  const data = {
+  const logindata = {
     email: formData.get('email') as string,
     password: formData.get('password') as string,
   }
 
-  const { error } = await supabase.auth.signInWithPassword(data)
-
+  const { data,error } = await supabase.auth.signInWithPassword(logindata);
   if (error) {
     redirect('/error')
   }
-
   revalidatePath('/', 'layout')
   if(paying == "true"){
     redirect('/checkout');
   }
-  redirect('/dashboard');
+  if(data.user.id == "2c2faaf6-29ad-4459-a9e5-59edc85dd833"){
+    redirect('/dashboard');
+  }
+  else{
+    redirect('/myquestion');
+  }
 }
 
 export async function signup(paying: string | string[] | undefined, formData: FormData, ) {
@@ -38,14 +41,12 @@ export async function signup(paying: string | string[] | undefined, formData: Fo
   if(!isUser){
     const { data, error } = await supabase.auth.signUp(userData);
     if (error) {
-      console.log(error);
       redirect('/error');
     }
   }
   else{
     const { data, error } = await supabase.auth.updateUser(userData);
     if (error) {
-      console.log(error);
       redirect('/error');
     }
   }
@@ -71,6 +72,17 @@ export async function checkAnon(){
   let { data, error } = await supabase.auth.getUser();
   if(data.user?.is_anonymous || error){
     redirect('/login?paying=true');
+  }
+}
+
+export async function checkAdmin(){
+  const supabase = createClient();
+  let { data, error } = await supabase.auth.getUser();
+  if (error) {
+    redirect('/login');
+  }
+  if(data?.user?.id != "2c2faaf6-29ad-4459-a9e5-59edc85dd833"){
+    redirect('/myquestion');
   }
 }
 
