@@ -8,14 +8,24 @@ export async function login(paying: string | string[] | undefined, formData: For
   const supabase = createClient()
   // type-casting here for convenience
   // in practice, you should validate your inputs
+  const isUser = await checkUser();
   const logindata = {
     email: formData.get('email') as string,
     password: formData.get('password') as string,
   }
-
   const { data,error } = await supabase.auth.signInWithPassword(logindata);
   if (error) {
-    redirect('/error')
+    redirect('/login')
+  }
+  if(isUser != null){
+    await supabase
+     .from('cart')
+     .delete()
+     .eq('user_id', data.user.id);
+     await supabase
+     .from('cart')
+     .update({user_id: data.user.id})
+     .eq('user_id', isUser?.user?.id)
   }
   revalidatePath('/', 'layout')
   if(paying == "true"){
@@ -41,13 +51,13 @@ export async function signup(paying: string | string[] | undefined, formData: Fo
   if(!isUser){
     const { data, error } = await supabase.auth.signUp(userData);
     if (error) {
-      redirect('/error');
+      redirect('/login');
     }
   }
   else{
     const { data, error } = await supabase.auth.updateUser(userData);
     if (error) {
-      redirect('/error');
+      redirect('/login');
     }
   }
   if(paying == "true"){
