@@ -18,7 +18,7 @@ import { useState } from "react"
 import { deleteCart } from "@/app/myquestion/[career]/action";
 import { Spinner } from "@nextui-org/react";
 import { cartType } from "./types/careerTypes";
-import { logoutUser } from "@/app/login/actions-client";
+import { createClient } from '@/utils/supabase/client'
 
 
 export default function Nav({user,cart,openCartMenu,cartList,cartLoading,getCartItems}:{user: boolean,cart:boolean,openCartMenu:(open: boolean)=>void,cartList: cartType[] | null,cartLoading: boolean,getCartItems:()=>void}){
@@ -37,6 +37,10 @@ export default function Nav({user,cart,openCartMenu,cartList,cartLoading,getCart
         "Marketing & Communications",
         "Real Estate & Property",
       ];
+      const logoutUser = async()=>{
+        const supabase = createClient();
+        const {error} = await supabase.auth.signOut();
+      }
     return(
     <Navbar className="flex justify-center items-center py-5" onMenuOpenChange={setIsMenuOpen}>
       <NavbarContent>

@@ -20,8 +20,6 @@ import { deleteCart } from "@/app/myquestion/[career]/action";
 import { Spinner } from "@nextui-org/react";
 import { cartType } from "./types/careerTypes";
 import { getCart } from "@/app/myquestion/[career]/action";
-import { logoutUser } from "@/app/login/actions-client";
-
 
 export default function Nav(){
     const [isMenuOpen,setIsMenuOpen] = useState(false);
@@ -63,7 +61,12 @@ export default function Nav(){
       useEffect(()=>{
         getCartItems();
       },[])
-
+      
+      const logoutUser = async()=>{
+        const supabase = createClient();
+        const {error} = await supabase.auth.signOut();
+      }
+      
     return(
     <Navbar className="flex justify-center items-center py-5" onMenuOpenChange={setIsMenuOpen}>
       <NavbarContent>
