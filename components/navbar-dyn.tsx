@@ -60,11 +60,11 @@ export default function Nav({user,cart,openCartMenu,cartList,cartLoading,getCart
               <Image radius="none" src="/user-interface.svg" alt="logo" width={30} height={30}></Image>
           </DropdownTrigger>
           {user ? 
-          <DropdownMenu onAction={(key)=>{key === "logout"?logoutUser():null}}>
+          <DropdownMenu>
           <DropdownItem key="myquestion" href="/myquestion">
             我的面試問題
           </DropdownItem>
-          <DropdownItem key="logout" href="/">
+          <DropdownItem key="logout" href="/" onPress={()=>logoutUser()}>
             登出
           </DropdownItem>
         </DropdownMenu>
