@@ -64,7 +64,7 @@ export default function Nav({user,cart,openCartMenu,cartList,cartLoading,getCart
           <DropdownItem key="myquestion" href="/myquestion">
             我的面試問題
           </DropdownItem>
-          <DropdownItem key="logout" href="/" onPress={()=>logoutUser()}>
+          <DropdownItem key="logout" href="/" onPressChange={()=>logoutUser()}>
             登出
           </DropdownItem>
         </DropdownMenu>
