@@ -20,7 +20,6 @@ import { deleteCart } from "@/app/myquestion/[career]/action";
 import { Spinner } from "@nextui-org/react";
 import { cartType } from "./types/careerTypes";
 import { getCart } from "@/app/myquestion/[career]/action";
-import {PressEvent} from "@react-types/shared";
 
 export default function Nav(){
     const [isMenuOpen,setIsMenuOpen] = useState(false);
@@ -65,7 +64,7 @@ export default function Nav(){
       
       const logoutUser = async()=>{
         const supabase = createClient();
-        const {error} = await supabase.auth.signOut();
+        await supabase.auth.signOut();
       }
       
     return(
@@ -89,17 +88,17 @@ export default function Nav(){
           </DropdownTrigger>
           {user ? 
           <DropdownMenu onAction={(key)=>{key === "logout"?logoutUser():null}}>
-            <DropdownItem key="myquestion">
-          <Link href="/myquestion" className="flex">我的面試問題</Link>
+            <DropdownItem key="myquestion" href="/myquestion">
+              我的面試問題
             </DropdownItem>
-            <DropdownItem key="logout">
-              <Link href="/" className="flex">登出</Link>
+            <DropdownItem key="logout" href="/">
+              登出
             </DropdownItem>
           </DropdownMenu>
           :
           <DropdownMenu>
-          <DropdownItem>
-        <Link href="/login" className="flex">登入</Link>
+          <DropdownItem href="/login" >
+            登入
           </DropdownItem>
         </DropdownMenu>
             }
