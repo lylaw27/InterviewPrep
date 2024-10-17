@@ -38,7 +38,7 @@ export default function Nav({user,cart,openCartMenu,cartList,cartLoading,getCart
       ];
       const logoutUser = async()=>{
         const supabase = createClient();
-        await supabase.auth.signOut();
+        await supabase.auth.signOut({ scope: 'local' });
       }
     return(
     <Navbar className="flex justify-center items-center py-5" onMenuOpenChange={setIsMenuOpen}>
