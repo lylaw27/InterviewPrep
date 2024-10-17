@@ -63,9 +63,8 @@ export default function Nav(){
       },[])
       
       const logoutUser = async()=>{
-        alert("hi");
-        // const supabase = createClient();
-        // await supabase.auth.signOut();
+        const supabase = createClient();
+        await supabase.auth.signOut();
       }
       
     return(
