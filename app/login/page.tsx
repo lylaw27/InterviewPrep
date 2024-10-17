@@ -1,9 +1,10 @@
 'use client'
 import { login, signup } from './actions'
-import { Image } from '@nextui-org/react'
+import { Button, Image } from '@nextui-org/react'
 import Script from 'next/script'
 import { createClient } from '@/utils/supabase/client'
 import { useRouter } from 'next/navigation'
+import { useFormStatus } from "react-dom";
 
 declare global {
   function handleSignInWithGoogle(response: { credential: any; }): void;
@@ -17,10 +18,9 @@ export default function LoginPage({searchParams}:{searchParams: { [key: string]:
     provider: 'google',
     token: response.credential,
   });
-  router.push("/myquestion")
+  router.push("/myquestion");
   }
-  const signupAction = signup.bind(null, searchParams.paying);
-  const loginAction = login.bind(null, searchParams.paying);
+
 
   return (
     <div className="flex h-screen bg-midnight justify-center items-center">
@@ -33,7 +33,22 @@ export default function LoginPage({searchParams}:{searchParams: { [key: string]:
           </div>
           <h3 className="my-4 text-2xl font-semibold text-gray-700"></h3>
           <form action="#" className="flex flex-col space-y-5">
-            <div className="flex flex-col space-y-1">
+            <UserForm searchParams={searchParams}/>
+          </form>
+        </div>
+      </div>
+      </div>
+    </div>
+  )
+}
+
+function UserForm(props: {searchParams: any}){
+  const status = useFormStatus();
+  const signupAction = signup.bind(null, props.searchParams.paying);
+  const loginAction = login.bind(null, props.searchParams.paying);
+  return(
+    <div>
+    <div className="flex flex-col space-y-1">
               <label htmlFor="email" className="text-sm font-semibold text-gray-500">Email address</label>
               <input
                 type="email"
@@ -58,30 +73,32 @@ export default function LoginPage({searchParams}:{searchParams: { [key: string]:
                 />
             </div>
             <div className="flex items-center space-x-2">
-              <input
+              {/* <input
                 type="checkbox"
                 id="remember"
                 className="w-4 h-4 transition duration-300 rounded focus:ring-2 focus:ring-offset-0 focus:outline-none focus:ring-blue-200"
                 />
-              <label htmlFor="remember" className="text-sm font-semibold text-gray-500">Remember me</label>
+              <label htmlFor="remember" className="text-sm font-semibold text-gray-500">Remember me</label> */}
             </div>
-            <div>
-              <button
+            <div className="pt-4 pb-2">
+              <Button
                 formAction={loginAction}
                 type="submit"
                 className="w-full px-4 py-2 text-sm font-semibold text-white transition-colors duration-300 bg-midnight rounded-md shadow hover:bg-blue-600 focus:outline-none focus:ring-blue-200 focus:ring-4"
+                isLoading={status.pending}
                 >
                 Log in
-              </button>
+              </Button>
             </div>
-            <div>
-              <button
+            <div className="py-2">
+              <Button
                 formAction={signupAction}
                 type="submit"
                 className="w-full px-4 py-2 text-sm font-semibold text-white transition-colors duration-300 bg-midnight rounded-md shadow hover:bg-blue-600 focus:outline-none focus:ring-blue-200 focus:ring-4"
+                isLoading={status.pending}
                 >
                 Sign Up
-              </button>
+              </Button>
             </div>
             <div className="flex flex-col space-y-5">
               <span className="flex items-center justify-center space-x-2">
@@ -94,10 +111,6 @@ export default function LoginPage({searchParams}:{searchParams: { [key: string]:
               <div className="g_id_signin" data-type="standard" data-shape="pill" data-theme="filled_blue" data-text="signin_with" data-size="large" data-locale="zh-HK" data-logo_alignment="left"></div>
               </div>
             </div>
-          </form>
-        </div>
-      </div>
-      </div>
     </div>
   )
 }

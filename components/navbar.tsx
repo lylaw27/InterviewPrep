@@ -20,6 +20,7 @@ import { deleteCart } from "@/app/myquestion/[career]/action";
 import { Spinner } from "@nextui-org/react";
 import { cartType } from "./types/careerTypes";
 import { getCart } from "@/app/myquestion/[career]/action";
+import {PressEvent} from "@react-types/shared";
 
 export default function Nav(){
     const [isMenuOpen,setIsMenuOpen] = useState(false);
@@ -87,12 +88,12 @@ export default function Nav(){
               <Image radius="none" src="/user-interface.svg" alt="logo" width={30} height={30}></Image>
           </DropdownTrigger>
           {user ? 
-          <DropdownMenu>
-            <DropdownItem>
+          <DropdownMenu onAction={(key)=>{key === "logout"?logoutUser():null}}>
+            <DropdownItem key="myquestion">
           <Link href="/myquestion" className="flex">我的面試問題</Link>
             </DropdownItem>
-            <DropdownItem>
-          <Link href="/"  onClick={logoutUser} className="flex">登出</Link>
+            <DropdownItem key="logout">
+              <Link href="/" className="flex">登出</Link>
             </DropdownItem>
           </DropdownMenu>
           :
