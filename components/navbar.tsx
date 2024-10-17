@@ -20,14 +20,11 @@ import { deleteCart } from "@/app/myquestion/[career]/action";
 import { Spinner } from "@nextui-org/react";
 import { cartType } from "./types/careerTypes";
 import { getCart } from "@/app/myquestion/[career]/action";
+import { logoutUser } from "@/app/login/actions-client";
 
-async function UserLogout(){
-  const supabase = createClient();
-  await supabase.auth.signOut();
-}
 
 export default function Nav(){
-  const [isMenuOpen,setIsMenuOpen] = useState(false);
+    const [isMenuOpen,setIsMenuOpen] = useState(false);
     const menuItems = [
         "Accounting",
         "Administration & Office Support",
@@ -42,7 +39,7 @@ export default function Nav(){
         "Marketing & Communications",
         "Real Estate & Property",
       ];
-      const [cart,setCart] = useState(false);
+    const [cart,setCart] = useState(false);
     const [cartList,setCartList] = useState<cartType[] | null>([]);
     const [cartLoading,setCartLoading] = useState(false);
     const [user,setUser] = useState<boolean>(false);
@@ -62,9 +59,11 @@ export default function Nav(){
           }
         setCartLoading(false);
         }
+
       useEffect(()=>{
         getCartItems();
       },[])
+
     return(
     <Navbar className="flex justify-center items-center py-5" onMenuOpenChange={setIsMenuOpen}>
       <NavbarContent>
@@ -90,7 +89,7 @@ export default function Nav(){
           <Link href="/myquestion" className="flex">我的面試問題</Link>
             </DropdownItem>
             <DropdownItem>
-          <Link href="/"  onClick={UserLogout} className="flex">登出</Link>
+          <Link href="/"  onClick={logoutUser} className="flex">登出</Link>
             </DropdownItem>
           </DropdownMenu>
           :
