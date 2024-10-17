@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
+import { cookies } from 'next/headers'
 
 export async function login(paying: string | string[] | undefined, formData: FormData) {
   const supabase = createClient()
@@ -100,4 +101,9 @@ export async function startSession(){
   const supabase = createClient();
   const { data, error } = await supabase.auth.signInAnonymously();
   return { data, error };
+}
+
+export async function deleteUserCookies(){
+  cookies().delete('sb-oyfzbbzduulrirkqxdpp-auth-token');
+  redirect('/');
 }

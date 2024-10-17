@@ -20,6 +20,7 @@ import { deleteCart } from "@/app/myquestion/[career]/action";
 import { Spinner } from "@nextui-org/react";
 import { cartType } from "./types/careerTypes";
 import { getCart } from "@/app/myquestion/[career]/action";
+import { deleteUserCookies } from "@/app/login/actions";
 
 export default function Nav(){
     const [isMenuOpen,setIsMenuOpen] = useState(false);
@@ -64,7 +65,8 @@ export default function Nav(){
       
       const logoutUser = async()=>{
         const supabase = createClient();
-        await supabase.auth.signOut({ scope: 'local' });
+        await supabase.auth.signOut();
+        deleteUserCookies();
       }
       
     return(
@@ -91,7 +93,7 @@ export default function Nav(){
             <DropdownItem key="myquestion" href="/myquestion">
               我的面試問題
             </DropdownItem>
-            <DropdownItem key="logout" href="/" onPress={()=>logoutUser()}>
+            <DropdownItem key="logout" onPress={()=>logoutUser()}>
               登出
             </DropdownItem>
           </DropdownMenu>
