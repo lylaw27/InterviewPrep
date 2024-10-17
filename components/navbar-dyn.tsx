@@ -18,11 +18,10 @@ import { useState } from "react"
 import { deleteCart } from "@/app/myquestion/[career]/action";
 import { Spinner } from "@nextui-org/react";
 import { cartType } from "./types/careerTypes";
-import { createClient } from '@/utils/supabase/client'
-
+import { createClient } from '@/utils/supabase/client';
 
 export default function Nav({user,cart,openCartMenu,cartList,cartLoading,getCartItems}:{user: boolean,cart:boolean,openCartMenu:(open: boolean)=>void,cartList: cartType[] | null,cartLoading: boolean,getCartItems:()=>void}){
-  const [isMenuOpen,setIsMenuOpen] = useState(false);
+    const [isMenuOpen,setIsMenuOpen] = useState(false);
     const menuItems = [
         "Accounting",
         "Administration & Office Support",
@@ -39,7 +38,7 @@ export default function Nav({user,cart,openCartMenu,cartList,cartLoading,getCart
       ];
       const logoutUser = async()=>{
         const supabase = createClient();
-        const {error} = await supabase.auth.signOut();
+        await supabase.auth.signOut();
       }
     return(
     <Navbar className="flex justify-center items-center py-5" onMenuOpenChange={setIsMenuOpen}>
@@ -61,20 +60,20 @@ export default function Nav({user,cart,openCartMenu,cartList,cartLoading,getCart
               <Image radius="none" src="/user-interface.svg" alt="logo" width={30} height={30}></Image>
           </DropdownTrigger>
           {user ? 
-          <DropdownMenu>
-            <DropdownItem>
-          <Link href="/myquestion" className="flex">我的面試問題</Link>
-            </DropdownItem>
-            <DropdownItem>
-          <Link href="/"  onClick={logoutUser} className="flex">登出</Link>
-            </DropdownItem>
-          </DropdownMenu>
-          :
-          <DropdownMenu>
-          <DropdownItem>
-        <Link href="/login" className="flex">登入</Link>
+          <DropdownMenu onAction={(key)=>{key === "logout"?logoutUser():null}}>
+          <DropdownItem key="myquestion" href="/myquestion">
+            我的面試問題
+          </DropdownItem>
+          <DropdownItem key="logout" href="/">
+            登出
           </DropdownItem>
         </DropdownMenu>
+        :
+        <DropdownMenu>
+        <DropdownItem href="/login" >
+          登入
+        </DropdownItem>
+      </DropdownMenu>
             }
         </Dropdown>
         </NavbarItem>
