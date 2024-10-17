@@ -15,14 +15,11 @@ import {
 Button} from "@nextui-org/react"
 import { Image } from "@nextui-org/react";
 import { useState } from "react"
-import { createClient } from "@/utils/supabase/client";
 import { deleteCart } from "@/app/myquestion/[career]/action";
 import { Spinner } from "@nextui-org/react";
 import { cartType } from "./types/careerTypes";
-async function UserLogout(){
-  const supabase = createClient();
-  await supabase.auth.signOut();
-}
+import { logoutUser } from "@/app/login/actions-client";
+
 
 export default function Nav({user,cart,openCartMenu,cartList,cartLoading,getCartItems}:{user: boolean,cart:boolean,openCartMenu:(open: boolean)=>void,cartList: cartType[] | null,cartLoading: boolean,getCartItems:()=>void}){
   const [isMenuOpen,setIsMenuOpen] = useState(false);
@@ -65,7 +62,7 @@ export default function Nav({user,cart,openCartMenu,cartList,cartLoading,getCart
           <Link href="/myquestion" className="flex">我的面試問題</Link>
             </DropdownItem>
             <DropdownItem>
-          <Link href="/"  onClick={UserLogout} className="flex">登出</Link>
+          <Link href="/"  onClick={logoutUser} className="flex">登出</Link>
             </DropdownItem>
           </DropdownMenu>
           :
