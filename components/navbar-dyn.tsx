@@ -51,7 +51,7 @@ export default function Nav({user,cart,openCartMenu,cartList,cartLoading,getCart
         />
       </NavbarContent>
       <NavbarContent className="sm:flex gap-4" justify="center">
-        <NavbarBrand className="self-center" as={Link} href="/" >
+        <NavbarBrand className="self-center" as={Link} href="/">
             <Image className="rounded-full" src="/avatar.png" alt="logo" width={70} height={70}></Image>
         </NavbarBrand>
       </NavbarContent>
