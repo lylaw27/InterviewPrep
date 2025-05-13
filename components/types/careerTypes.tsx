@@ -7,6 +7,7 @@ export interface occupationType{
     price_id: string,
     img_url: string,
     img_path: string,
+    category: string,
 }
 
 export interface questionType{

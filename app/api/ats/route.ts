@@ -52,6 +52,9 @@ export async function POST(req: NextRequest, res: NextResponse) {
             "rating": {
               "type": "integer"
             },
+            "summary": {
+              "type": "string"
+            },
             "strengths": {
               "type": "array",
               "items": {
@@ -90,7 +93,11 @@ export async function POST(req: NextRequest, res: NextResponse) {
   const supabase = createClient();
   const { data, error } = await supabase
   .from('resumeRating')
-  .insert({response: aiRes.output_parsed})
+  .insert({
+    job_title: jobTitle,
+    job_description: jobDescription,
+    response: aiRes.output_parsed
+  })
   .select();
   if (error) {
     redirect('/error')

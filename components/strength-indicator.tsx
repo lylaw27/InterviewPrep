@@ -39,7 +39,7 @@ export default function StrengthIndicator({
   }
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center py-4">
       <div className={`relative flex items-center justify-center ${sizeClasses[size]}`}>
         {/* Background circle */}
         <svg className="w-full h-full" viewBox="0 0 100 100">
@@ -62,7 +62,7 @@ export default function StrengthIndicator({
         <div className="absolute font-bold text-gray-700">{currentValue}</div>
       </div>
       {/* Label */}
-      <div className="mt-2 text-sm font-semibold text-gray-600 uppercase tracking-wide">{label}</div>
+      <div className="mt-2 text-xl font-semibold text-gray-600 uppercase tracking-wide">{label}</div>
     </div>
   )
 }

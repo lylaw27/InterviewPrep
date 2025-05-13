@@ -43,7 +43,7 @@ export default function Nav({user,cart,openCartMenu,cartList,cartLoading,getCart
         deleteUserCookies();
       }
     return(
-    <Navbar className="flex justify-center items-center py-5" onMenuOpenChange={setIsMenuOpen}>
+    <Navbar className="flex justify-center items-center py-5 border-b" onMenuOpenChange={setIsMenuOpen}>
       <NavbarContent>
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
