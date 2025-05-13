@@ -36,7 +36,7 @@ Requirements:
 Degree in Civil / Structural Engineering or equivalent.
 3 years relevant experience in major Civil or Building projects.
 Good interpersonal and communication skills.
-Good command of spoken and written English & Chinese."
+Good command of spoken and written English & Chinese.
 </p>
             </div>
         </div>
@@ -69,7 +69,7 @@ Good command of spoken and written English & Chinese."
                 <X className="w-5 h-5 text-red-500 mt-0.5 flex-shrink-0" />
                 <div>
                   <p className="text-gray-700">
-                    Adding this job's company name and web address can help us provide you ATS-specific tips.
+                    Adding this jobs company name and web address can help us provide you ATS-specific tips.
                   </p>
                   <Link href="#" className="text-blue-600 hover:underline text-sm">
                     Update scan information
