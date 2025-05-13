@@ -25,4 +25,21 @@ export interface cartType{
     user_id: string,
     occupation: any
 }
+
+export interface atsResultType{
+    id: number,
+    job_title: string,
+    job_description: string,
+    response: {
+        rating: number,
+        summary: string,
+        strengths: atsContentType[],
+        areasOfImprovement: atsContentType[]
+    }
+}
+
+export interface atsContentType{
+    header: string,
+    paragraph: string,
+}
   

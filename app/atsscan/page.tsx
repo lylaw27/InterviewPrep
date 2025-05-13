@@ -14,6 +14,7 @@ import { Textarea } from "@/components/ui/textarea"
 import Navbar from "@/components/navbar"
 import { toast } from "@/components/ui/use-toast"
 import { LoadingBackdrop } from "@/components/loading-backdrop"
+import { useRouter } from 'next/navigation'
 
 
 type UploadedFile = {
@@ -26,6 +27,7 @@ type UploadedFile = {
 }
 
 export default function PdfUploader() {
+  const router = useRouter();
   const [file, setFile] = useState<File | null>(null)
   const [uploadedFile,setUploadedFile] = useState<UploadedFile | null>(null)
   const [isDragging, setIsDragging] = useState(false)
@@ -115,14 +117,14 @@ export default function PdfUploader() {
 
     // Simulate different loading messages
     setTimeout(() => setLoadingMessage("Analyzing Your Resume..."), 3000)
-    setTimeout(() => setLoadingMessage("Almost done..."), 5000)
+    setTimeout(() => setLoadingMessage("Almost done..."), 10000)
     // Create a FormData object
     const formData = new FormData()
     if(file){
       formData.append('file', file)
       formData.append("jobTitle", title)
       formData.append("jobDescription", description)
-    try {
+    // try {
       const response = await fetch('/api/ats', {
         method: 'POST',
         body: formData,
@@ -132,23 +134,24 @@ export default function PdfUploader() {
         console.log(data);
         return data;
       })
-      if (!response.ok) throw new Error('Upload failed')
+      if (response.status == 500) throw new Error('Upload failed');
+      router.push(`/atsscan/${response.id}`);
       
 
-      toast({
-        title: "Upload successful",
-        description: `${file.name} has been uploaded successfully.`,
-      })
-    } catch (error) {
-      console.error("Upload error:", error)
-      // setUploadStatus((prev) => ({ ...prev, [file.name]: "error" }))
+    //   toast({
+    //     title: "Upload successful",
+    //     description: `${file.name} has been uploaded successfully.`,
+    //   })
+    // } catch (error) {
+    //   console.error("Upload error:", error)
+    //   // setUploadStatus((prev) => ({ ...prev, [file.name]: "error" }))
 
-      toast({
-        title: "Upload failed",
-        description: `Failed to upload ${file.name}. Please try again.`,
-        variant: "destructive",
-      })
-    }
+    //   toast({
+    //     title: "Upload failed",
+    //     description: `Failed to upload ${file.name}. Please try again.`,
+    //     variant: "destructive",
+    //   })
+    // }
   }
   }
 

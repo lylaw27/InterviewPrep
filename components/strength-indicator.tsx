@@ -23,7 +23,13 @@ export default function StrengthIndicator({
   const radius = 40
   const circumference = 2 * Math.PI * radius
   const strokeDashoffset = circumference - (currentValue / 100) * circumference
-
+  if(value > 79){
+    color = '#2E8B57';
+  }else if(value > 59){
+    color = '#FFA500';
+  }else{
+    color = '#FF0000';
+  }
   // Size classes
   const sizeClasses = {
     sm: "w-20 h-20 text-xl",

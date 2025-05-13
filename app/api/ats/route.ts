@@ -83,12 +83,14 @@ export async function POST(req: NextRequest, res: NextResponse) {
               "additionalProperties": false
             }
           },
-          "required": ["rating", "strengths", "areasOfImprovement"],
+          "required": ["rating","summary", "strengths", "areasOfImprovement"],
           "additionalProperties": false
         }
     },
     }
   });
+
+  console.log(aiRes.output_parsed);
 
   const supabase = createClient();
   const { data, error } = await supabase
@@ -100,9 +102,10 @@ export async function POST(req: NextRequest, res: NextResponse) {
   })
   .select();
   if (error) {
-    redirect('/error')
+    console.log(error);
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
-  redirect('/atsscan/' + data[0].id);
+  return NextResponse.json({id: data[0].id});
 
   // console.log(aiRes.output_parsed);
   // return NextResponse.json(
