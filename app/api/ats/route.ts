@@ -19,8 +19,6 @@ export async function POST(req: NextRequest, res: NextResponse) {
     purpose: "user_data",
   });
 
-  console.log(file);
-
   const aiRes = await client.responses.parse({
     model: "gpt-4.1-mini",
     input:[
