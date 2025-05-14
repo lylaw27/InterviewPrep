@@ -14,7 +14,7 @@ export default function StrengthIndicator({
   value = 95,
   label = "RESUME STRENGTH",
   color = "#2E8B57",
-  size = "md",
+  size = "lg",
   animated = true,
 }: StrengthIndicatorProps) {
   const [currentValue, setCurrentValue] = useState(animated ? 0 : value)
