@@ -71,6 +71,11 @@ POST /api/checkout_sessions: Create stripe checkout session
 
 POST /api/ats: Create prompt with the uploaded resume.pdf and job description for OpenAI API
 ```
+## 🗃️ Database Scheme
+
+<p align="center" width="100%">
+    <img width="60%" src="/public/dbSchema.png">
+</p>
 
 ## Installation
 
