@@ -20,16 +20,16 @@ export default function PreviewSection(){
     },
     ]
     return(
-        <div>
+        <div id="preview-section">
             <div className="flex items-center justify-center flex-col bg-lionsmane text-midnight h-auto py-7">
-            <Button className="bg-midnight text-3xl p-9 text-lionsmane font-black">
-                面試必問題
-            </Button>
-            <div className="h-auto py-3">
+            <div className="h-auto py-3 lg:max-w-[60%]">
                 <div className="h-auto py-3 text-center">
-                        <h1 className="text-3xl p-[3px] font-black">
-                        50題熱門面試題目及答案
+                        <h1 className="text-4xl p-[3px] py-3 font-black">
+                        面試必問題
                         </h1>
+                        <h2 className="text-3xl p-[3px] font-black">
+                        50題熱門面試題目及答案
+                        </h2>
                         <p className="text-m p-[3px] font-light">
                         這些是您在面試中最有可能遇到的問題，
                         </p>
