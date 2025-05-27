@@ -2,11 +2,11 @@ import {Link, Button} from "@nextui-org/react";
 
 export default function ATSSection(){
     return(
-        <div>
+        <div id="ats-section">
             <div className="flex justify-center items-center flex-col bg-lionsmane text-midnight h-auto px-3 py-7">
-                <Button className="bg-midnight text-3xl p-9 text-lionsmane font-black">
+                <div className="text-midnight text-4xl pt-6 font-black">
                     ATS履歷優化
-                </Button>
+                </div>
                 <div className="flex h-auto p-10">
                     <video src="/ats-video.mov" width="320" controls autoPlay muted/>
                 </div>
