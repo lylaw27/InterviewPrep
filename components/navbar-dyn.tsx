@@ -14,34 +14,35 @@ import {
     DropdownTrigger,
 Button} from "@nextui-org/react"
 import { Image } from "@nextui-org/react";
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { deleteCart } from "@/app/myquestion/[career]/action";
 import { Spinner } from "@nextui-org/react";
-import { cartType } from "./types/careerTypes";
+import { cartType, occupationType } from "./types/careerTypes";
 import { createClient } from '@/utils/supabase/client';
 import { deleteUserCookies } from "@/app/login/actions";
 
 export default function Nav({user,cart,openCartMenu,cartList,cartLoading,getCartItems}:{user: boolean,cart:boolean,openCartMenu:(open: boolean)=>void,cartList: cartType[] | null,cartLoading: boolean,getCartItems:()=>void}){
     const [isMenuOpen,setIsMenuOpen] = useState(false);
-    const menuItems = [
-        "Accounting",
-        "Administration & Office Support",
-        "Banking & Financial Services",
-        "Construction",
-        "Design",
-        "Education",
-        "Engineering",
-        "Healthcare & Medical",
-        "Information Technology",
-        "Manufacturing & Logistics",
-        "Marketing & Communications",
-        "Real Estate & Property",
-      ];
+    const [occupations,setOccupations] = useState<occupationType[]>([]);
       const logoutUser = async()=>{
         const supabase = createClient();
         await supabase.auth.signOut();
         deleteUserCookies();
       }
+      const getOccupations = async()=>{
+        const supabase = createClient();
+        let { data, error } = await supabase
+          .from('occupation')
+          .select('*')
+          .eq('category', 'Career');
+        if (error) {
+          console.error("Error fetching occupations:", error);
+        } 
+        setOccupations(data || []);
+      }
+      useEffect(()=>{
+        getOccupations();
+      },[])
     return(
     <Navbar className="flex justify-center items-center py-5 border-b" onMenuOpenChange={setIsMenuOpen}>
       <NavbarContent>
@@ -122,20 +123,27 @@ export default function Nav({user,cart,openCartMenu,cartList,cartLoading,getCart
       </NavbarContent>
       <NavbarMenu className="py-[55px] pb-[70px]">
         <NavbarMenuItem>
-          <Link className="w-full text-midnight text-3xl font-black py-2" href="#" size="lg">ATS履歷優化</Link>
+          <Link className="w-full text-midnight text-3xl font-black py-2" href="/atsscan" size="lg">ATS履歷優化</Link>
         </NavbarMenuItem>
         <NavbarMenuItem>
-          <Link className="w-full text-midnight text-3xl font-black py-2" href="#" size="lg">所有行業面試問題及答案</Link>
+          <div className="w-full text-midnight text-3xl font-black py-2">所有行業面試問題及答案</div>
         </NavbarMenuItem>
-      {menuItems.map((item, index) => (
+      {occupations.map((item, index) => (
           <NavbarMenuItem key={`${item}-${index}`}>
-            <Link className="w-full text-midnight px-12" href="#" size="lg">
-              {item}
+            <Link className="w-full text-midnight px-12" href={`/myquestion/${item.occupation_id}`} size="lg">
+              <div className="py-1">
+                <div>
+                  {item.chi_name}
+                </div>
+                <div>
+                  {item.eng_name}
+                </div>
+              </div>
             </Link>
           </NavbarMenuItem>
         ))}
         <NavbarMenuItem>
-          <Link className="w-full text-midnight text-3xl font-black py-2" href="#" size="lg">50個熱門面試問題及答案</Link>
+          <Link className="w-full text-midnight text-3xl font-black py-2" href="/myquestion/76" size="lg">50個熱門面試問題及答案</Link>
         </NavbarMenuItem>
       </NavbarMenu>
     </Navbar>
