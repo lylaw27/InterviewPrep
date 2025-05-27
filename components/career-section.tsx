@@ -6,16 +6,17 @@ import { occupationType } from "@/components/types/careerTypes"
 export default async function CareerSection(){
     const jobList:occupationType[] | null = await fetchCareer('Career');
     return(
-        <div>
+        <div id="career-section">
             <div className="flex justify-center flex-col items-center bg-midnight text-lionsmane h-auto px-3 py-7">
                 {/* 1st */}
-                <Button className="bg-lavender text-3xl py-9 text-midnight font-black">
-                    行業面試祕技
-                </Button>
+                
                 <div className="text-center py-[20px]">
-                    <h1 className="text-xl p-[3px] font-black">
-                    超過10個不同行業的面試問題及答案
+                    <h1 className="text-4xl py-9 font-black">
+                        行業面試祕技
                     </h1>
+                    <h2 className="text-xl p-[3px] font-black">
+                    超過10個不同行業的面試問題及答案
+                    </h2>
                     <p className="text-m p-[3px] font-light">
                     從金融到科技，從市場營銷到工程，
                     </p>
@@ -46,12 +47,12 @@ export default async function CareerSection(){
                     </Card>
                 ))}
                 </div>
-            {/* 3rd */}
+            {/* 3rd
                 <div className="flex justify-center py-[20px] bg-midnight">
                     <Button className="bg-ruby text-3xl p-9 text-white font-black">
                         立即體驗
                     </Button>
-                </div>
+                </div> */}
         </div>
     )
 }
