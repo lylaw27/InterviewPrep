@@ -3,11 +3,11 @@ import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 
 
-export async function getResult(result: string | string[]) {
+export async function getResult(resultid: string | string[]) {
     const supabase = createClient()
     const {data, error} = await supabase.from('resumeRating')
     .select()
-    .eq('resume_id', result)
+    .eq('resume_id', resultid)
     if (error) {
         redirect('/error')
     }
