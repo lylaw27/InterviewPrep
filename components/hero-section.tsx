@@ -28,11 +28,6 @@ export default function HeroSection(){
                         我們為您提供了一個全面的
                     </h1>
                 </div>
-                <div className="p-[20px]">
-                <Button className="bg-lavender text-3xl p-9 text-midnight font-black">
-                    面試工具包
-                </Button>
-                </div>
                 <h1 className="text-3xl p-[10px] font-bold">
                     讓您在面試中脫穎而出
                 </h1>
