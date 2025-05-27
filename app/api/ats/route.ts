@@ -105,7 +105,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
     console.log(error);
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
-  return NextResponse.json({id: data[0].id});
+  return NextResponse.json({resume_id: data[0].resume_id});
 
   // console.log(aiRes.output_parsed);
   // return NextResponse.json(
