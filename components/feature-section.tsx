@@ -4,7 +4,8 @@ import Image from "next/image";
 export default function FeatureSection(){
     return(
         <div>
-            <div className="flex justify-center flex-col text-lionsmane bg-midnight h-auto px-3 py-7">
+            <div className="flex justify-center text-lionsmane bg-midnight h-auto px-3 py-7">
+                <div>
                 <div className="flex h-auto py-3">
                     <div className="px-3">
                         <Image className="max-w-none" src="/thumbs-up.png" alt="" width={40} height={40}/>
@@ -44,6 +45,7 @@ export default function FeatureSection(){
                         即時存取：購買後，您將能夠立刻下載所有內容，隨時隨地開始準備。
                         </h1>
                     </div>
+                </div>
                 </div>
                 </div>
         </div>
