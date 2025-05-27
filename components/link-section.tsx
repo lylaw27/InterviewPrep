@@ -10,7 +10,7 @@ export default function LinkSection(){
                         <Image src="/number-1.png" alt="" width={40} height={40}/>
                     </div>
                     <div>
-                        <Link href="/" underline="always" className="text-4xl p-[3px] font-black text-midnight">
+                        <Link href="#ats-section" underline="always" className="text-4xl p-[3px] font-black text-midnight">
                         ATS履歷優化
                         </Link>
                         <p className="text-2xl font-normal">
@@ -29,7 +29,7 @@ export default function LinkSection(){
                         <Image src="/number-2.png" alt="" width={40} height={40}/>
                     </div>
                     <div>
-                        <Link href="/" underline="always" className="text-4xl p-[3px] font-black text-midnight">
+                        <Link href="#career-section" underline="always" className="text-4xl p-[3px] font-black text-midnight">
                         行業面試祕技
                         </Link>
                         <p className="text-2xl font-normal">
@@ -45,7 +45,7 @@ export default function LinkSection(){
                         <Image src="/number-3.png" alt="" width={40} height={40}/>
                     </div>
                     <div>
-                        <Link href="/" underline="always" className="text-4xl p-[3px] font-black text-midnight">
+                        <Link href="#preview-section" underline="always" className="text-4xl p-[3px] font-black text-midnight">
                         50題熱門面試題
                         </Link>
                         <p className="text-2xl font-normal">
