@@ -1,5 +1,6 @@
 import {Button} from "@nextui-org/react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function CTASection(){
     return(
@@ -20,7 +21,7 @@ export default function CTASection(){
                         讓我們助您一臂之力，贏得理想的工作機會。
                 </h1>
                 <div className="p-[10px]">
-                <Button className="bg-ruby text-3xl p-9 text-white font-black">
+                <Button as={Link} href="/50qpage" className="bg-ruby text-3xl p-9 text-white font-black">
                 👉 立即行動
                 </Button>
                 </div>
