@@ -35,6 +35,7 @@ export default function AccordionPage({questionlist, occupationId, career} : {qu
       },[])
 
     const addtoCart = async(occupationId: number) =>{
+        setCartLoading(true);
         const supabase = createClient();
         supabase.auth.getSession().then((currentUser)=>{
             if(!currentUser.data.session){
@@ -55,7 +56,7 @@ export default function AccordionPage({questionlist, occupationId, career} : {qu
     }).then(()=>{
         setCart(true)
     })
-}
+    }
 
     return(
         <div>
