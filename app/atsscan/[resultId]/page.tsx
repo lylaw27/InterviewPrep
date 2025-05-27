@@ -1,7 +1,6 @@
 "use client"
 
-import { AlertTriangle, Check, Info, X } from "lucide-react"
-import Link from "next/link"
+import { Check, X } from "lucide-react"
 import StrengthIndicator from "@/components/strength-indicator";
 import Navbar from "@/components/navbar";
 import { getResult } from "./action";
@@ -23,7 +22,7 @@ export default function Result() {
     <div>
       <Navbar/>
     <div className="flex">
-        <div className="flex flex-col items-center min-h-screen px-4 py-10 w-[30%] border-r hidden lg:flex">
+        <div className="flex-col items-center min-h-screen px-4 py-10 w-[30%] border-r hidden lg:flex">
               <StrengthIndicator value={atsResult.response.rating} label="RESUME RATING"/>
                 <div className="w-full px-10 py-4">
                   <h2 className="text-xl font-bold text-gray-800 py-2">Job Title</h2>
