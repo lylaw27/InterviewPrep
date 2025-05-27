@@ -14,7 +14,7 @@ import {
     DropdownTrigger,
 Button} from "@nextui-org/react"
 import { Image } from "@nextui-org/react";
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { createClient } from "@/utils/supabase/client";
 import { deleteCart } from "@/app/myquestion/[career]/action";
 import { Spinner } from "@nextui-org/react";
