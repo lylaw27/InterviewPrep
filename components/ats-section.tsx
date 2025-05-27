@@ -10,7 +10,7 @@ export default function ATSSection(){
                 <div className="flex h-auto p-10">
                     <video src="/ats-video.mov" width="320" controls autoPlay muted/>
                 </div>
-                <Button as={Link}  href="/atspage" className="bg-ruby text-3xl p-9 text-white font-black">
+                <Button as={Link}  href="/atsscan" className="bg-ruby text-3xl p-9 text-white font-black">
                 立即體驗
                 </Button>
             </div>
