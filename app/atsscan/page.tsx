@@ -14,7 +14,6 @@ import { Textarea } from "@/components/ui/textarea"
 import Navbar from "@/components/navbar"
 import { toast } from "@/components/ui/use-toast"
 import { LoadingBackdrop } from "@/components/loading-backdrop"
-import { useRouter } from 'next/navigation'
 
 
 type UploadedFile = {
@@ -27,7 +26,6 @@ type UploadedFile = {
 }
 
 export default function PdfUploader() {
-  const router = useRouter();
   const [file, setFile] = useState<File | null>(null)
   const [uploadedFile,setUploadedFile] = useState<UploadedFile | null>(null)
   const [isDragging, setIsDragging] = useState(false)
@@ -117,14 +115,14 @@ export default function PdfUploader() {
 
     // Simulate different loading messages
     setTimeout(() => setLoadingMessage("Analyzing Your Resume..."), 3000)
-    setTimeout(() => setLoadingMessage("Almost done..."), 10000)
+    setTimeout(() => setLoadingMessage("Almost done..."), 5000)
     // Create a FormData object
     const formData = new FormData()
     if(file){
       formData.append('file', file)
       formData.append("jobTitle", title)
       formData.append("jobDescription", description)
-    // try {
+    try {
       const response = await fetch('/api/ats', {
         method: 'POST',
         body: formData,
@@ -134,24 +132,23 @@ export default function PdfUploader() {
         console.log(data);
         return data;
       })
-      if (response.status == 500) throw new Error('Upload failed');
-      router.push(`/atsscan/${response.id}`);
+      if (!response.ok) throw new Error('Upload failed')
       
 
-    //   toast({
-    //     title: "Upload successful",
-    //     description: `${file.name} has been uploaded successfully.`,
-    //   })
-    // } catch (error) {
-    //   console.error("Upload error:", error)
-    //   // setUploadStatus((prev) => ({ ...prev, [file.name]: "error" }))
+      toast({
+        title: "Upload successful",
+        description: `${file.name} has been uploaded successfully.`,
+      })
+    } catch (error) {
+      console.error("Upload error:", error)
+      // setUploadStatus((prev) => ({ ...prev, [file.name]: "error" }))
 
-    //   toast({
-    //     title: "Upload failed",
-    //     description: `Failed to upload ${file.name}. Please try again.`,
-    //     variant: "destructive",
-    //   })
-    // }
+      toast({
+        title: "Upload failed",
+        description: `Failed to upload ${file.name}. Please try again.`,
+        variant: "destructive",
+      })
+    }
   }
   }
 
@@ -159,7 +156,8 @@ export default function PdfUploader() {
     <div>
     <Navbar/>
   <div className="container mx-auto py-10 px-4">
-    <h1 className="text-3xl font-bold mb-6">PDF Upload Interface</h1>
+    <h1 className="text-3xl font-bold mb-6">優化你的履歷 👇</h1>
+    <h1 className="text-3xl font-bold mb-6">Try scan your resume 👇</h1>
     <div className="space-y-6">
       <div
         className={cn(
@@ -183,7 +181,8 @@ export default function PdfUploader() {
             <Upload className="h-8 w-8 text-primary" />
           </div>
           <div>
-            <h3 className="text-lg font-medium">Drag and drop your PDF here</h3>
+            <h3 className="text-lg font-medium">請用PDF文件格式上載你的履歷表</h3>
+            <h3 className="text-lg font-medium">Drag and drop your Resume/CV in PDF here</h3>
             <p className="text-sm text-muted-foreground mt-1">or click to browse files</p>
           </div>
           <div className="text-xs text-muted-foreground">
@@ -260,7 +259,7 @@ export default function PdfUploader() {
 
           <div className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="title">Job Title</Label>
+              <Label htmlFor="title">Job Title 職位</Label>
               <Input
                 id="title"
                 placeholder="Fill in your job title, e.g., Civil Engineer"
@@ -271,7 +270,7 @@ export default function PdfUploader() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="description">Job Description</Label>
+              <Label htmlFor="description">Job Description 職位描述</Label>
               <Textarea
                 id="description"
                 placeholder="Fill in the description from the job posting, e.g., requirements, responsibilities, etc."
@@ -284,7 +283,7 @@ export default function PdfUploader() {
 
             <Button onClick={submitResume} className="w-full" disabled={uploadedFile.status !== "success" || isProcessing}>
               {isProcessing && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              Submit Resume
+              Submit Resume 提交履歷
             </Button>
           </div>
         </div>
