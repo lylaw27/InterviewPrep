@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import { atsResultType } from "@/components/types/careerTypes";
 
 export default function Result() {
-    const resultId:string | string[] = useParams().resultId;
+    const resultId:string | string[] = useParams().result;
     const [atsResult,setAtsResult] = useState<atsResultType | null>(null);
     useEffect(() => {
         getResult(resultId).then((res) => {
