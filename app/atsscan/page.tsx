@@ -134,8 +134,7 @@ export default function PdfUploader() {
         return data;
       })
       if (response.status == 500) throw new Error('Upload failed');
-      router.push(`/atsscan/${response.id}`);
-      
+      router.push(`/atsscan/${response.resume_id}`);
   }
   }
 
