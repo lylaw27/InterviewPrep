@@ -6,6 +6,11 @@
 
 Users can browse and purchase question packs tailored for different job roles, upload their resumes for personalized improvement suggestions using **OpenAI**, and manage their shopping experience with a responsive and intuitive interface. An admin dashboard enables efficient management of interview packs and user submissions.
 
+## 🔗 Links
+
+- [Main Demo](https://interviewq-psi.vercel.app/)
+- [Resume Analyzer Demo](https://interviewq-psi.vercel.app/atsscan)
+
 
 ## 🛠️ Tech Stack
 
